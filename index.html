@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="Description" content="tinyCalendar is a small (10.0KB, 4.5KB gZip) but very advanced jQuery date picker" />
+    <meta name="Keywords" content="date, date picker, calendar" />
+    <meta name="author" content="Peter Dematté" />
+    <meta http-equiv="language" content="en" />
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<link rel="stylesheet" type="text/css" href="demo/month.css">
+	<link rel="stylesheet" type="text/css" href="demo/week.css">
+	<link rel="stylesheet" type="text/css" href="demo/datePicker.css">
+	<link rel="shortcut icon" type="image/x-icon" href="development/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="development/favicon.ico">
+
+	<title>tiny date picker</title>
+</head>
+<body>
+<div id="content-wrapper">
+	<h1>Tiny date/time picker</h1>
+	<p>Looking for tiny foot print, fast, scaleable, flexible and pluggable...<br>
+	This <strong>4.91KB</strong> (gZip; 11.79KB minified) small date/time picker provides a lot of hooks for developers to write plugins, calendars, agendas, etc. (See demo plugins below in <a href="#demo">Demo</a>).</p>
+	<a name="demo" id="demo" class="a-inline"></a>
+	<h2>Demo</h2>
+	On all elements with className 'date':<br>
+	<pre>var myDP = new DatePicker('.date');</pre> or
+	<pre>$('.date').datePicker(options);</pre>
+
+	<div class="input-toggles">
+		<input class="date date-1" value="2016-06-23" readonly="" />
+		<input class="date date-1" value="2016-06-23 11:30 PM" />
+		<input class="date date-1" data-mindate="2016-05-10" data-maxdate="2017-12-31" />
+		<input class="date date-1" value="1969-12-28" />
+		<input class="date date-1" value="2016-08" />
+		<input class="date date-1" value="11:30 PM" />
+		<br><span>Range: </span>
+		<input class="date date-1" value="" data-from="theFlight" placeholder="YYYY-MM-DD HH:MM APM" data-timeformat="HH:MM PM" />
+		<input class="date date-1" value="" data-to="theFlight" placeholder="YYYY-MM-DD HH:MM APM" data-timeformat="HH:MM PM" />
+		<br><span>Range (name based): </span>
+		<input class="date date-1" value="" name="flight-from" data-from="flight-to" placeholder="YYYY-MM-DD" />
+		<input class="date date-1" value="" name="flight-to" data-to="flight-from" placeholder="YYYY-MM-DD" />
+
+		<div>Remote button and hidden input:
+			<input class="date" value="" placeholder="YYYY-MM-DD" readonly="" />
+			<input class="date" type="hidden" value="2016-06-23" />
+			<button class="date-2 button">datePicker</button>
+		</div>
+	</div>
+
+	<h2>Usage</h2>
+	<p>There is only one...</p>
+</div>
+<a class="a-inline" href="https://github.com/PitPik/tinyDatePicker"><img style="position: absolute; top: 0; right: 0; border: 0;" src="development/fmog.png" alt="Fork me on GitHub"></a>
+
+<!-- <script type="text/javascript" src="datePicker.min.js"></script> -->
+<script type="text/javascript" src="calendar.js"></script>
+<script type="text/javascript" src="demo/events.js"></script>
+<!-- <script type="text/javascript" src="demo/year.js"></script> -->
+<!-- <script type="text/javascript" src="demo/week.js"></script> -->
+<script type="text/javascript" src="datePicker.js"></script>
+<script type="text/javascript">
+	'use strict';
+
+	var options = {
+			elements: '.date-1',
+
+			weekDays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+			months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+				'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+
+			sundayBased: false,
+			renderWeekNo: true,
+			equalHight: true,
+			weekDayClass: 'week-day', // not standard: used in template.start
+			weekDayRowHead: '',
+			template: {
+				row: '<td class=""><span class=""{{event}} data-day=\'{"day":"{{day}}", "month":"{{month}}", "year":"{{year}}"}\'>{{day-event}}{{today}}</span></td>',
+				start: function(month, year) { // rendering week days in table header
+					var options = this.options,
+						weekDayRow = '<th class="">{{day}}</th>',
+						row = [];
+
+					if (options.renderWeekNo) { // week number head
+						row.push(weekDayRow.replace(/{{day}}/g, options.weekDayRowHead));
+					}
+
+					for (var n = 0, week = 0; n < 7; n++) { // week days
+						week = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
+						row.push(weekDayRow.replace(/class="(.*?)"/, function($1, $2) {
+							return 'class="' + options.weekDayClass + ' ' +
+								(options.workingDays.indexOf(week) === -1 ?
+								options.weekEndClass : '') + '"';
+						}).replace(/{{day}}/g, options.weekDays[week]));
+					}
+					return '<table class="cal-month"><thead><tr>' +
+							row.join('') +
+							'</tr></thead><tbody><tr>';
+				},
+				event: function(day, date, event) { // rendering events
+					var text = [],
+						uuids = [],
+						someExtra = '';
+
+					for (var n = 0, m = event.length; n < m; n++) {
+						event[n].text && text.push('- ' + event[n].text);
+
+						uuids.push(event[n]._id);
+
+						if (event[n].extra) { // extend functionality...
+							someExtra = event[n].extra;
+						}
+					}
+					text = text.join("\n");
+
+					return text ? ' title="' + text + '"' +
+						' data-uuids=\'[' + uuids.join(', ') + ']\'' +
+						(someExtra ? ' data-name="' + someExtra + '"' : '') : '';
+				},
+				today: function(day, date) { // rendering today; just for fun...
+					return '<span class="today-icon">+</span>';
+				},
+				day: function(day, date, event) { // rendering every day
+					var length = event.length;
+
+					for (var n = length; n--; ) { // check if it's only a 'disabled' event
+						if (event[n].type && event[n].type === 'disabled') { // or event[n].disabled
+							length--;
+						}
+					}
+					if (length > 1) {
+						return day + '<span class="count-icon">' + length + '</span>';
+					}
+				}
+			},
+			events: events, // external data... see events.js
+
+			// renderCallback: function(container, element) {
+			// 	var bounds = element.getBoundingClientRect();
+
+			// 		container.style.cssText = !this.isOpen ? 'display: none' :
+			// 			'left:' + (window.pageXOffset + bounds.left) + 'px;' +
+			// 			'top:' + (window.pageYOffset + element.offsetHeight + bounds.top) + 'px;';
+
+			// 	// adds/removes class 'partner' from range input fields
+			// 	if (this._currentPartner) {
+			// 		this._currentPartner.classList.remove('partner');
+			// 		this._currentInput.classList.remove('partner');
+			// 	}
+			// 	if (this.currentPartner) {
+			// 		this.currentPartner.classList.add('partner');
+			// 		this.currentInput.classList.add('partner');
+			// 	}
+			// 	this._currentInput = this.currentInput;
+			// 	this._currentPartner = this.currentPartner;
+			// }
+		},
+		datePicker = window.myDatePicker = new DatePicker(options);
+		
+
+	// prepare a second instance with different options
+	var options_2 = {},
+		datePicker_2 = {},
+		getInput = function(element, hidden) {
+			return element.parentNode.querySelector('input' + (hidden ? '[type="hidden"]' : ''));
+		},
+		changeValueFormat = function(value) { // some dummy function...
+			var date = new Date(value + 'T00:00:00.000Z');
+			return date.toDateString();
+		};
+
+	for (var option in options) { // copy
+		options_2[option] = options[option];
+	}
+
+	options_2.elements = '.date-2';
+	options_2.initCallback = function(elements) {
+		for (var n = elements.length; n--; ) {
+			getInput(elements[n]).value = changeValueFormat(getInput(elements[n], true).value);
+		}
+	};
+	options_2.renderCallback = function(container, element, toggled) {
+		var _element = getInput(element),
+			bounds = _element.getBoundingClientRect();
+
+		container.style.cssText = !this.isOpen ? 'display: none' :
+			'left:' + (window.pageXOffset + bounds.left) + 'px;' +
+			'top:' + (window.pageYOffset + _element.offsetHeight + bounds.top) + 'px;';
+	};
+	options_2.renderValue = function(container, element, value) {
+		getInput(element).value = changeValueFormat(value);
+		getInput(element, true).value = value;
+	};
+	options_2.readValue = function(element) {
+		var value = getInput(element, true).value;
+
+		getInput(element).value = changeValueFormat(value);
+		return value;
+	};
+
+	datePicker_2 = window.myDatePicker_2 = new DatePicker(options_2);
+</script>
+
+</body>
+</html>

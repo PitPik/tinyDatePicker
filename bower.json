@@ -1,0 +1,35 @@
+{
+  "name": "tinyDatePicker",
+  "description": "Tiny jQuery / javascript date picker with endless options and hooks",
+  "main": "jqDatePicker.min.js",
+  "authors": [
+    "Peter Dematté <peter@dematte.at>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "jquery",
+    "javascript",
+    "date",
+    "calendar",
+    "agenda",
+    "picker",
+    "datepicker",
+    "mobile"
+  ],
+  "homepage": "https://github.com/PitPik/tinyDatePicker",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.12.0 < 3.0.0"
+  }
+}

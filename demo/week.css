@@ -1,0 +1,107 @@
+
+/* week box */
+.cal-w-box {
+	/*float: left;*/
+	position: relative;
+	height: 120px;
+	width: 100%;
+	margin-top: 30px;
+}
+.cal-w-box .cal-month {
+	width: 100%;
+}
+.cal-w-box .cal-month tr {
+	border-bottom: 1px solid #555;
+}
+.cal-w-box .event:before {
+	display: none;
+}
+.cal-w-box .event {
+	color: inherit!important;
+}
+.cal-w-box .w-week-end {
+	color: #633!important;
+}
+.w-previous-month, .w-next-month, .w-current-month {
+	position: relative;
+	text-align: center;
+	padding: 4px 8px;
+	cursor: default;
+	width: calc(100% / 8);
+}
+.day-hours {
+	background-color: rgba(255, 255, 255, 0.05);
+	border-left: 1px solid #555;
+}
+.whole-day {
+	background-color: rgba(255, 255, 255, 0.1);
+	border-left: 1px solid #555;
+	padding: 0 4px 4px;
+	vertical-align: top;
+}
+.day-hours {
+	height: 470px;
+	width: 12.5%;
+	padding: 4px;
+	vertical-align: top;
+
+    background-image:linear-gradient(to bottom, #222 1px, transparent 1px);
+  	background-size: 1px 60px;
+  	background-position: 0 -1px;
+}
+.day-hours-wrapper {
+/*	display: flex;
+	justify-content: space-between;
+*/	position: relative;
+	margin-left: -4px;
+}
+.day-expl, .day-times {
+	padding: 4px;
+	vertical-align: top;
+	text-align: right;
+}
+.day-times {
+	padding-top: 27px;
+}
+.day-event {
+	width: 105px;
+	padding: 0 4px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	background-color: rgba(255, 255, 255, 0.1);
+	margin-top: 4px;
+	font-size: 13px;
+}
+.time-event {
+	box-sizing: border-box;
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.1);
+	padding: 4px;
+	width: 100%;
+	margin-top: -5px;
+	line-height: 16px;
+	overflow: hidden;
+	font-size: 13px;
+	border-top: 1px solid #333;
+}
+
+.slot {
+    height:30px;
+    width: 80px;
+    font-weight:bold;
+    text-align:right;
+    line-height:0;
+}
+
+.slot span {
+    font-size:12px;
+    color:#777;
+    padding:2px 0;
+}
+.now {
+	position: absolute;
+	width: 100%;
+	border-top: 1px solid rgba(204, 0, 0, .5);
+}
+
