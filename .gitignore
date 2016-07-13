@@ -1,0 +1,16 @@
+_mat/
+_website/
+_temp/
+out/
+requirejs/
+bower_components/
+
+README Kopie.md
+* Kopie*
+npm-debug*
+node_modules/
+
+*.psd
+*_orig.*
+build.js
+multiple-instance-*
