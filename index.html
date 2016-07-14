@@ -20,7 +20,7 @@
 <div id="content-wrapper">
 	<h1>Tiny date/time picker</h1>
 	<p>Looking for tiny foot print, fast, scaleable, flexible and pluggable...<br>
-	This <strong>4.91KB</strong> (gZip; 11.79KB minified) small date/time picker provides a lot of hooks for developers to write plugins, calendars, agendas, booking systems, etc. (See demo plugins below in <a href="#demo">Demo</a>).</p>
+	This <strong>4.91KB</strong> (gZip; 11.79KB minified) small date/time picker provides a lot of hooks for developers to write calendars, agendas, booking systems, plugins, etc. (See demos below in <a href="#demo">Demo</a>).</p>
 	<a name="demo" id="demo" class="a-inline"></a>
 	<h2>Demo</h2>
 	<p>On all elements with className 'date':</p>
@@ -266,7 +266,7 @@
 			var parts = value.split(' ')[0].split('-'),
 				date = new Date(parts[0], parts[1] - 1, parts[2] || 0);
 
-			return options.weekDays[date.getDay()] + '., ' + date.getDate() + '. ' +
+			return options.weekDaysLong[date.getDay()] + ', ' + date.getDate() + '. ' +
 				options.months[date.getMonth()] + ' ' + date.getFullYear();
 		};
 
@@ -274,6 +274,8 @@
 		options_4[option] = options[option];
 	}
 
+	options_4.weekDaysLong =
+		['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
 	options_4.initCallback = function(elements) {
 		for (var n = elements.length; n--; ) {
 			elements[n].value =
