@@ -12,16 +12,17 @@
     'use strict';
 
     $.fn.datePicker = function(options) {
-        options = $.extend({
-            elements: this
-        }, options);
+        var elements = [];
 
-        this.datePicker = new DatePicker(options);
+        this.each(function(idx, elm) { // prevent cross references
+            elements.push(elm);
+        });
+        this.datePicker = new DatePicker(elements, options);
 
         return this;
     };
 
     $.fn.datePicker.destroy = function() {
-        this.destroy();
+        this.datePicker.destroy();
     };
 }));
