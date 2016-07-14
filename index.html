@@ -262,7 +262,7 @@
 			'date-3': '2016-08-28'
 		},
 		dataAttr = 'data-date',
-		changeValueFormat = function(value, options) {
+		changeValueFormat_de = function(value, options) {
 			var parts = value.split(' ')[0].split('-'),
 				date = new Date(parts[0], parts[1] - 1, parts[2] || 0);
 
@@ -277,12 +277,12 @@
 	options_4.initCallback = function(elements) {
 		for (var n = elements.length; n--; ) {
 			elements[n].value =
-				changeValueFormat(dates[elements[n].getAttribute(dataAttr)], this.options);
+				changeValueFormat_de(dates[elements[n].getAttribute(dataAttr)], this.options);
 		}
 	};
 	options_4.renderValue = function(container, element, value) {
 		dates[element.getAttribute(dataAttr)] = value;
-		element.value = changeValueFormat(value, this.options);
+		element.value = changeValueFormat_de(value, this.options);
 	};
 	options_4.readValue = function(element) {
 		return dates[element.getAttribute(dataAttr)];
