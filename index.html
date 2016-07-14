@@ -53,7 +53,14 @@
 			<input class="date" type="hidden" value="2016-06-23" />
 			<button class="date-3 button">datePicker</button>
 		</div>
+		<p>TIP: The values don't have to be stored in hidden variables, they can also be received and stored in local storage or javascript variables (inspect window.dates):</p>
+		<div>
+			<input class="date date-4" value="" data-date="date-1" />
+			<input class="date date-4" value="" data-date="date-2" />
+			<input class="date date-4" value="" data-date="date-3" />
+		</div>
 	</div>
+
 
 	<h2>Usage</h2>
 	<p>For the plain javascript version you need the following:</p>
@@ -244,6 +251,37 @@
 	};
 
 	datePicker_3 = window.myDatePicker_3 = new DatePicker('.date-3', options_3);
+
+	// prepare a fourth instance with different options
+	// Example with data from variables.
+	var options_4 = {},
+		datePicker_4 = {},
+		dates = window.dates = {
+			'date-1': '2016-06-23',
+			'date-2': '2016-06-26',
+			'date-3': '2016-06-28'
+		},
+		dataAttr = 'data-date';
+
+	for (var option in options) { // copy
+		options_4[option] = options[option];
+	}
+
+	options_4.initCallback = function(elements) {
+		for (var n = elements.length; n--; ) {
+			elements[n].value =
+				changeValueFormat(dates[elements[n].getAttribute(dataAttr)]);
+		}
+	};
+	options_4.renderValue = function(container, element, value) {
+		dates[element.getAttribute(dataAttr)] = value;
+		element.value = changeValueFormat(value);
+	};
+	options_4.readValue = function(element) {
+		return dates[element.getAttribute(dataAttr)];
+	};
+
+	datePicker_4 = window.myDatePicker_4 = new DatePicker('.date-4', options_4);
 </script>
 
 </body>
