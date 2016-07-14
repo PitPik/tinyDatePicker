@@ -146,6 +146,7 @@
 }
 .month-cal .cal-month {
 	width: 855px;
+	font-size: 13px;
 }
 .month-cal .current-month, .month-cal .previous-month, .month-cal .next-month {
 	height: 100px;
@@ -173,7 +174,7 @@
 
 .single-event {
 	display: block;
-	width: 94px;
+	width: 107px;
 	height: 1.6em;
 	font-size: 12px;
 	overflow: hidden;
@@ -182,6 +183,16 @@
 	background-color: rgba(255, 255, 255, 0.05);
 	margin: 2px 0;
 	padding: 0 4px;
+	box-sizing: border-box;
+	border: 1px solid transparent;
 	color: #aaa;
+}
+.month-cal .single-event:active {
+	border: 1px solid #C44;
+}
+.month-cal .previous-month:active:before,
+.month-cal .next-month:active:before,
+.month-cal .current-month:active:before {
+	border: 1px solid transparent;
 }
 
