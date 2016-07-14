@@ -11,13 +11,10 @@
 }(this, function(window, $, DatePicker, undefined) {
     'use strict';
 
+    // this is just a wrapper to use DatePicker as jQuery plugin
     $.fn.datePicker = function(options) {
         this.datePicker = new DatePicker(this.filter('*'), options);
 
         return this;
-    };
-
-    $.fn.datePicker.destroy = function() {
-        this.datePicker.destroy();
     };
 }));
