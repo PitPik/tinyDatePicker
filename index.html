@@ -258,10 +258,17 @@
 		datePicker_4 = {},
 		dates = window.dates = {
 			'date-1': '2016-06-23',
-			'date-2': '2016-06-26',
-			'date-3': '2016-06-28'
+			'date-2': '2016-07-26',
+			'date-3': '2016-08-28'
 		},
-		dataAttr = 'data-date';
+		dataAttr = 'data-date',
+		changeValueFormat = function(value, options) {
+			var parts = value.split(' ')[0].split('-'),
+				date = new Date(parts[0], parts[1] - 1, parts[2] || 0);
+
+			return options.weekDays[date.getDay()] + '., ' + date.getDate() + '. ' +
+				options.months[date.getMonth()] + ' ' + date.getFullYear();
+		};
 
 	for (var option in options) { // copy
 		options_4[option] = options[option];
@@ -270,12 +277,12 @@
 	options_4.initCallback = function(elements) {
 		for (var n = elements.length; n--; ) {
 			elements[n].value =
-				changeValueFormat(dates[elements[n].getAttribute(dataAttr)]);
+				changeValueFormat(dates[elements[n].getAttribute(dataAttr)], this.options);
 		}
 	};
 	options_4.renderValue = function(container, element, value) {
 		dates[element.getAttribute(dataAttr)] = value;
-		element.value = changeValueFormat(value);
+		element.value = changeValueFormat(value, this.options);
 	};
 	options_4.readValue = function(element) {
 		return dates[element.getAttribute(dataAttr)];
