@@ -42,7 +42,7 @@ or for debugging:
 ```
 ```datePicker.js``` doesn't render anything or installs event listeners for the UI and doesn't initialize Caledar until you first use it (focusing / clicking an input field) to save memory and keep markup as small as possible.
 
-The standard date/time formats datePicker works with is: 'YYYY-MM-DD HH:MM:SS AM' whereas -DD is optional if no time is set and :SS, AP/PM and the time as such is also optional.
+The standard date/time formats datePicker works with is: 'YYYY-MM-DD HH:MM:SS AM' whereas -DD is optional if no time is set and :SS, AP/PM and the time as such is also optional. It is possible to only set the time though too. Then datePicker works as a time picker only. See also demo on how to use data attributes in input fields to pick up some options from there.
 
 See the Demos at ```/demo/index.html``` or [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker) for more examples on how ```calendar.js``` and ```datePicker.js``` can be used. You can also build a whole agenda app with only a fiew options added...
 
