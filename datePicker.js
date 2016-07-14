@@ -127,7 +127,7 @@
 
 	DatePicker.prototype.destroy = function() {
 		removeEvents(this); // removes reliably 'all' event listeners in this instance
-		this.datePicker.parentNode.removeChild(this.datePicker);
+		this.datePicker && this.datePicker.parentNode.removeChild(this.datePicker);
 		for (var item in this) {
 			this[item] = null;
 		}
