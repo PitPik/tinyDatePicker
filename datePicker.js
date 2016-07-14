@@ -379,7 +379,7 @@
 	}
 
 	function addDays(_this, date, add, end) {
-		date = new Date(_this.calendar.convertDateString(date, end));
+		date = _this.calendar.convertDateString(date, end);
 		date.setDate(date.getDate() + add);
 		return getDateString(date);
 	}

@@ -105,9 +105,9 @@
 	function convertEvent(event, id) {
 		var start =  event.at || event.start;
 
-		event._start = start ? _convertDateString(start) : -1e15;
+		event._start = start ? _convertDateString(start).valueOf() : -1e15;
 		event._end = event.at ? event._start :
-			event.end ? _convertDateString(event.end, true) : 1e15;
+			event.end ? _convertDateString(event.end, true).valueOf() : 1e15;
 		event._id = id;
 		return event;
 	}
@@ -117,15 +117,15 @@
 	}
 
 	function _convertDateString(string, end) {
-		var d = string.split(' '),
-			dd = d[0].split('-'),
-			tt = (d[1] || '').split(':');
+		var parts = string.split(' '),
+			dayParts = parts[0].split('-'),
+			timeParts = (parts[1] || '').split(':');
 
 		end = end ? 59 : 0;
 
 		return new Date(
-			dd[0], dd[1] - 1, dd[2] || 1,
-			tt[0] || (end ? 23 : 0), tt[1] || end, tt[2] || end).valueOf();
+			dayParts[0], dayParts[1] - 1, dayParts[2] || 1,
+			timeParts[0] || (end ? 23 : 0), timeParts[1] || end, timeParts[2] || end);
 	}
 
 	function _getWeekNumber(date) { // ISO 8601
