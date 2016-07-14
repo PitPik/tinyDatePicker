@@ -12,12 +12,7 @@
     'use strict';
 
     $.fn.datePicker = function(options) {
-        var elements = [];
-
-        this.each(function(idx, elm) { // prevent cross references
-            elements.push(elm);
-        });
-        this.datePicker = new DatePicker(elements, options);
+        this.datePicker = new DatePicker(this.filter('*'), options);
 
         return this;
     };
