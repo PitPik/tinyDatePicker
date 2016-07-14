@@ -79,7 +79,7 @@ requirejs.config({
 ```
 
 ## Bower support (not yet)
-tinyColorPicker will be receivable via bower soon:
+tinyDatePicker will be receivable via bower soon:
 
 ```javascript
 bower install tinyDatePicker
@@ -87,7 +87,7 @@ bower install tinyDatePicker
 
 ## jqDatePicker.js
 
-```jqDatePicker.js``` is a jQuery plugin and uses an instance of Calendar (from ```calendar.js```) for rendering months and weeks. It passes the options to that instance, so some values might be the same when inspecting...
+```jqDatePicker.js``` is a jQuery plugin (actually just a wrapper for ```datePicker.js```) and uses an instance of Calendar (from ```calendar.js```) for rendering months and weeks. It passes the options to that instance, so some values might be the same when inspecting...
 
 ```javascript
 $('.date').datePicker({
