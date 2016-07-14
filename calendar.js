@@ -32,9 +32,9 @@
 					weekNo: '<td class="">{{day}}</td>',
 					row: '<td class="">{{day}}</td>',
 					end: function() {return '</tr></tbody></table>'},
-					today: _noop,
-					day: _noop,
-					event: _noop,
+					today: _noop, // replaces {{today}}
+					day: _noop, // replaces {{day-event}}
+					event: _noop, // replaces {{event}}
 				},
 
 				todayClass: 'today',
@@ -98,16 +98,16 @@
 	};
 
 	Calendar.prototype.getWeekNumber = _getWeekNumber;
-	Calendar.prototype.normalizeDate = _normalizeDate;
+	Calendar.prototype.convertDateString = _convertDateString;
 
 	/* ---------------------- */
 
 	function convertEvent(event, id) {
 		var start =  event.at || event.start;
 
-		event._start = start ? _normalizeDate(start) : -1e15;
+		event._start = start ? _convertDateString(start) : -1e15;
 		event._end = event.at ? event._start :
-			event.end ? _normalizeDate(event.end, true) : 1e15;
+			event.end ? _convertDateString(event.end, true) : 1e15;
 		event._id = id;
 		return event;
 	}
@@ -116,14 +116,16 @@
 		return string.replace(/(:?^\s+|\s+$)/g, '').replace(/(?:\s\s+)/g, ' ');
 	}
 
-	function _normalizeDate(string, end) { // check again
-		var date = string.split(/(?:T|\s+|\+)/),
-			needsEndDate = end && !date[1];
+	function _convertDateString(string, end) {
+		var d = string.split(' '),
+			dd = d[0].split('-'),
+			tt = (d[1] || '').split(':');
 
-		date = new Date(date[0] +
-			(date[1] && ('T' + date[1].replace(/^(\d+:\d+)$/, '$1' + ':00.000Z')) ||
-			((needsEndDate ? 'T23:59:59.999Z' : 'T00:00:00.000Z'))));
-		return date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+		end = end ? 59 : 0;
+
+		return new Date(
+			dd[0], dd[1] - 1, dd[2] || 1,
+			tt[0] || (end ? 23 : 0), tt[1] || end, tt[2] || end).valueOf();
 	}
 
 	function _getWeekNumber(date) { // ISO 8601

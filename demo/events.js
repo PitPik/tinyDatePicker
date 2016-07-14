@@ -14,12 +14,12 @@ window.events = [{
 	},{
 		at: '2016-05-08',
 		className: 'event',
-		text: 'Floortjes\' Birthday' // optional
+		text: 'Someones\' Birthday' // optional
 	},{
 		start: '2016-05-08 08:00',
 		end: '2016-05-08 10:00',
 		className: 'event',
-		text: 'Get flowers for Floor'
+		text: 'Get flowers for Someone'
 	},{
 		at: '2016-05-12',
 		className: 'event',
@@ -32,7 +32,7 @@ window.events = [{
 		start: '2016-06-03',
 		end: '2016-06-05',
 		className: 'event',
-		text: 'Texel Volleyball tournament'
+		text: 'Some Volleyball tournament'
 	},{
 		start: '2016-05-30',
 		end: '2016-06-08',
@@ -86,7 +86,7 @@ window.events = [{
 		start: '2016-06-05 10:00',
 		end: '2016-06-05 12:00',
 		className: 'event',
-		text: 'Planning for Italy'
+		text: 'Planning for some vacation'
 	},{
 		at: '2016-06-05',
 		className: 'event',
@@ -94,7 +94,7 @@ window.events = [{
 	},{
 		at: '2016-12-28',
 		className: 'event',
-		text: 'My Birthday',
+		text: 'Some other day',
 		extra: 'important' // optional
 	}
 ];

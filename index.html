@@ -23,10 +23,10 @@
 	This <strong>4.91KB</strong> (gZip; 11.79KB minified) small date/time picker provides a lot of hooks for developers to write plugins, calendars, agendas, etc. (See demo plugins below in <a href="#demo">Demo</a>).</p>
 	<a name="demo" id="demo" class="a-inline"></a>
 	<h2>Demo</h2>
-	On all elements with className 'date':<br>
-	<pre>var myDP = new DatePicker('.date');</pre> or
+	<p>On all elements with className 'date':</p>
+	<pre>new DatePicker('.date', options);</pre> or
 	<pre>$('.date').datePicker(options);</pre>
-
+	<p></p>
 	<div class="input-toggles">
 		<input class="date date-1" value="2016-06-23" readonly="" />
 		<input class="date date-1" value="2016-06-23 11:30 PM" />
@@ -46,25 +46,47 @@
 			<input class="date" type="hidden" value="2016-06-23" />
 			<button class="date-2 button">datePicker</button>
 		</div>
+		<div>... and split inputs:
+			<input class="date-year" value="" placeholder="YYYY" readonly="" />-
+			<input class="date-month" value="" placeholder="MM" readonly="" />-
+			<input class="date-day" value="" placeholder="DD" readonly="" />
+			<input class="date" type="hidden" value="2016-06-23" />
+			<button class="date-3 button">datePicker</button>
+		</div>
 	</div>
 
 	<h2>Usage</h2>
-	<p>There is only one...</p>
+	<p>For the plain javascript version you need the following:</p>
+	<pre style="display: block; overflow: auto;">
+&lt;script type="text/javascript" src="datePicker.min.js">
+&lt;script type="text/javascript">
+    var myDP = new DatePicker('.date', options); // that's it
+&lt;/script></pre>
+	<p>...or for the jQuery version:</p>
+	<pre style="display: block; overflow: auto;">
+&lt;script type="text/javascript" src="jqDatePicker.min.js">
+&lt;script type="text/javascript">
+    $('.color').datePicker(options); // that's it
+&lt;/script></pre>
+
+	<h2>calendar.js</h2>
+	<p>Calendar is a tiny module that can render a month or only a week. It has a lot of options and callbacks that make rendering of complex data easy. See the following demos for what can be done with Calendar:</p>
+
 </div>
 <a class="a-inline" href="https://github.com/PitPik/tinyDatePicker"><img style="position: absolute; top: 0; right: 0; border: 0;" src="development/fmog.png" alt="Fork me on GitHub"></a>
 
 <!-- <script type="text/javascript" src="datePicker.min.js"></script> -->
 <script type="text/javascript" src="calendar.js"></script>
 <script type="text/javascript" src="demo/events.js"></script>
-<!-- <script type="text/javascript" src="demo/year.js"></script> -->
-<!-- <script type="text/javascript" src="demo/week.js"></script> -->
+<script type="text/javascript" src="demo/year.js"></script>
+<script type="text/javascript" src="demo/month.js"></script>
+<script type="text/javascript" src="demo/week.js"></script>
 <script type="text/javascript" src="datePicker.js"></script>
 <script type="text/javascript">
 	'use strict';
 
+	// The following are demos for the datePicker
 	var options = {
-			elements: '.date-1',
-
 			weekDays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
 			months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
 				'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
@@ -133,32 +155,15 @@
 					}
 				}
 			},
-			events: events, // external data... see events.js
-
-			// renderCallback: function(container, element) {
-			// 	var bounds = element.getBoundingClientRect();
-
-			// 		container.style.cssText = !this.isOpen ? 'display: none' :
-			// 			'left:' + (window.pageXOffset + bounds.left) + 'px;' +
-			// 			'top:' + (window.pageYOffset + element.offsetHeight + bounds.top) + 'px;';
-
-			// 	// adds/removes class 'partner' from range input fields
-			// 	if (this._currentPartner) {
-			// 		this._currentPartner.classList.remove('partner');
-			// 		this._currentInput.classList.remove('partner');
-			// 	}
-			// 	if (this.currentPartner) {
-			// 		this.currentPartner.classList.add('partner');
-			// 		this.currentInput.classList.add('partner');
-			// 	}
-			// 	this._currentInput = this.currentInput;
-			// 	this._currentPartner = this.currentPartner;
-			// }
+			events: events // external data... see events.js
 		},
-		datePicker = window.myDatePicker = new DatePicker(options);
+		// regular example that enables all kinds of different formats and ranges...
+		datePicker = window.myDatePicker = new DatePicker('.date-1', options);
 		
 
 	// prepare a second instance with different options
+	// Example for hidden input field triggered by a button and
+	// rendering a formatted value to a disabled input field.
 	var options_2 = {},
 		datePicker_2 = {},
 		getInput = function(element, hidden) {
@@ -173,7 +178,6 @@
 		options_2[option] = options[option];
 	}
 
-	options_2.elements = '.date-2';
 	options_2.initCallback = function(elements) {
 		for (var n = elements.length; n--; ) {
 			getInput(elements[n]).value = changeValueFormat(getInput(elements[n], true).value);
@@ -198,7 +202,48 @@
 		return value;
 	};
 
-	datePicker_2 = window.myDatePicker_2 = new DatePicker(options_2);
+	datePicker_2 = window.myDatePicker_2 = new DatePicker('.date-2', options_2);
+
+
+
+	// prepare a third instance with different options
+	// Example like the above but then year, month and day get
+	// rendered in seperate fields.
+	var options_3 = {},
+		datePicker_3 = {},
+		getInputs = function(element, hidden) {
+			return element.parentNode.querySelectorAll('input');
+		};
+
+	for (var option in options) { // copy
+		options_3[option] = options[option];
+	}
+
+	options_3.renderCallback = function(container, element, toggled) {
+		var _element = getInputs(element)[0],
+			bounds = _element.getBoundingClientRect();
+
+		container.style.cssText = !this.isOpen ? 'display: none' :
+			'left:' + (window.pageXOffset + bounds.left) + 'px;' +
+			'top:' + (window.pageYOffset + _element.offsetHeight + bounds.top) + 'px;';
+	};
+	options_3.renderValue = function(container, element, value) {
+		var inputs = getInputs(element),
+			val = value.split('-');
+
+		inputs[3].value = value;
+		inputs[0].value = val[0];
+		inputs[1].value = val[1]; // this.options.months[+val[1] - 1];
+		inputs[2].value = val[2];
+	};
+	options_3.readValue = function(element) {
+		var value = getInputs(element)[3].value;
+
+		this.options.renderValue.call(this, undefined, element, value);
+		return value;
+	};
+
+	datePicker_3 = window.myDatePicker_3 = new DatePicker('.date-3', options_3);
 </script>
 
 </body>

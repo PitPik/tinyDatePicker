@@ -44,13 +44,19 @@ pre {
 	background-color: rgba(255, 255, 255, .19);
 	padding: .5em;
 }
-.date {
+.date, .date-year, .date-month, .date-day {
 	padding: .5em;
 	margin-right: .4em;
 	margin-bottom: .8em;
 	border: 1px solid #aaa;
 	border-radius: 3px;
 	width: 140px;
+}
+.date-year {
+	width: 60px;
+}
+.date-month, .date-day {
+	width: 40px;
 }
 .input-toggles {
 	margin-top: 12px;
@@ -64,4 +70,7 @@ pre {
 	border-radius: 0px 3px 3px 0;
     margin-left: -12px;
 }
-
+.date-3.button {
+	border-radius: 3px;
+	margin-left: 0;
+}

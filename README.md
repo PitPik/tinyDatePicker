@@ -2,7 +2,7 @@
 # tinyDatePicker and calendar
 
 Looking for tiny foot print, fast, scaleable, flexible and pluggable...<br>
-This 4.91KB (gZip; 11.79KB minified) small date/time picker provides a lot of hooks for developers to write plugins, calendars, agendas, etc.
+This 4.91KB (gZip; 11.79KB minified) small date/time picker provides a lot of hooks for developers to write plugins, calendars, agendas, etc. This is not only a picker but a set of modules that can be used to build a date/agenda based app.
 
 ##Demo
 See **demo** at [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker)
@@ -15,8 +15,8 @@ See **demo** at [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker)
     $('.date').datePicker(/* optinal options */); // that's it
 </script>
 ```
-```jqDatePicker.min.js``` (the jQuery version) holds all necessary data such as calendar.js, datePicker.js and jqDatePicker.js. So, it is not needed to include anything else than this file.<br>
-If you need to debug things for development, you can also use ```calendar.js```, the month/week rendering module, ```datePicker.js```, the javascript UI and picker module and ```jqDatePicker.js```, the jQuery wrapper seperately.
+```jqDatePicker.min.js``` (the jQuery version) holds all necessary files such as calendar.js, datePicker.js and jqDatePicker.js. So, it is not needed to include anything else than this file.<br>
+If you need to debug things for development, you can also use ```calendar.js```, the month/week rendering module, ```datePicker.js```, the javascript UI and picker module and ```jqDatePicker.js```, the jQuery wrapper separately.
 ```javascript
 <script type="text/javascript" src="calendar.js"></script>
 <script type="text/javascript" src="datePicker.js"></script>
@@ -42,8 +42,10 @@ or for debugging:
 ```
 ```datePicker.js``` and ```jqDatePicker.js``` don't render anything, don't install event listeners for the UI and don't initialize Caledar until you first use it (focusing / clicking an input field) to save memory and keep markup as small as possible.
 
+See the Demos at ```/demo/index.html``` or [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker) for more examples on how ```calendar.js``` and ```datePicker.js``` can be used. You can also build a whole agenda app with only a fiew options added...
+
 ## AMD / CommonJS wrapper
-tinyDatePicker supports AMD and CommonJS import in all, the minified versions and the single fies (```calendar.js```, ```datePicker.js``` and ```jqDatePicker.js```).
+tinyDatePicker supports AMD and CommonJS import in all, the minified versions and the single files (```calendar.js```, ```datePicker.js``` and ```jqDatePicker.js```).
 
 ```javascript
 // example for requirejs configuration
@@ -88,14 +90,14 @@ bower install tinyDatePicker
 ```javascript
 $('.date').datePicker({
     // the datePicker options
-    useCache: false, // disables calenda's cash for use with ranges
+    useCache: false, // disables calendar's cash for use with ranges
     elements: '.date', // the selector for the input fields using datePicker
     body: document.body, // element the picker should be depended on
     pickerAttribute: 'data-picker', // attribute used for internal date transfer
     datePickerClass: 'date-picker', // class name of the datePicker wrapper
     selectedDayClass: 'selected-day', // class name for date representing the value of input field
     disabledClass: 'disabled', // class name for disabled events
-    initCallback: function(elements) {}, // callback used right after datePicker is instanciated (no calendar available)
+    initCallback: function(elements) {}, // callback used right after datePicker is instantiated (no calendar available)
     // the following callbacks hold standard routines that can be overwritten
     renderCallback: function(container, element, toggled) {}, // every time the picker gets toggled or redrawn (by UI action)
     renderValue: function(container, element, value) {}, // when date is picked, the value needs to be transferred to input
@@ -104,7 +106,7 @@ $('.date').datePicker({
         // {{disable-prev}}, {{prev}}, {{disable-next}}, {{next}}, {{day}}, {{month}}, {{months}}, {{year}}, {{years}}
         // look at the code (original option HTML) and it's clear what all those placeholders mean
     nextLabel: 'Next month', // text written instead of {{next}}
-    prevLabel: 'Previous month', // text written instaed of {{prev}}
+    prevLabel: 'Previous month', // text written instead of {{prev}}
     minDate: '1969-01-01', // standard minimal displayable date
     maxDate: '2050-12-31', // standard maximal displayable date
     minDateAttribute: 'data-mindate', // attribute that could hold minimal displayable date data
@@ -131,9 +133,9 @@ $('.date').datePicker({
     rangeEndAttribute: 'data-to' // attribute holding the name of the other input in a range collective
 
     // the Calendar options
-    sundayBased: true, // reders weeks starting with monday or sunday
+    sundayBased: true, // renders weeks starting with Monday or Sunday
     renderWeekNo: false, // enables / disables rendering of week numbers
-    equalHight: false, // renders extra days in next month to keep hights (row count) of all months the same
+    equalHight: false, // renders extra days in next month to keep heights (row count) of all months the same
     useCache: true, // month that has been rendered will be cached on never be calculated again (also events)
     months: ['Jan', ...], // array of strings of all months in a year
     weekDays: ['Su', ...], // array of strings of week days
@@ -157,8 +159,55 @@ $('.date').datePicker({
     weekNoClass: 'week-no' // class name for week numbers
 });
 ```
+
+## datePicker.js
+```datePicker.js``` works the same way as ```jqDatePicker.js```. It's the javascript only version and has the same options. Only the initialization works differently (See **Usage**)
+
+## Methods
+
+#### datePicker.js
+
+```destroy()```: removes all event listeners, detaches the markup from the document and removes some variables.
+
+#### calendar.js
+
+```addEvent(event, id)```: Adds an event to the list of events and automatically converts the dates to the internal format. See format of events below (**Some tips**). ```id``` marks the events for easy removal later on. Doesn't necessarily be unique.
+
+```removeEvent(id)```: Removes above described events marked by the id attribute.
+
+```getMonth(year, month, week)```: Returns markup described by the template options from a given year / month. If optional week is set (relative to month) you'll only get this week.
+
+```getWeekNumber(date)```: Returns the number of the week described by ISO 8601. ```date``` can be a date object, a number as milliseconds or a string that converts to a date if passed to ```Date```.
+
+```convertDateString(string, end)```: Receives a string ```string```like 'YYYY-MM-DD HH:MM:SS' where the time is optional. ```end``` is a boolean that adds ```23:59:59``` to the date to make it the very end of the day. Returns a date in milliseconds.
+
 See the following section or the demos on how the callbacks work and what you can do with them...
 
 #### Some tips
+**Callbacks** from **datePicker.js**
 
-The positionCallback ...........
+All callbacks deliver ```this``` as a reference to the instance of **DatePicker()**
+
+```initCallback: function(elements) {}``` Is called right after DatePicker() is initialized. Calendar() is not available yet. elements is the list of all elements (for example ```$('.date')```) that are listening to the click or focus events.
+
+```renderCallback: function(container, element, toggled) {}``` Is called every time the picker gets visible, hidden or redrawn. ```toggled``` is true if the picker was just toggled on or off. To determine if it was turned on or off you can read the attribute ```this.isOpen```.
+
+```renderValue: function(container, element, value) {}``` Is a method that gets called when the user clicked on a date on the picker. It gives you access to the ```container```, the picker UI, ```element```, the current input field and ```value```, the choosen value in the format ```YYYY-MM-DD HH:MM:SS AM``` where as -DD, :SS and AM are optional.
+
+```readValue: function(element) {}``` Method called when the picker opens and picks up the value where as ```element``` is the input field that was focused.
+
+Other **Callbacks** from **calendar.js**
+
+```calendar.js``` has some callbacks in its templating engine to return a string that replaces a certain string in the template or get called in the beginning or end of the rendering.
+
+```start: function() {}```, gets called befor the month/week gets rendered. Use this, for example to render the start of a table...
+
+```end: function() {}```, Same as above, just at the end of the rendering.
+
+```today: function() {}```, replaces {{today}} in your ```row``` template
+
+```day: function() {}```, replaces {{day-event}} in your ```row``` template
+
+```event: function() {}```, replaces {{event}} in your ```row``` template
+
+All callbacks are called in the context of ```this```, the instance of its constructor. So, inspect the instance to discover some more helpful properties of the model such as ```date```, the rendered date, ```currentDate``` the value of the current input field, ```currentInput``` and ```currentPartner```, the input field and a possible connected input field for ranges, etc.

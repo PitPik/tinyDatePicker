@@ -139,3 +139,49 @@
 	right: auto;
 	left: 0;
 }
+
+/* ----- month.js ------ */
+.month-cal {
+	margin: 54px auto;
+}
+.month-cal .cal-month {
+	width: 855px;
+}
+.month-cal .current-month, .month-cal .previous-month, .month-cal .next-month {
+	height: 100px;
+	text-align: left;
+	vertical-align: top;
+	background-color: rgba(255, 255, 255, 0.05);
+	border-left: 1px solid #444;
+	border-bottom: 1px solid #444;
+}
+
+.month-cal .current-month:before, .month-cal .previous-month:before, .month-cal .next-month:before {
+	width: 98%;
+	height: 98%;
+	top: 1%;
+	left: 1%;
+	border-radius: 0;
+	margin: 0;
+}
+
+.month-cal .week-no {
+	text-align: left;
+	vertical-align: top;
+	/*padding: 6px 3px 0 0;*/
+}
+
+.single-event {
+	display: block;
+	width: 94px;
+	height: 1.6em;
+	font-size: 12px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background-color: rgba(255, 255, 255, 0.05);
+	margin: 2px 0;
+	padding: 0 4px;
+	color: #aaa;
+}
+

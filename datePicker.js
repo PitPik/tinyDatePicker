@@ -11,10 +11,10 @@
 }(this, function(window, Calendar, undefined) {
 	'use strict';
 
-	var DatePicker = function(options) {
+	var DatePicker = function(elements, options) {
 			this.options = {
 				useCache: false,
-				elements: '.date',
+				elements: [],
 				body: document.body,
 
 				pickerAttribute: 'data-picker',
@@ -102,17 +102,16 @@
 				rangeEndAttribute: 'data-to'
 			}
 
-			initDatePicker(this, options || {});
+			initDatePicker(this, elements || [], options || {});
 		},
-		initDatePicker = function(_this, options) {
-			var data = options.elements || options,
-				_toggle = function(e) { // toggle.bind(_this)
+		initDatePicker = function(_this, elements, options) {
+			var _toggle = function(e) { // toggle.bind(_this)
 					toggle(_this, e);
 				};
 
-			if (typeof data === 'string') { // only selector string is possible
-				options.elements = document.querySelectorAll(data);
-			}
+			options.elements = typeof elements === 'string' ?
+				document.querySelectorAll(elements) : elements;
+
 			for (var option in options) {
 				_this.options[option] = options[option];
 			}
@@ -120,7 +119,7 @@
 			addEvent(window, 'resize', function(e) {
 				_this.isOpen && renderCallback(_this);
 			}, false, _this);
-			addEvent(document.body, 'focusin', _toggle, false, _this);
+			addEvent(document.body, 'focus', _toggle, true, _this);
 			addEvent(document.body, 'click', _toggle, false, _this);
 
 			_this.options.initCallback.call(_this, options.elements);
@@ -138,11 +137,10 @@
 		var path = e.path || [],
 			node = e.target,
 			options = _this.options,
-			isFocusIn = e.type === 'focusin',
+			isFocusIn = e.type === 'focus',
 			currentPartner = _this.currentPartner,
 			values = [],
 			value = '',
-			today = '',
 			date = {},
 			timeFormat = '',
 			hasAMPM = false,
@@ -160,11 +158,8 @@
 			_this.calendar.removeEvent(id);
 
 			// set correct day / time format TODO: revisit and optimize
-			value = options.readValue(e.target);
-			today = new Date();
-			today = today.getFullYear() + '-' + lZ(today.getMonth() + 1) + '-' +
-				lZ(today.getDate()) + ' ' + today.toTimeString().split(' ')[0];
-			_this.date = date = analyseDate(value || today);
+			value = options.readValue.call(_this, e.target);
+			_this.date = date = getDateObject(value || getDateString(new Date(), true));
 			timeFormat = e.target.getAttribute(options.timeFormatAttribute);
 			timeFormat = timeFormat !== null ? timeFormat : options.timeFormat;
 			if (!value && timeFormat) {
@@ -183,7 +178,7 @@
 			_this.toggled = _this.currentInput !== e.target;
 			_this.currentInput = e.target;
 			_this.currentPartner = currentPartner = getPartner(_this, e.target);
-			_this.currentDate = analyseDate(assembleDate(date)); // is new object
+			_this.currentDate = getDateObject(assembleDate(date)); // is new object
 			// add limiters for date ranges... native and range picker
 			values = [
 				e.target.getAttribute(options.minDateAttribute) || options.minDate,
@@ -192,8 +187,8 @@
 			values = values[2] ? sortDates(values[2],
 				currentPartner.hasAttribute(options.rangeStartAttribute) ?
 				values[1] : values[0]) : values;
-			_this.minDate = analyseDate(values[0]);
-			_this.maxDate = analyseDate(values[1]);
+			_this.minDate = getDateObject(values[0]);
+			_this.maxDate = getDateObject(values[1]);
 			addDateLimiter(_this, undefined, values[0], id);
 			addDateLimiter(_this, values[1], undefined, id);
 
@@ -303,7 +298,7 @@
 		}
 
 		if (selectedDate && !hasClass(day, options.disabledClass)) { // days in calendar
-			selectedDate = analyseDate(selectedDate);
+			selectedDate = getDateObject(selectedDate);
 			date.year = selectedDate.year;
 			date.month = selectedDate.month;
 			date.day = selectedDate.day;
@@ -351,9 +346,9 @@
 			fromTo = element.getAttribute(options.rangeStartAttribute) ||
 				element.getAttribute(options.rangeEndAttribute),
 			elements = document.querySelectorAll(
-					'[' + options.rangeStartAttribute + '=' + fromTo + '],' +
-					'[' + options.rangeEndAttribute + '=' + fromTo + '],' +
-					'[name=' + fromTo + ']');
+					'[' + options.rangeStartAttribute + '="' + fromTo + '"],' +
+					'[' + options.rangeEndAttribute + '="' + fromTo + '"],' +
+					'[name="' + fromTo + '"]');
 
 		for (var n = elements.length; n--; ) {
 			if (elements[n] && elements[n] !== element) {
@@ -374,12 +369,6 @@
 			_this.currentInput, _this.toggled);
 	}
 
-	function addDays(_this, date, add, end) {
-		date = new Date(_this.calendar.normalizeDate(date, end));
-		date.setDate(date.getDate() + add);
-		return date.toISOString().split('T')[0]; // TODO: check again...
-	}
-
 	function addDateLimiter(_this, start, end, element) {
 		_this.calendar.addEvent({
 			className: _this.options.disabledClass,
@@ -389,11 +378,17 @@
 		}, element);
 	}
 
+	function addDays(_this, date, add, end) {
+		date = new Date(_this.calendar.convertDateString(date, end));
+		date.setDate(date.getDate() + add);
+		return getDateString(date);
+	}
+
 	function sortDates(date1, date2) {
 		return date1 < date2 ? [date1 || date2, date2] : [date2, date1];
 	}
 
-	function analyseDate(date) { // simple version
+	function getDateObject(date) { // simple version
 		date = ((date.indexOf('-') !== -1 ? '' : '--- ') + date).split(/(?:\s+|T)/);
 		date[0] = date[0].split('-');
 		date[1] = (date[1] || '').split(':');
@@ -417,6 +412,11 @@
 				date.hour + ':' + date.minute +
 				(date.second ? ':' + date.second : '') +
 				(date.AMPM ? ' ' + date.AMPM : '')) : ''));
+	}
+
+	function getDateString(date, time) {
+		return date.getFullYear() + '-' + lZ(date.getMonth() + 1) + '-' +
+			lZ(date.getDate()) + (time ? ' ' + date.toTimeString().split(' ')[0] : '');
 	}
 
 	function getOptionsHTML(n, m, compare, data, dataOffset, jump) {
