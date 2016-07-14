@@ -12,7 +12,7 @@ See **demo** at [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker)
 ```javascript
 <script type="text/javascript" src="jqDatePicker.min.js"></script>
 <script type="text/javascript">
-    $('.date').datePicker(/* optinal options */); // that's it
+    $('.date').datePicker([options]); // that's it
 </script>
 ```
 ```jqDatePicker.min.js``` (the jQuery version) holds all necessary files such as calendar.js, datePicker.js and jqDatePicker.js. So, it is not needed to include anything else than this file.<br>
@@ -148,7 +148,7 @@ $('.date').datePicker({
         row: '<td class="">{{day}}</td>', // HTML used to render a regular day
         end: function() {return '</tr></tbody></table>'}, // callback that returns the HTML needed for the end of a month
         today: _noop, // callback that returns the HTML for replacing {{today}} in template.row
-        day: _noop, // callback that returns the HTML needed for replacing {{day}} in template.row
+        day: _noop, // callback that returns the HTML needed for replacing {{day-event}} in template.row
         event: _noop, // callback that returns the HTML needed for replacing {{event}} in template.row
     },
     todayClass: 'today', // class name for the current day

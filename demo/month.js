@@ -41,8 +41,6 @@
 				},
 				event: function(day, date, event) { // rendering events
 					var text = [],
-						// container = [],
-						// jsonText = [],
 						uuids = [],
 						someExtra = '';
 
@@ -50,13 +48,6 @@
 						event[n].text && text.push('- ' + event[n].text);
 
 						uuids.push(event[n]._id);
-
-						// to JSON string...
-						// jsonText = []; // reset
-						// for (var x in event[n]) {
-						// 	jsonText.push('"' + x + '": "' + event[n][x] + '"');
-						// }
-						// container.push('{' + jsonText.join(', ') + '}');
 
 						if (event[n].extra) { // extend functionality...
 							someExtra = event[n].extra;
@@ -66,17 +57,15 @@
 
 					return text ? ' title="' + text + '"' +
 						' data-uuids=\'[' + uuids.join(', ') + ']\'' +
-						// ' data-events=\'[' + container.join(', ') + ']\'' +
 						(someExtra ? ' data-name="' + someExtra + '"' : '') : '';
-				},
-				today: function(day, date) { // rendering today; just for fun...
-					return '<span class="today-icon">+</span>';
 				},
 				day: function(day, date, event) { // rendering every day
 					var text = [];
 
 					for (var n = 0, m = event.length; n < m; n++) {
-						text.push('<span class="single-event">' + event[n].text + '</span>');
+						if (event[n].text) {
+							text.push('<span class="single-event">' + event[n].text + '</span>');
+						}
 					}
 					return day + '. ' + this.options.months[date.getMonth()] +
 						text.join('');

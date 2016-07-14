@@ -96,5 +96,9 @@ window.events = [{
 		className: 'event',
 		text: 'Some other day',
 		extra: 'important' // optional
+	},{
+		at: '2016-06-28',
+		className: 'event',
+		text: 'Some other day'
 	}
 ];
