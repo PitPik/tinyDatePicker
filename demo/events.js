@@ -29,15 +29,15 @@ window.events = [{
 		className: 'event',
 		text: 'Some event'
 	},{
-		start: '2016-06-03',
-		end: '2016-06-05',
-		className: 'event',
-		text: 'Some Volleyball tournament'
-	},{
 		start: '2016-05-30',
 		end: '2016-06-08',
 		className: 'event',
 		text: 'Repetitive event with extra long text'
+	},{
+		start: '2016-06-03',
+		end: '2016-06-05',
+		className: 'event',
+		text: 'Some Volleyball tournament'
 	},{
 		at: '2016-06-07',
 		className: 'event',

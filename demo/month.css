@@ -175,7 +175,7 @@
 .single-event {
 	display: block;
 	width: 107px;
-	height: 1.6em;
+	line-height: 1.3em;
 	font-size: 12px;
 	overflow: hidden;
 	white-space: nowrap;
@@ -186,6 +186,11 @@
 	box-sizing: border-box;
 	border: 1px solid transparent;
 	color: #aaa;
+}
+.event-list {
+	display: block;
+	height: 75px;
+	overflow-y: auto;
 }
 .month-cal .single-event:active {
 	border: 1px solid #C44;

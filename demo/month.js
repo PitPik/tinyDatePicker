@@ -15,7 +15,7 @@
 					return '<div class="month">' + this.options.months[month - 1] + ' - ' + year + '</div>' +
 						'<table class="cal-month"><tbody><tr>';
 				},
-				row: '<td class=""><span class=""{{event}} data-day=\'{"day":"{{day}}", "month":"{{month}}", "year":"{{year}}"}\'>{{day-event}}{{today}}</span></td>',
+				row: '<td class=""><span class=""{{event}} data-day=\'{"day":"{{day}}", "month":"{{month}}", "year":"{{year}}"}\'>{{day-event}}</span></td>',
 				day: function(day, date, event) { // rendering every day
 					var text = [];
 
@@ -27,7 +27,9 @@
 					}
 					return this.options.weekDays[date.getDay()] + '., ' +
 						day + '. ' + this.options.months[date.getMonth()] +
-						text.join('');
+						// '<div class="event-list">' +
+						text.join('') +
+						'' // </div>';
 				}
 			},
 			events: events // external data... see events.js
