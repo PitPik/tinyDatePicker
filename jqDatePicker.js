@@ -13,7 +13,7 @@
 
     // this is just a wrapper to use DatePicker as jQuery plugin
     $.fn.datePicker = function(options) {
-        this.datePicker = new DatePicker(this.filter('*'), options);
+        this.datePicker = new DatePicker(this, options); // .filter('*')
 
         return this;
     };

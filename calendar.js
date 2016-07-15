@@ -84,10 +84,10 @@
 
 	Calendar.prototype.getMonth = function(year, month, week) {
 		var date = new Date(+year, +month - 1, 1),
-			key = date.getFullYear() + '-' + (date.getMonth() + 1) + (week ? '-' + week : ''),
+			key = year + '-' + month + (week ? '-' + week : ''),
 			html = this.html[key] || _assembleMonth(date, week, this);
 
-		if(this.options.useCache) {
+		if (this.options.useCache) {
 			this.html[key] = html;
 		}
 
