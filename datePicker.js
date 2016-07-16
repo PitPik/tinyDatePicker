@@ -185,9 +185,8 @@
 			isPM = hasAMPM ? +date.hour >= 12 : undefined;
 			date.second = /:SS/.test(timeFormat) ? date.second : undefined;
 			date.AMPM = hasAMPM ? (isPM ? 'PM' : 'AM') : undefined;
-			date.hour = hasAMPM && isPM ? lZ(
-				+date.hour === 12 ? 12 : +date.hour - 12
-			) : date.hour;
+			date.hour = hasAMPM && isPM ?
+				lZ(+date.hour === 12 ? 12 : +date.hour - 12) : date.hour;
 		} else if (!value && !timeFormat) {
 			date.hour = undefined; // ignores time rendering
 		}
@@ -196,13 +195,15 @@
 
 	function addLimiters(_this, options, element, partner, id) {
 		var values = [
-			element.getAttribute(options.minDateAttribute) || options.minDate,
-			element.getAttribute(options.maxDateAttribute) || options.maxDate,
-			partner && partner.value.split(' ')[0]];
+				element.getAttribute(options.minDateAttribute) || options.minDate,
+				element.getAttribute(options.maxDateAttribute) || options.maxDate,
+				partner && partner.value.split(' ')[0]
+			];
 
 		values = values[2] ? sortDates(values[2],
-			partner.hasAttribute(options.rangeStartAttribute) ?
-			values[1] : values[0]) : values;
+				partner.hasAttribute(options.rangeStartAttribute) ?
+				values[1] : values[0]) :
+			values;
 
 		_this.minDate = getDateObject(values[0]);
 		_this.maxDate = getDateObject(values[1]);
@@ -233,10 +234,10 @@
 			maxDate = _this.maxDate,
 			dateValue = 0;
 
-		date.minMonth = +date.year <= +minDate.year ? +minDate.month : 1,
-		date.maxMonth = +date.year >= +maxDate.year ? +maxDate.month : 12,
-		dateValue = +(date.year + date.month),
-		date.isMinDate = dateValue <= +(minDate.year + minDate.month),
+		date.minMonth = +date.year <= +minDate.year ? +minDate.month : 1;
+		date.maxMonth = +date.year >= +maxDate.year ? +maxDate.month : 12;
+		dateValue = +(date.year + date.month);
+		date.isMinDate = dateValue <= +(minDate.year + minDate.month);
 		date.isMaxDate = dateValue >= +(maxDate.year + maxDate.month);
 
 		if (date.isMinDate) { // correct dates if exceeded

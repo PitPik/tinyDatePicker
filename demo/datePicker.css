@@ -121,6 +121,10 @@
 	color: #999;
 }
 
+.dp-label:hover {
+    color: #FFF;
+}
+
 /* ---------------------- */
 .dp-footer {
 	margin: 0;
