@@ -1,4 +1,4 @@
-(function (root, factory) { // 15.54 KB, 8.22 KB, 3.21 KB
+(function (root, factory) { // 15.70 KB, 8.42 KB, 3.23 KB
 	if (typeof exports === 'object') {
 		module.exports = factory(root, require('calendar'));
 	} else if (typeof define === 'function' && define.amd) {
@@ -137,14 +137,6 @@
 		var path = e.path || [],
 			node = e.target,
 			options = _this.options,
-			isFocusIn = e.type === 'focus',
-			currentPartner = _this.currentPartner,
-			values = [],
-			value = '',
-			date = {},
-			timeFormat = '',
-			hasAMPM = false,
-			isPM = false,
 			id = 'datePicker';
 
 		while(!e.path && node) { // in case e.path doesn't exist
@@ -153,133 +145,152 @@
 		}
 
 		if ([].indexOf.call(options.elements, e.target) !== -1) {
-			if (_this.isOpen && !isFocusIn) return;
-			_this.calendar = _this.calendar || new Calendar(_this.options);
+			if (_this.isOpen && e.type !== 'focus') return;
+			if (!_this.datePicker) {
+				_this.calendar = new Calendar(options);
+				_this.datePicker = installDatePicker(_this, options, _this.calendar);
+			}
 			_this.calendar.removeEvent(id);
 
-			// set correct day / time format TODO: revisit and optimize
-			value = options.readValue.call(_this, e.target);
-			_this.date = date = getDateObject(value || getDateString(new Date(), true));
-			timeFormat = e.target.getAttribute(options.timeFormatAttribute);
-			timeFormat = timeFormat !== null ? timeFormat : options.timeFormat;
-			if (!value && timeFormat) {
-				hasAMPM = /\s+(?:A|P)M/.test(timeFormat);
-				isPM = hasAMPM ? +date.hour >= 12 : undefined;
-				date.second = /:SS/.test(timeFormat) ? date.second : undefined;
-				date.AMPM = hasAMPM ? (isPM ? 'PM' : 'AM') : undefined;
-				date.hour = hasAMPM && isPM ? lZ(
-					+date.hour === 12 ? 12 : +date.hour - 12
-				) : date.hour;
-			} else if (!value && !timeFormat) {
-				date.hour = undefined; // ignores time rendering
-			}
-
+			_this.date = getDateTime(_this, options, e.target);
 			_this.isOpen = true;
 			_this.toggled = _this.currentInput !== e.target;
 			_this.currentInput = e.target;
-			_this.currentPartner = currentPartner = getPartner(_this, e.target);
-			_this.currentDate = getDateObject(assembleDate(date)); // is new object
-			// add limiters for date ranges... native and range picker
-			values = [
-				e.target.getAttribute(options.minDateAttribute) || options.minDate,
-				e.target.getAttribute(options.maxDateAttribute) || options.maxDate,
-				currentPartner && currentPartner.value.split(' ')[0]];
-			values = values[2] ? sortDates(values[2],
-				currentPartner.hasAttribute(options.rangeStartAttribute) ?
-				values[1] : values[0]) : values;
-			_this.minDate = getDateObject(values[0]);
-			_this.maxDate = getDateObject(values[1]);
-			addDateLimiter(_this, undefined, values[0], id);
-			addDateLimiter(_this, values[1], undefined, id);
+			_this.currentPartner = getPartner(_this, e.target);
+			_this.currentDate = getDateObject(assembleDate(_this.date)); // is new object
 
-			renderDatePicker(_this, e.target, date);
+			addLimiters(_this, options, e.target, _this.currentPartner, id);
+			renderDatePicker(_this, e.target, _this.date);
 			_this.toggled = false;
 		} else if (_this.isOpen && _this.datePicker && path.indexOf(_this.datePicker) === -1) {
 			_this.isOpen = false;
 			_this.toggled = true;
 			renderCallback(_this);
 			_this.calendar.removeEvent(id);
-			_this.currentInput = _this.currentDate = _this.date = undefined;
+			_this.currentInput = _this.currentPartner =
+				_this.currentDate = _this.date = undefined;
 		}
+	}
+
+	function getDateTime(_this, options, element) { // revisit
+		var value = options.readValue.call(_this, element),
+			date = getDateObject(value || getDateString(new Date(), true)),
+			timeFormat = element.getAttribute(options.timeFormatAttribute),
+			hasAMPM = false,
+			isPM = false;
+
+		timeFormat = timeFormat !== null ? timeFormat : options.timeFormat;
+		if (!value && timeFormat) {
+			hasAMPM = /\s+(?:A|P)M/.test(timeFormat);
+			isPM = hasAMPM ? +date.hour >= 12 : undefined;
+			date.second = /:SS/.test(timeFormat) ? date.second : undefined;
+			date.AMPM = hasAMPM ? (isPM ? 'PM' : 'AM') : undefined;
+			date.hour = hasAMPM && isPM ? lZ(
+				+date.hour === 12 ? 12 : +date.hour - 12
+			) : date.hour;
+		} else if (!value && !timeFormat) {
+			date.hour = undefined; // ignores time rendering
+		}
+		return date;
+	}
+
+	function addLimiters(_this, options, element, partner, id) {
+		var values = [
+			element.getAttribute(options.minDateAttribute) || options.minDate,
+			element.getAttribute(options.maxDateAttribute) || options.maxDate,
+			partner && partner.value.split(' ')[0]];
+
+		values = values[2] ? sortDates(values[2],
+			partner.hasAttribute(options.rangeStartAttribute) ?
+			values[1] : values[0]) : values;
+
+		_this.minDate = getDateObject(values[0]);
+		_this.maxDate = getDateObject(values[1]);
+		addDateLimiter(_this, undefined, values[0], id);
+		addDateLimiter(_this, values[1], undefined, id);
+	}
+
+	function installDatePicker(_this, options, calendar) {
+		var template = calendar.options.template,
+			datePicker = options.body.appendChild(document.createElement('div'));
+
+		template.row = template.row.replace(/<(.*?)>/, // extend template for picker
+			'<$1 ' + options.pickerAttribute + '="{{year}}-{{month}}-{{day}}">');
+		datePicker.className = options.datePickerClass;
+
+		addEvent(datePicker, 'click', function(e) {
+			onClick(_this, e);
+		}, false, _this);
+		addEvent(datePicker, 'change', function(e) {
+			onChange(_this, e);
+		}, false, _this);
+
+		return datePicker;
+	}
+
+	function getMinMax(_this, date) {
+		var minDate = _this.minDate,
+			maxDate = _this.maxDate,
+			dateValue = 0;
+
+		date.minMonth = +date.year <= +minDate.year ? +minDate.month : 1,
+		date.maxMonth = +date.year >= +maxDate.year ? +maxDate.month : 12,
+		dateValue = +(date.year + date.month),
+		date.isMinDate = dateValue <= +(minDate.year + minDate.month),
+		date.isMaxDate = dateValue >= +(maxDate.year + maxDate.month);
+
+		if (date.isMinDate) { // correct dates if exceeded
+			date.year = minDate.year;
+			date.month = minDate.month;
+		} else if (date.isMaxDate) {
+			date.year = maxDate.year;
+			date.month = maxDate.month;
+		}
+		return date;
 	}
 
 	function renderDatePicker(_this, element, date) {
 		var options = _this.options,
 			calendar = _this.calendar,
-			container = _this.datePicker = _this.datePicker ||
-				options.body.appendChild(document.createElement('div')),
-			template = calendar.options.template,
-			day,
-			// min max calculations
-			minDate = _this.minDate,
-			maxDate = _this.maxDate,
-			minMonth = +date.year <= +minDate.year ? +minDate.month : 1,
-			maxMonth = +date.year >= +maxDate.year ? +maxDate.month : 12,
-			dateValue = +(date.year + date.month),
-			isMinDate = dateValue <= +(minDate.year + minDate.month),
-			isMaxDate = dateValue >= +(maxDate.year + maxDate.month);
+			container = _this.datePicker,
+			day;
 
-		if (isMinDate) { // correct dates if exceeded
-			date.year = minDate.year;
-			date.month = minDate.month;
-		} else if (isMaxDate) {
-			date.year = maxDate.year;
-			date.month = maxDate.month;
-		}
+		date = getMinMax(_this, date);
 
-		if (!container.innerHTML) { // only once...
-			template.row = template.row.replace(/<(.*?)>/, // extend template for picker
-				'<$1 ' + options.pickerAttribute + '="{{year}}-{{month}}-{{day}}">');
-			container.className = options.datePickerClass;
+		container.innerHTML = (date.year ? options.header. // render top (month, year selection)
+			replace('{{year}}', date.year).
+			replace('{{years}}', getOptionsHTML(
+				+_this.minDate.year, +_this.maxDate.year, date.year)).
+			replace('{{month}}', calendar.options.months[(date.month) - 1]).
+			replace('{{months}}',getOptionsHTML(
+				date.minMonth, date.maxMonth, date.month, calendar.options.months, 1)).
+			replace('{{day}}', date.day).
+			replace('{{next}}', options.nextLabel).
+			replace('{{prev}}', options.prevLabel).
+			replace('{{disable-next}}', date.isMaxDate ? ' disabled=""' : '').
+			replace('{{disable-prev}}', date.isMinDate ? ' disabled=""' : '') : '') +
 
-			addEvent(container, 'click', function(e) {
-				onClick(_this, e);
-			}, false, _this);
-			addEvent(container, 'change', function(e) {
-				onChange(_this, e);
-			}, false, _this);
-		}
+		(!date.year || !date.day ? '' : // render month
+			calendar.getMonth(date.year, date.month).html) +
 
-		container.innerHTML = !date.year || !date.day ? '' :
-			calendar.getMonth(date.year, date.month).html;
+		(date.hour && options.footer ? options.footer. // render bottom (time selection)
+			replace('{{hour}}', date.hour).
+			replace('{{hours}}', getOptionsHTML(
+				0, options.doAMPM || date.AMPM ? 12 : 24, date.hour)).
+			replace('{{minute}}', ' : ' + date.minute).
+			replace('{{minutes}}', getOptionsHTML(
+				0, 59, date.minute, null, null, options.minuteSteps)).
+			replace('{{second}}', date.second ? ' : ' + date.second : '').
+			replace('{{seconds}}', date.second ? getOptionsHTML(
+				0, 59, date.second, null, null, options.secondSteps) : '').
+			replace('{{am-pm}}', date.AMPM || '').
+			replace('{{am-pms}}', date.AMPM ? getOptionsHTML(
+				0, 1, options.AMPM.indexOf(date.AMPM), options.AMPM) : '') : '');
 		// mark current date
 		day = container.querySelector('[' + options.pickerAttribute + '="' +
 			(assembleDate(_this.currentDate, true).replace(/-0/g, '-')) + '"]'); // fix lZ problem
 		if (day) {
 			day.className += ' ' + options.selectedDayClass;
-		}
-
-		// render top (month, year selection)
-		if (date.year) {
-			container.insertAdjacentHTML('afterbegin', options.header.
-				replace('{{year}}', date.year).
-				replace('{{years}}', getOptionsHTML(
-					+minDate.year, +maxDate.year, date.year)).
-				replace('{{month}}', calendar.options.months[(date.month) - 1]).
-				replace('{{months}}',getOptionsHTML(
-					minMonth, maxMonth, date.month, calendar.options.months, 1)).
-				replace('{{day}}', date.day).
-				replace('{{next}}', options.nextLabel).
-				replace('{{prev}}', options.prevLabel).
-				replace('{{disable-next}}', isMaxDate ? ' disabled=""' : '').
-				replace('{{disable-prev}}', isMinDate ? ' disabled=""' : ''));
-		}
-
-		// render bottom (time selection)
-		if (date.hour && options.footer) {
-			container.insertAdjacentHTML('beforeend', options.footer.
-				replace('{{hour}}', date.hour).
-				replace('{{hours}}', getOptionsHTML(
-					0, options.doAMPM || date.AMPM ? 12 : 24, date.hour)).
-				replace('{{minute}}', ' : ' + date.minute).
-				replace('{{minutes}}', getOptionsHTML(
-					0, 59, date.minute, null, null, options.minuteSteps)).
-				replace('{{second}}', date.second ? ' : ' + date.second : '').
-				replace('{{seconds}}', date.second ? getOptionsHTML(
-					0, 59, date.second, null, null, options.secondSteps) : '').
-				replace('{{am-pm}}', date.AMPM || '').
-				replace('{{am-pms}}', date.AMPM ? getOptionsHTML(
-					0, 1, options.AMPM.indexOf(date.AMPM), options.AMPM) : ''));
 		}
 		renderCallback(_this);
 	}
@@ -373,7 +384,7 @@
 		_this.calendar.addEvent({
 			className: _this.options.disabledClass,
 			type: _this.options.disabledClass,
-			start: start ? addDays(_this, start, 1, true) : start,
+			start: start ? addDays(_this, start, 1) : start,
 			end : end ? addDays(_this, end, -1, true) : end
 		}, element);
 	}

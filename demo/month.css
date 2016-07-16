@@ -201,3 +201,19 @@
 	border: 1px solid transparent;
 }
 
+/* ------ DIV based ------ */
+.div-based {
+	display: inline-block;
+}
+.div-based:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+.div-based div {
+	float: left;
+	width: 19px;
+}
+.cleared-day {
+	clear: both;
+}
