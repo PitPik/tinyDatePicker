@@ -28,7 +28,7 @@ If you don't want a jQuery dependency just use ```datePicker.min.js``` (the java
 ```javascript
 <script type="text/javascript" src="datePicker.min.js"></script>
 <script type="text/javascript">
-    var myDates = new DatePicker('.date', [options]);
+    var myDates = new DatePicker('.date', [options]); // first arg. can also be ElementCollection/Array or $()
 </script>
 ```
 or for debugging:
@@ -36,7 +36,7 @@ or for debugging:
 <script type="text/javascript" src="calendar.js"></script>
 <script type="text/javascript" src="datePicker.js"></script>
 <script type="text/javascript">
-    var myDates = new DatePicker('.date', [options]);
+    var myDates = new DatePicker('.date', [options]); // first arg. can also be ElementCollection/Array or $()
 </script>
 ```
 ```datePicker.js``` doesn't render anything or installs event listeners for the UI and doesn't initialize Caledar until you first use it (focusing / clicking an input field) to save memory and keep markup as small as possible.
