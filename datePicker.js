@@ -148,7 +148,7 @@
 			if (_this.isOpen && e.type !== 'focus') return;
 			if (!_this.datePicker) {
 				_this.calendar = new Calendar(options);
-				_this.datePicker = installDatePicker(_this, options, _this.calendar);
+				_this.datePicker = installPicker(_this, options, _this.calendar);
 			}
 			_this.calendar.removeEvent(id);
 
@@ -210,7 +210,7 @@
 		addDateLimiter(_this, values[1], undefined, id);
 	}
 
-	function installDatePicker(_this, options, calendar) {
+	function installPicker(_this, options, calendar) {
 		var template = calendar.options.template,
 			datePicker = options.body.appendChild(document.createElement('div'));
 
@@ -253,7 +253,7 @@
 		var options = _this.options,
 			calendar = _this.calendar,
 			container = _this.datePicker,
-			day;
+			selectedDay = {};
 
 		date = getMinMax(_this, date);
 
@@ -287,10 +287,10 @@
 			replace('{{am-pms}}', date.AMPM ? getOptionsHTML(
 				0, 1, options.AMPM.indexOf(date.AMPM), options.AMPM) : '') : '');
 		// mark current date
-		day = container.querySelector('[' + options.pickerAttribute + '="' +
+		selectedDay = container.querySelector('[' + options.pickerAttribute + '="' +
 			(assembleDate(_this.currentDate, true).replace(/-0/g, '-')) + '"]'); // fix lZ problem
-		if (day) {
-			day.className += ' ' + options.selectedDayClass;
+		if (selectedDay) {
+			selectedDay.className += ' ' + options.selectedDayClass;
 		}
 		renderCallback(_this);
 	}

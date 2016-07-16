@@ -204,6 +204,17 @@
 				}
 
 				row.push(template[isWeekNo ? 'weekNo' : 'row'].
+					replace(/class="(.*?)"/, function($1, $2) { // revisit
+					return 'class="' + _removeWhitespace($2 + ' ' +
+					(isWeekNo ? options.weekNoClass : // week no
+					(displayedMonth === currentMonth ? options.currentMonthClass : // day type
+						isPreviousMonth ? options.prevMonthClass :
+						options.nextMonthClass) + ' ' +
+						(className.join(' ').replace(/(\b\w+\s+)*\1/g, "$1") || '') + ' ' + // events
+					(isToday ? options.todayClass : '') + ' ' + // today
+					(options.workingDays.indexOf(currentDate.getDay()) === -1 ? // working day
+						options.weekEndClass : ''))) + '"';
+				}).
 				replace(/{{day}}/g, isWeekNo ? _getWeekNumber(currentDate) : displayedDay).
 				replace(/{{day-event}}/g, displayedDay && template.day.call(
 					_this, displayedDay, currentDate, eventCollection) || displayedDay).
@@ -212,18 +223,7 @@
 				replace(/{{today}}/g, isToday && template.today.call(
 					_this, displayedDay, currentDate) || '').
 				replace(/{{event}}/g, eventCollection.length && template.event.call(
-					_this, displayedDay, currentDate, eventCollection) || '').
-				replace(/class="(.*?)"/, function($1, $2) { // revisit
-					return 'class="' + _removeWhitespace($2 + ' ' +
-					(isWeekNo ? options.weekNoClass : // week no
-					(displayedMonth === currentMonth ? options.currentMonthClass : // day type
-						isPreviousMonth ? options.prevMonthClass :
-						options.nextMonthClass) + ' ' +
-						(className.join(' ').replace(/\b(\w+)\s+\1\b/g, "$1") || '') + ' ' + // events
-					(isToday ? options.todayClass : '') + ' ' + // today
-					(options.workingDays.indexOf(currentDate.getDay()) === -1 ? // working day
-						options.weekEndClass : ''))) + '"';
-				}));
+					_this, displayedDay, currentDate, eventCollection) || ''));
 
 				if (isWeekNo) { // set back
 					currentDate.setDate(currentDate.getDate() - 1);
