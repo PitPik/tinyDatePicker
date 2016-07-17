@@ -45,6 +45,11 @@ The standard date/time formats datePicker works with is: 'YYYY-MM-DD HH:MM:SS AM
 
 See the Demos at ```/demo/index.html``` or [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker) for more examples on how ```calendar.js``` and ```datePicker.js``` can be used. You can also build a whole agenda app with only a fiew options added...
 
+## Themes
+calendar and datePicker are, because of their options, very flexible in how to render markup so that it is very easy to change the look and feel and the grade of information you want to provide in your calendars. Changing from a table-based month view to a div-based view (see month.js) is that easy and you're also free in chooseing, changing and adding your own class names and markup.
+
+So, feel free to participate and create some nice themes and let me know where they are: I'll publish the links to your work right here.
+
 ## AMD / CommonJS wrapper
 tinyDatePicker supports AMD and CommonJS import in all, the minified versions and the single files (```calendar.js```, ```datePicker.js``` and ```jqDatePicker.js```).
 
