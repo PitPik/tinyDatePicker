@@ -11,8 +11,7 @@
 }(this, function(window, undefined) {
 	'use strict';
 
-	var _today = new Date(),
-		_noop = function() {return ''},
+	var _noop = function() {return ''},
 		Calendar = function(options) {
 			this.options = {
 				sundayBased: true,
@@ -151,7 +150,7 @@
 				new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()) / 7),
 			template = options.template,
 			renderWeekNo = options.renderWeekNo,
-			today = _today.toDateString(),
+			today = new Date().toDateString(),
 			row = [],
 			col = [],
 			isWeekNo = false,
