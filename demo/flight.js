@@ -15,24 +15,22 @@
 				},
 				row: '<div class="flight">{{day-event}}</div>',
 				day: function(day, date, event) { // rendering every day
-					var text = [];
+					event = event[0] || { // assume only 1 or 0 event
+						className: '',
+						_id: '',
+						text: ''
+					};
 
-					for (var n = 0, m = event.length; n < m; n++) {
-						text.push('<span class="single-flight ' + (event[n].className || '') +
-							'" data-uuid="' + event[n]._id + '">' +
-							(event[n].text || '') + '</span>');
-					}
 					return this.options.weekDays[date.getDay()] + '., ' +
 						this.options.months[date.getMonth()] + ' ' + day +
-						text.join('');
+						'<span class="item ' + event.className +
+						'" data-uuid="' + event._id + '">' + event.text + '</span>';
 				}
 			},
 			events: [{
 				at: '2016-08-07',
 				className: 'available',
 				text: 'for <span>€96.00</span>'
-			},{
-				at: '2016-08-08'
 			},{
 				at: '2016-08-09',
 				className: 'available',

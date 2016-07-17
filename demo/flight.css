@@ -21,7 +21,7 @@
 	margin-right: 8px;
 	color: #aaa;
 }
-.flights .single-flight {
+.flights .item {
 	display: block;
 	background-color: rgba(255, 255, 255, .1);
 	margin: 4px -7px 0;
@@ -31,21 +31,21 @@
 	vertical-align: middle;
 }
 
-.flights .single-flight.available {
+.flights .item.available {
 	background-color: rgba(100, 255, 100, .2);
 	margin: 4px -7px 0;
 	padding: 4px 7px;
 	height: 72px;
 }
 
-.flights .single-flight.not-available {
+.flights .item.not-available {
 	background-color: rgba(255, 100, 100, .2);
 	margin: 4px -7px 0;
 	padding: 4px 7px;
 	height: 72px;
 }
 
-.single-flight span {
+.item span {
 	font-size: 18px;
 }
 .flights .current-month:before, .flights .previous-month:before, .flights .next-month:before {
