@@ -23,6 +23,9 @@
 }
 .flights .item {
 	display: block;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	background-color: rgba(255, 255, 255, .1);
 	margin: 4px -7px 0;
 	padding: 4px 7px;
@@ -47,6 +50,7 @@
 
 .item span {
 	font-size: 18px;
+	margin-left: 6px;
 }
 .flights .current-month:before, .flights .previous-month:before, .flights .next-month:before {
 	width: 100%;
