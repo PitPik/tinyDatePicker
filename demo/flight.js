@@ -22,7 +22,7 @@
 					};
 
 					return this.options.weekDays[date.getDay()] + '., ' +
-						this.options.months[date.getMonth()] + ' ' + day +
+						this.options.months[date.getMonth()] + '. ' + day +
 						'<span class="item ' + event.className +
 						'" data-uuid="' + event._id + '">' + event.text + '</span>';
 				}

@@ -1,23 +1,23 @@
 window.events = [{
-		end: '2016-03-25',
-		className: 'disabled',
-		type: 'disabled'
+		end: '2016-03-25', // end only: from -29719-04-06 -> 2016-03-25
+		className: 'disabled', // also use className for datePicker option.disabledClass
+		type: 'disabled' // optional (all extra properties will be available in callbacks)
 	},{
 		start: '2016-07-27',
 		end: '2016-08-25',
 		className: 'brown some-class',
-		type: 'disabled' // optional
+		type: 'disabled'
 	},{
-		start: '2016-11-25',
+		start: '2016-11-25', // start only: 2016-11-25 -> 33658-09-27
 		className: 'green',
 		type: 'disabled'
 	},{
-		at: '2016-05-08',
+		at: '2016-05-08', // at only: 2016-05-08 00:00:00 -> 2016-05-08 23:59:59
 		className: 'event',
 		text: 'Someones\' Birthday' // optional
 	},{
-		start: '2016-05-08 08:00',
-		end: '2016-05-08 10:00',
+		start: '2016-05-08 08:00', // time always in 24h HH:MM[:SS] format
+		end: '2016-05-08 10:00', // if no time: -> 23:59:59
 		className: 'event',
 		text: 'Get flowers for Someone'
 	},{

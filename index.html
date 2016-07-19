@@ -54,11 +54,17 @@
 			<input class="date" type="hidden" value="2016-06-23" />
 			<button class="date-3 button">datePicker</button>
 		</div>
-		<p>TIP: The values don't have to be stored in hidden variables, they can also be received and stored in local storage or javascript variables (inspect window.dates):</p>
+		<p>TIP: The values don't have to be stored in hidden variables, they can also be received and stored in local storage or javascript variables (inspect window.dates), or let an MVC framework do the job:</p>
 		<div>
 			<input class="date date-4" value="" data-date="date-1" />
 			<input class="date date-4" value="" data-date="date-2" />
 			<input class="date date-4" value="" data-date="date-3" />
+		</div>
+		<p>Same as above but simpler markup (DIV based):</p>
+		<div>
+			<input class="date date-5" value="" data-date="date-1" />
+			<input class="date date-5" value="" data-date="date-2" />
+			<input class="date date-5" value="" data-date="date-3" />
 		</div>
 	</div>
 
@@ -94,7 +100,19 @@
 <script type="text/javascript">
 	'use strict';
 
+	function extend(a, b) { // extend a with properties of b not in a; simple version
+		for(var key in b) {
+			if(!a.hasOwnProperty(key)) {
+				a[key] = b[key];
+			}
+		}
+		return a;
+	}
+
 	// The following are demos for the datePicker
+	// these options render week days, events, today icon and
+	// icons for the amount of events per day (excl 'disabled').
+	// Will be used in all other examples as well (extendet).
 	var options = {
 			weekDays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
 			months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
@@ -119,7 +137,7 @@
 					for (var n = 0, week = 0; n < 7; n++) { // week days
 						week = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
 						row.push(weekDayRow.replace(/class="(.*?)"/, function($1, $2) {
-							return 'class="' + options.weekDayClass + ' ' +
+							return 'class="' + $2 + ' ' + options.weekDayClass + ' ' +
 								(options.workingDays.indexOf(week) === -1 ?
 								options.weekEndClass : '') + '"';
 						}).replace(/{{day}}/g, options.weekDays[week]));
@@ -165,16 +183,40 @@
 				}
 			},
 			events: events // external data... see events.js
-		},
-		// regular example that enables all kinds of different formats and ranges...
-		datePicker = window.myDatePicker = new DatePicker('.date-1', options);
+		};
+
+	// regular example that enables all kinds of different formats and ranges...
+	window.myDatePicker = new DatePicker('.date-1', options);
 		
 
-	// prepare a second instance with different options
+	// prepare a second instance with some different options
 	// Example for hidden input field triggered by a button and
 	// rendering a formatted value to a disabled input field.
-	var options_2 = {},
-		datePicker_2 = {},
+	var options_2 = {
+			initCallback: function(elements) {
+				for (var n = elements.length; n--; ) {
+					getInput(elements[n]).value = changeValueFormat(getInput(elements[n], true).value);
+				}
+			},
+			renderCallback: function(container, element, toggled) {
+				var _element = getInput(element),
+					bounds = _element.getBoundingClientRect();
+
+				container.style.cssText = !this.isOpen ? 'display: none' :
+					'left:' + (window.pageXOffset + bounds.left) + 'px;' +
+					'top:' + (window.pageYOffset + _element.offsetHeight + bounds.top) + 'px;';
+			},
+			renderValue: function(container, element, value) {
+				getInput(element).value = changeValueFormat(value);
+				getInput(element, true).value = value;
+			},
+			readValue: function(element) {
+				var value = getInput(element, true).value;
+
+				getInput(element).value = changeValueFormat(value);
+				return value;
+			}
+		},
 		getInput = function(element, hidden) {
 			return element.parentNode.querySelector('input' + (hidden ? '[type="hidden"]' : ''));
 		},
@@ -183,81 +225,63 @@
 			return date.toDateString();
 		};
 
-	for (var option in options) { // copy
-		options_2[option] = options[option];
-	}
-
-	options_2.initCallback = function(elements) {
-		for (var n = elements.length; n--; ) {
-			getInput(elements[n]).value = changeValueFormat(getInput(elements[n], true).value);
-		}
-	};
-	options_2.renderCallback = function(container, element, toggled) {
-		var _element = getInput(element),
-			bounds = _element.getBoundingClientRect();
-
-		container.style.cssText = !this.isOpen ? 'display: none' :
-			'left:' + (window.pageXOffset + bounds.left) + 'px;' +
-			'top:' + (window.pageYOffset + _element.offsetHeight + bounds.top) + 'px;';
-	};
-	options_2.renderValue = function(container, element, value) {
-		getInput(element).value = changeValueFormat(value);
-		getInput(element, true).value = value;
-	};
-	options_2.readValue = function(element) {
-		var value = getInput(element, true).value;
-
-		getInput(element).value = changeValueFormat(value);
-		return value;
-	};
-
-	datePicker_2 = window.myDatePicker_2 = new DatePicker('.date-2', options_2);
+	window.myDatePicker_2 = new DatePicker('.date-2', extend(options_2, options));
 
 
-
-	// prepare a third instance with different options
+	// prepare a third instance with some different options
 	// Example like the above but then year, month and day get
 	// rendered in seperate fields.
-	var options_3 = {},
-		datePicker_3 = {},
+	var options_3 = {
+			renderCallback: function(container, element, toggled) {
+				var _element = getInputs(element)[0],
+					bounds = _element.getBoundingClientRect();
+
+				container.style.cssText = !this.isOpen ? 'display: none' :
+					'left:' + (window.pageXOffset + bounds.left) + 'px;' +
+					'top:' + (window.pageYOffset + _element.offsetHeight + bounds.top) + 'px;';
+			},
+			renderValue: function(container, element, value) {
+				var inputs = getInputs(element),
+					val = value.split('-');
+
+				inputs[3].value = value;
+				inputs[0].value = val[0];
+				inputs[1].value = val[1]; // this.options.months[+val[1] - 1];
+				inputs[2].value = val[2];
+			},
+			readValue: function(element) {
+				var value = getInputs(element)[3].value;
+
+				this.options.renderValue.call(this, undefined, element, value);
+				return value;
+			}
+		},
 		getInputs = function(element, hidden) {
 			return element.parentNode.querySelectorAll('input');
 		};
 
-	for (var option in options) { // copy
-		options_3[option] = options[option];
-	}
+	window.myDatePicker_3 = new DatePicker('.date-3', extend(options_3, options));
 
-	options_3.renderCallback = function(container, element, toggled) {
-		var _element = getInputs(element)[0],
-			bounds = _element.getBoundingClientRect();
 
-		container.style.cssText = !this.isOpen ? 'display: none' :
-			'left:' + (window.pageXOffset + bounds.left) + 'px;' +
-			'top:' + (window.pageYOffset + _element.offsetHeight + bounds.top) + 'px;';
-	};
-	options_3.renderValue = function(container, element, value) {
-		var inputs = getInputs(element),
-			val = value.split('-');
-
-		inputs[3].value = value;
-		inputs[0].value = val[0];
-		inputs[1].value = val[1]; // this.options.months[+val[1] - 1];
-		inputs[2].value = val[2];
-	};
-	options_3.readValue = function(element) {
-		var value = getInputs(element)[3].value;
-
-		this.options.renderValue.call(this, undefined, element, value);
-		return value;
-	};
-
-	datePicker_3 = window.myDatePicker_3 = new DatePicker('.date-3', options_3);
-
-	// prepare a fourth instance with different options
+	// prepare a fourth instance with some different options
 	// Example with data from variables.
-	var options_4 = {},
-		datePicker_4 = {},
+	var options_4 = {
+			weekDaysLong:
+				['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+			initCallback: function(elements) {
+				for (var n = elements.length; n--; ) {
+					elements[n].value =
+						changeValueFormat_de(dates[elements[n].getAttribute(dataAttr)], this.options);
+				}
+			},
+			renderValue: function(container, element, value) {
+				dates[element.getAttribute(dataAttr)] = value;
+				element.value = changeValueFormat_de(value, this.options);
+			},
+			readValue: function(element) {
+				return dates[element.getAttribute(dataAttr)];
+			}
+		},
 		dates = window.dates = {
 			'date-1': '2016-06-23',
 			'date-2': '2016-07-26',
@@ -272,27 +296,47 @@
 				options.months[date.getMonth()] + ' ' + date.getFullYear();
 		};
 
-	for (var option in options) { // copy
-		options_4[option] = options[option];
-	}
+	window.myDatePicker_4 = new DatePicker('.date-4', extend(options_4, options));
 
-	options_4.weekDaysLong =
-		['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
-	options_4.initCallback = function(elements) {
-		for (var n = elements.length; n--; ) {
-			elements[n].value =
-				changeValueFormat_de(dates[elements[n].getAttribute(dataAttr)], this.options);
-		}
-	};
-	options_4.renderValue = function(container, element, value) {
-		dates[element.getAttribute(dataAttr)] = value;
-		element.value = changeValueFormat_de(value, this.options);
-	};
-	options_4.readValue = function(element) {
-		return dates[element.getAttribute(dataAttr)];
-	};
 
-	datePicker_4 = window.myDatePicker_4 = new DatePicker('.date-4', options_4);
+	// Example with less markup but week days.
+	window.myDatePicker_5 = new DatePicker('.date-5', extend({
+		sundayBased: false,
+		renderWeekNo: false,
+		equalHight: false,
+		datePickerClass: 'date-picker div-based',
+		template: {
+			start: function(month, year) { // rendering week days
+				var options = this.options,
+					weekDayRow = '<div class="item">{{day}}</div>',
+					row = [];
+
+				if (options.renderWeekNo) { // week number head
+					row.push(weekDayRow.replace(/{{day}}/g, options.weekDayRowHead));
+				}
+
+				for (var n = 0, week = 0; n < 7; n++) { // week days
+					week = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
+					row.push(weekDayRow.replace(/class="(.*?)"/, function($1, $2) {
+						return 'class="' + $2 + ' ' + options.weekDayClass + ' ' +
+							(options.workingDays.indexOf(week) === -1 ?
+							options.weekEndClass : '') + '"';
+					}).replace(/{{day}}/g, options.weekDays[week]));
+				}
+				return row.join('');
+				},
+			colGlue: '',
+			row: '<div class="item{{day-event}}">{{day}}</div>',
+			end: function() {return ''},
+			day: function(days, date) {
+				if (date.getDay() === (!this.options.sundayBased ? 1 : 0)) {
+					return ' cleared-day';
+				}
+				return ' ';
+			}
+		},
+		events: events
+	}, options_4));
 </script>
 
 </body>

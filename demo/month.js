@@ -60,9 +60,9 @@
 	// 	template: {
 	// 		start: function() {return ''},
 	// 		colGlue: '',
-	// 		row: '<div class="{{day-event}}">{{day}}</div>',
+	// 		row: '<div class="item {{day-event}}">{{day}}</div>',
 	// 		end: function() {return ''},
-	// 		day: function(dasy, date) {
+	// 		day: function(days, date) {
 	// 			if (date.getDay() === (!this.options.sundayBased ? 1 : 0)) {
 	// 				return ' cleared-day';
 	// 			}
