@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		.date-picker { /* given in options.datePickerClass; the picker itself */
+			position: absolute;
+		}
+		.previous-month, .next-month { /* option.prevMonthClass ,... */
+			color: #ddd; /* days outside of current month */
+		}
+		.disabled { /* from options.disabledClass */
+			color: #666;
+			text-decoration: line-through;
+		}
+
+		/* --- the UI for the picker (next, prev, month, year and time) --- */
+		.dp-title, .dp-footer { /* defined in HTML of option.header and option.footer */
+			text-align: center;
+			min-width: 140px; /* good for time picker or year/month only */
+		}
+		.dp-label {
+			position: relative;
+			display: inline-block;
+			overflow: hidden;
+		}
+		.dp-title select, .dp-footer select {
+			position: absolute;
+			left: 0; /* cover text but... */
+			top: 0;
+			opacity: 0; /* ...make other text visible */
+		}
+		.dp-prev, .dp-next { /* options.nextButtonClass, ... */
+			overflow: hidden;
+			background-color: transparent;
+			padding: 0;
+
+			float: left; /* will be overwritten for .dp-next */
+
+			width: 0px; /* draw arrow with borders */
+			height: 0px;
+			border: 6px solid #000;
+			border-color: transparent #000 transparent transparent;
+		}
+		.dp-next {
+			border-color: transparent transparent transparent #000;
+			float: right;
+		}
+		.dp-prev[disabled], .dp-next[disabled] {
+			border-color: transparent; /* or display:none */
+		}
+	</style>
+	<title>tiny date picker (minimalistic version)</title>
+</head>
+<body>
+
+<input class="date" value="2016-06-23" />
+<input class="date" value="2016-06-23 11:30 PM" />
+<input class="date" value="2016-05-10" data-mindate="2016-05-10" data-maxdate="2017-12-31" />
+<input class="date" value="1969-12-28" />
+<input class="date" value="2016-08" />
+<input class="date" value="11:30 PM" />
+
+<script type="text/javascript" src="../datePicker.min.js"></script>
+<script type="text/javascript">
+	'use strict';
+
+	var options = { // those options are only needed if you want the days of the week to be displayed
+			template: {
+				start: function(month, year) { // rendering week days in table header
+					var options = this.options,
+						weekDayRow = '<th class="">{{day}}</th>',
+						row = [];
+
+					if (options.renderWeekNo) { // week number head; extra <th> in case options.renderWeekNo === true
+						row.push(weekDayRow.replace(/{{day}}/g, options.weekDayRowHead));
+					}
+
+					for (var n = 0, week = 0; n < 7; n++) { // week days
+						week = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
+						row.push(weekDayRow.replace(/class="(.*?)"/, function($1, $2) {
+							return 'class="' + $2 + ' ' + (options.weekDayClass || '') + ' ' +
+								(options.workingDays.indexOf(week) === -1 ?
+								options.weekEndClass : '') + '"';
+						}).replace(/{{day}}/g, options.weekDays[week]));
+					}
+					return '<table class="cal-month"><thead><tr>' +
+						row.join('') +
+						'</tr></thead><tbody><tr>';
+				}
+			}
+		};
+
+	window.myDatePicker = new DatePicker('.date', options);
+</script>
+
+</body>
+</html>
