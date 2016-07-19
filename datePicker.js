@@ -385,6 +385,7 @@
 		_this.calendar.addEvent({
 			className: _this.options.disabledClass,
 			type: _this.options.disabledClass,
+			isLimiter: true,
 			start: start ? addDays(_this, start, 1) : start,
 			end : end ? addDays(_this, end, -1, true) : end
 		}, element);

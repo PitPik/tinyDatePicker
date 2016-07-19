@@ -301,7 +301,6 @@
 
 	// Example with less markup but week days.
 	window.myDatePicker_5 = new DatePicker('.date-5', extend({
-		sundayBased: false,
 		renderWeekNo: false,
 		equalHight: false,
 		datePickerClass: 'date-picker div-based',
@@ -324,18 +323,17 @@
 					}).replace(/{{day}}/g, options.weekDays[week]));
 				}
 				return row.join('');
-				},
+			},
 			colGlue: '',
 			row: '<div class="item{{day-event}}">{{day}}</div>',
 			end: function() {return ''},
 			day: function(days, date) {
-				if (date.getDay() === (!this.options.sundayBased ? 1 : 0)) {
+				if (date.getDay() === (this.options.sundayBased ? 0 : 1)) {
 					return ' cleared-day';
 				}
 				return ' ';
 			}
-		},
-		events: events
+		}
 	}, options_4));
 </script>
 
