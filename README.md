@@ -4,7 +4,10 @@
 This 4.91KB (gZip; 11.79KB minified) small date/time picker provides a lot of hooks for developers to write calendars, agendas, booking systems, plugins, etc. This is not only a picker but a set of modules that can be used to build a date/agenda based app.
 
 ##Demo
-See **demo** at [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker) or a clean version at [dematte.at/tinyDatePicker/naked](http://dematte.at/tinyDatePicker/naked)
+See **demos** at:
+    - [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker)
+    - or a clean version at [dematte.at/tinyDatePicker/naked](http://dematte.at/tinyDatePicker/naked)
+    - extended clean version in white [dematte.at/tinyDatePicker/white](http://dematte.at/tinyDatePicker/white)
 
 ## Usage
 
