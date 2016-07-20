@@ -1,0 +1,46 @@
+.date-picker { /* options.datePickerClass; the picker itself */
+	position: absolute;
+}
+.previous-month, .next-month { /* option.prevMonthClass ,... */
+	color: #ddd; /* days outside of current month */
+}
+.disabled { /* options.disabledClass */
+	color: #666;
+	/*text-decoration: line-through;*/
+}
+
+/* --- the UI for the picker (next, prev, month, year and time) --- */
+.dp-title, .dp-footer { /* defined in HTML of option.header and option.footer */
+	text-align: center;
+	min-width: 140px; /* good for time picker or year/month only */
+}
+.dp-label {
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+}
+.dp-title select, .dp-footer select {
+	position: absolute;
+	left: 0; /* cover text but... */
+	top: 0;
+	opacity: 0; /* ...make other text visible */
+}
+.dp-prev, .dp-next { /* options.nextButtonClass, ... */
+	overflow: hidden;
+	background-color: transparent;
+	padding: 0;
+
+	float: left; /* will be overwritten for .dp-next */
+
+	width: 0px; /* draw arrow with borders */
+	height: 0px;
+	border: 6px solid #000;
+	border-color: transparent #000 transparent transparent;
+}
+.dp-next {
+	border-color: transparent transparent transparent #000;
+	float: right;
+}
+.dp-prev[disabled], .dp-next[disabled] {
+	border-color: transparent; /* or display:none */
+}

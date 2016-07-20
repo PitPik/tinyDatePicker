@@ -1,0 +1,22 @@
+html, body {
+	height: 100%;
+}
+body {
+	padding: .5em 1em;
+	margin: 0;
+	font: normal normal normal 1em/1.35em Georgia, "Times New Roman", Times, serif;
+}
+
+
+input:focus {
+	outline: none;
+}
+
+.date {
+	padding: .5em;
+	margin-right: .4em;
+	margin-bottom: .8em;
+	border: 1px solid #aaa;
+	border-radius: 3px;
+	width: 140px;
+}

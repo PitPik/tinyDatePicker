@@ -80,13 +80,13 @@
 						row.push(weekDayRow.replace(/{{day}}/g, options.weekDayRowHead));
 					}
 
-					for (var n = 0, week = 0; n < 7; n++) { // week days
-						week = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
+					for (var n = 0, dayOfWeek = 0; n < 7; n++) { // week days
+						dayOfWeek = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
 						row.push(weekDayRow.replace(/class="(.*?)"/, function($1, $2) {
 							return 'class="' + options.weekDayClass + ' ' +
-								(options.workingDays.indexOf(week) === -1 ?
+								(options.workingDays.indexOf(dayOfWeek) === -1 ?
 								options.weekEndClass : '') + '"';
-						}).replace(/{{day}}/g, options.weekDays[week]));
+						}).replace(/{{day}}/g, options.weekDays[dayOfWeek]));
 					}
 					return '<table class="cal-month"><thead><tr>' +
 							row.join('') +

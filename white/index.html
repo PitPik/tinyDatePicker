@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<link rel="stylesheet" type="text/css" href="boilerplate.css">
+	<link rel="stylesheet" type="text/css" href="datePicker.css">
+	<title>tiny date picker (white version)</title>
+</head>
+<body>
+
+<input class="date" value="2016-06-23" />
+<input class="date" value="2016-06-23 11:30 PM" />
+<input class="date" value="2016-05-10" data-mindate="2016-05-10" data-maxdate="2017-12-31" />
+<input class="date" value="1969-12-28" />
+<input class="date" value="2016-08" />
+<input class="date" value="11:30 PM" />
+<input class="date" value="" />
+
+<script type="text/javascript" src="../datePicker.min.js"></script>
+<script type="text/javascript">
+	'use strict';
+
+	var options = {
+			sundayBased: false,
+			template: { // those options are only needed if you want the days of the week to be displayed
+				start: function(month, year) { // rendering week days in table header
+					var options = this.options,
+						weekDayRow = '<th class="">{{day}}</th>',
+						row = [];
+
+					if (options.renderWeekNo) { // week number head; extra <th> in case options.renderWeekNo === true
+						row.push(weekDayRow.replace(/{{day}}/g, options.weekDayRowHead));
+					}
+
+					for (var n = 0, dayOfWeek = 0; n < 7; n++) { // week days
+						dayOfWeek = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
+						row.push(weekDayRow.replace(/class="(.*?)"/, function($1, $2) {
+							return 'class="' + $2 + ' ' + (options.weekDayClass || '') + ' ' +
+								(options.workingDays.indexOf(dayOfWeek) === -1 ?
+								options.weekEndClass : '') + '"';
+						}).replace(/{{day}}/g, options.weekDays[dayOfWeek]));
+					}
+					return '<table class="cal-month"><thead><tr>' +
+						row.join('') +
+						'</tr></thead><tbody><tr>';
+				}
+			}
+		};
+
+	window.myDatePicker = new DatePicker('.date', options);
+</script>
+
+</body>
+</html>

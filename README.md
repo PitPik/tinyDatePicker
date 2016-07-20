@@ -52,6 +52,8 @@ The CSS in the demo is not very useful (quick and dirty), so you might want to m
 
 So, feel free to participate and create some nice themes and let me know where they are: I'll publish the links to your work right here.
 
+ - See "white" simple demo at ./white/index.html or [dematte.at/tinyDatePicker/white/](http://dematte.at/tinyDatePickerwhite/)
+
 ## AMD / CommonJS wrapper
 tinyDatePicker supports AMD and CommonJS import in all, the minified versions and the single files (```calendar.js```, ```datePicker.js``` and ```jqDatePicker.js```).
 
