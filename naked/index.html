@@ -2,13 +2,13 @@
 <html>
 <head>
 	<style type="text/css">
-		.date-picker { /* given in options.datePickerClass; the picker itself */
+		.date-picker { /* options.datePickerClass; the picker itself */
 			position: absolute;
 		}
 		.previous-month, .next-month { /* option.prevMonthClass ,... */
 			color: #ddd; /* days outside of current month */
 		}
-		.disabled { /* from options.disabledClass */
+		.disabled { /* options.disabledClass */
 			color: #666;
 			text-decoration: line-through;
 		}
@@ -75,13 +75,13 @@
 						row.push(weekDayRow.replace(/{{day}}/g, options.weekDayRowHead));
 					}
 
-					for (var n = 0, week = 0; n < 7; n++) { // week days
-						week = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
+					for (var n = 0, dayOfWeek = 0; n < 7; n++) { // week days
+						dayOfWeek = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
 						row.push(weekDayRow.replace(/class="(.*?)"/, function($1, $2) {
 							return 'class="' + $2 + ' ' + (options.weekDayClass || '') + ' ' +
-								(options.workingDays.indexOf(week) === -1 ?
+								(options.workingDays.indexOf(dayOfWeek) === -1 ?
 								options.weekEndClass : '') + '"';
-						}).replace(/{{day}}/g, options.weekDays[week]));
+						}).replace(/{{day}}/g, options.weekDays[dayOfWeek]));
 					}
 					return '<table class="cal-month"><thead><tr>' +
 						row.join('') +

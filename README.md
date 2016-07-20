@@ -174,7 +174,7 @@ For example: In the default options you'll find:
 ```javascript
 row: '<td class="">{{day}}</td>'
 ```
-So with every day, ```{{day}}``` gets replaced by the number of the day. That's it. It's also handy to define the attribute ```class=""``` inside this template string (```row``` or ```weekNo```) as it will automatically be filled with the class names you defined earlier in your options (```todayClass```, ```weekEndClass```, ```prevMonthClass```, ```nextMonthClass```, ```currentMonthClass```, ```weekNoClass```)
+So with every day, ```{{day}}``` gets replaced by the number of the day. That's it. It's also handy to define the attribute ```class=""``` inside this template string (```row``` or ```weekNo```) as it will automatically be filled with the class names you defined earlier in your options (```todayClass```, ```weekEndClass``` (reverse defined by options.workingDays), ```prevMonthClass```, ```nextMonthClass```, ```currentMonthClass```, ```weekNoClass```)
 
 Here is a more complex example:
 ```javascript
@@ -191,6 +191,8 @@ Let's assume it's June 12th, so in this case, if there where an event defined in
 ```start()```, ```end()``` and ```today()``` are a bit special callbacks as they get rendered only once (if at all, as today might not exist in current displayed month...). You might have guessed already, ```start()``` gets only rendered at the beginning, ```end()``` only at the end of the HTML rendering and ```today()``` only if the current rendered day is actually today.
 
 In the demo page you can see how I use ```start()``` to render the days of the week ('Mo, Tu, We, ...) in a ```<thead>```. By defining ```options.template.start``` you have to keep in mind that you're actually overwriting the default callback, so the default rendering doesn't happen any more (The same for ```initCallback```, ```renderCallback```, ```renderValue``` and ```readValue```, the callBack functions of ```datePicker.js``` you'll hear about later on).
+
+The rendering in ```datePicker()``` works with the same idea: ```options.header``` and ```options.footer``` can be replaced by some other markup and placeholders like ```{{prev}}``` etc. will be replaced the same way (see default HTML with its placeholders and replaced HTML in browser and you'll see the logic behind, it's quite straight forward)
 
 ## datePicker.js
 ```datePicker.js``` works the same way as ```jqDatePicker.js```. It's the javascript only version and has the same options. Only the initialization works differently (See **Usage**)
