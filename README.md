@@ -82,12 +82,6 @@ requirejs.config({
 }));
 ```
 
-## Bower support (not yet)
-tinyDatePicker will be receivable via bower soon:
-
-```javascript
-bower install tinyDatePicker
-```
 
 ## jqDatePicker.js
 
@@ -166,12 +160,12 @@ $('.date').datePicker({
 });
 ```
 
-## The rendering engine
+## The rendering engine of Calendar
 datePicker's power lies in its flexibility. It might seem a little complicated but if you got the idea, you'll love it.
 
 in calendar.js you have all the options for rendereing seperated in ```options.template```. ```Calendar``` loops through all the days and replaces some placeholders in template strings, defined in several other options, with every day. Most replacements are done by the return value of a function (```start```, ```end```, ```today```, ```day```, ```event``` (where ```this``` is the instance and scope of the function)) and the others are strings that can hold placeholders that then are replaced (```weekNo```, ```row```). ```colGlue``` is the HTML used to end a row (in case you're using tables).
 
-The placeholders are ```{{year}}}```, ```{{month}}```, ```{{day}}``` are the simple replacements (only a numbers) and ```{{day-event}}```,  ```{{today}}``` and ```{{event}}``` get replaced by the callbackFunction's return value (
+The placeholders ```{{year}}}```, ```{{month}}```, ```{{day}}``` are the simple replacements (only numbers) and ```{{day-event}}```,  ```{{today}}``` and ```{{event}}``` get replaced by the callbackFunction's return value (
 ```day()```, ```today()``` and ```event()```). So, ```row``` and ```weekNo``` are the most important options for every-day-rendering. They hold the most placeholders. (In your callBack functions you can certainly define your own placeholders that can be replaced somewhere else...)
 
 For example: In the default options you'll find:
@@ -192,9 +186,9 @@ Let's assume it's June 12th, so in this case, if there where an event defined in
 <td class="current-month event" data-events="true">12</td>
 ```
 
-```start()```, ```end()``` and ```today()``` are a bit special callbacks as they get rendered only once (if at all, as today might not exist current displayed month...). If you might guess already, ```start()``` gets only rendered at the beginning, ```end()``` only at the end of the HTML rendering and ```today()``` only if the current rendered day is actually today.
+```start()```, ```end()``` and ```today()``` are a bit special callbacks as they get rendered only once (if at all, as today might not exist in current displayed month...). You might have guessed already, ```start()``` gets only rendered at the beginning, ```end()``` only at the end of the HTML rendering and ```today()``` only if the current rendered day is actually today.
 
-In the demo page you can see how I use ```start()``` to render the days of the week ('Mo, Tu, We, ...) in a ```<thead>```. By defining ```options.template.start``` you have to keep in mind that you're actually overwriting the default callback, so the default rendering doesn't happen any more.
+In the demo page you can see how I use ```start()``` to render the days of the week ('Mo, Tu, We, ...) in a ```<thead>```. By defining ```options.template.start``` you have to keep in mind that you're actually overwriting the default callback, so the default rendering doesn't happen any more (The same for ```initCallback```, ```renderCallback```, ```renderValue``` and ```readValue```, the callBack functions of ```datePicker.js``` you'll hear about later on).
 
 ## datePicker.js
 ```datePicker.js``` works the same way as ```jqDatePicker.js```. It's the javascript only version and has the same options. Only the initialization works differently (See **Usage**)
