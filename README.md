@@ -166,6 +166,36 @@ $('.date').datePicker({
 });
 ```
 
+## The rendering engine
+datePicker's power lies in its flexibility. It might seem a little complicated but if you got the idea, you'll love it.
+
+in calendar.js you have all the options for rendereing seperated in ```options.template```. ```Calendar``` loops through all the days and replaces some placeholders in template strings, defined in several other options, with every day. Most replacements are done by the return value of a function (```start```, ```end```, ```today```, ```day```, ```event``` (where ```this``` is the instance and scope of the function)) and the others are strings that can hold placeholders that then are replaced (```weekNo```, ```row```). ```colGlue``` is the HTML used to end a row (in case you're using tables).
+
+The placeholders are ```{{year}}}```, ```{{month}}```, ```{{day}}``` are the simple replacements (only a numbers) and ```{{day-event}}```,  ```{{today}}``` and ```{{event}}``` get replaced by the callbackFunction's return value (
+```day()```, ```today()``` and ```event()```). So, ```row``` and ```weekNo``` are the most important options for every-day-rendering. They hold the most placeholders. (In your callBack functions you can certainly define your own placeholders that can be replaced somewhere else...)
+
+For example: In the default options you'll find:
+```javascript
+row: '<td class="">{{day}}</td>'
+```
+So with every day, ```{{day}}``` gets replaced by the number of the day. That's it. It's also handy to define the attribute ```class=""``` inside this template string (```row``` or ```weekNo```) as it will automatically be filled with the class names you defined earlier in your options (```todayClass```, ```weekEndClass```, ```prevMonthClass```, ```nextMonthClass```, ```currentMonthClass```, ```weekNoClass```)
+
+Here is a more complex example:
+```javascript
+row: '<td class=""{{event}}>{{day}}</td>',
+event: function(day, date, event) {
+    return ' data-events="true"';
+}
+```
+Let's assume it's June 12th, so in this case, if there where an event defined in ```options.events``` for that specific day, the rendering engine would output the following:
+```HTML
+<td class="current-month event" data-events="true">12</td>
+```
+
+```start()```, ```end()``` and ```today()``` are a bit special callbacks as they get rendered only once (if at all, as today might not exist current displayed month...). If you might guess already, ```start()``` gets only rendered at the beginning, ```end()``` only at the end of the HTML rendering and ```today()``` only if the current rendered day is actually today.
+
+In the demo page you can see how I use ```start()``` to render the days of the week ('Mo, Tu, We, ...) in a ```<thead>```. By defining ```options.template.start``` you have to keep in mind that you're actually overwriting the default callback, so the default rendering doesn't happen any more.
+
 ## datePicker.js
 ```datePicker.js``` works the same way as ```jqDatePicker.js```. It's the javascript only version and has the same options. Only the initialization works differently (See **Usage**)
 
