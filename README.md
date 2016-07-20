@@ -14,7 +14,7 @@ See **demo** at [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker) or
     $('.date').datePicker([options]); // that's it
 </script>
 ```
-```jqDatePicker.min.js``` (the jQuery version) holds all necessary files such as calendar.js, datePicker.js and jqDatePicker.js. So, it is not needed to include anything else than this file.<br>
+```jqDatePicker.min.js``` (the jQuery version) holds all necessary files such as calendar.js, datePicker.js and jqDatePicker.js. So, it is not needed to include anything else than this file (except some CSS that makes your datePicker look nice).<br>
 If you need to debug things for development, you can also use ```calendar.js```, the month/week rendering module, ```datePicker.js```, the javascript UI and picker module and ```jqDatePicker.js```, the jQuery wrapper separately.
 ```javascript
 <script type="text/javascript" src="calendar.js"></script>
@@ -47,6 +47,8 @@ See the Demos at ```/demo/index.html``` or [dematte.at/tinyDatePicker](http://de
 
 ## Themes
 calendar and datePicker are, because of their options, very flexible in how to render markup so that it is very easy to change the look and feel and the grade of information you want to provide in your calendars. Changing from a table-based month view to a div-based view (see month.js) is that easy and you're also free in chooseing, changing and adding your own class names and markup.
+
+The CSS in the demo is not very useful (quick and dirty), so you might want to make your own anyhow. (demo/month.css holds some rendering of the common month rendering incl. events etc., demo/datePicker.css is the CSS for the UI of datePicker excluding the months). I prepared a simple, unstyled version in ./naked/index.html (including CSS and days-of-week rendering) to show you a clean starting point for your styling.
 
 So, feel free to participate and create some nice themes and let me know where they are: I'll publish the links to your work right here.
 
