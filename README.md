@@ -5,9 +5,10 @@ This 4.91KB (gZip; 11.79KB minified) small date/time picker provides a lot of ho
 
 ##Demo
 See **demos** at:
-    - [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker)
-    - or a clean version at [dematte.at/tinyDatePicker/naked](http://dematte.at/tinyDatePicker/naked)
-    - extended clean version in white [dematte.at/tinyDatePicker/white](http://dematte.at/tinyDatePicker/white)
+
+ - [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker)
+ - or a clean version at [dematte.at/tinyDatePicker/naked](http://dematte.at/tinyDatePicker/naked)
+ - extended clean version in white [dematte.at/tinyDatePicker/white](http://dematte.at/tinyDatePicker/white)
 
 ## Usage
 
