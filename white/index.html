@@ -8,20 +8,22 @@
 </head>
 <body>
 
+<input class="date" value="" />
 <input class="date" value="2016-06-23" />
 <input class="date" value="2016-06-23 11:30 PM" />
 <input class="date" value="2016-05-10" data-mindate="2016-05-10" data-maxdate="2017-12-31" />
 <input class="date" value="1969-12-28" />
 <input class="date" value="2016-08" />
 <input class="date" value="11:30 PM" />
-<input class="date" value="" />
 
+<script type="text/javascript" src="../demo/events.js"></script>
 <script type="text/javascript" src="../datePicker.min.js"></script>
 <script type="text/javascript">
 	'use strict';
 
 	var options = {
 			sundayBased: false,
+			events: events,
 			template: { // those options are only needed if you want the days of the week to be displayed
 				start: function(month, year) { // rendering week days in table header
 					var options = this.options,
