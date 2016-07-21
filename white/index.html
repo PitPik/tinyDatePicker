@@ -29,12 +29,12 @@
 			template: { // those options are only needed if you want the days of the week to be displayed
 				start: function(month, year) { // rendering week days in table header
 					var options = this.options,
-						weekDayRow = '<th class="">{{day}}</th>',
+						weekDayRow = '<th class="day-of-week">{{day}}</th>',
 						row = [];
 
 					if (options.renderWeekNo) { // week number head; extra <th> in case options.renderWeekNo === true
 						row.push(weekDayRow.replace(/{{day}}/g, options.weekDayRowHead));
-						this.picker.datePicker.className += ' hasWeekNo';
+						this.picker.datePicker.classList.add('hasWeekNo');
 					}
 
 					for (var n = 0, dayOfWeek = 0; n < 7; n++) { // week days

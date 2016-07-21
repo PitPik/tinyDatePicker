@@ -13,8 +13,8 @@
 }
 .hasWeekNo {
 	box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1),
-		inset 30px 0px rgba(255, 255, 255, 1),
-		inset 30px 1px 0px 1px rgba(204, 204, 204, 1);
+		inset 30px 61px 0px -1px rgba(255, 255, 255, 1),
+		inset 30px 61px 0px 0px rgba(204, 204, 204, 1);
 }
 
 .date-picker:before, .date-picker:after {
@@ -32,7 +32,7 @@
     border-color: transparent transparent #eee;
 }
 .cal-month {
-	margin: 2px;
+	margin: -2px 2px 2px;
 }
 
 /* --- months --- */
@@ -40,10 +40,12 @@
 	position: relative;
 	box-sizing: border-box;
 	width: 27px;
-	height: 25px;
+	height: 27px;
 	border-radius: 2px;
 }
-
+.date-picker .cal-month .day-of-week {
+	height: 28px;
+}
 .week-end {
 	color: #77A;
 }
@@ -92,15 +94,9 @@
 }
 .dp-title {
     border-radius: 3px 3px 0 0;
-	border-bottom: 1px solid #ccc;
-	margin-bottom: -1px;
-}
-.dp-footer {
-	border-top: 1px solid #ccc;
-	margin-top: -1px;
 }
 .dp-label {
-	margin: 0 2px -5px;
+	margin: 0 2px -4px;
 }
 .dp-label-month {
 	font-weight: bold;
