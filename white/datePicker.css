@@ -32,10 +32,7 @@
     border-color: transparent transparent #eee;
 }
 .cal-month {
-	margin: 3px;
-}
-.has-week-no .cal-month {
-	margin: -2px 2px 2px;
+	margin: 2px;
 }
 
 /* --- months --- */
@@ -46,9 +43,10 @@
 	height: 27px;
 	border-radius: 2px;
 }
-.date-picker .cal-month .week-day {
-	height: 28px;
+.date-picker .cal-month th {
+	padding-bottom: 4px;
 }
+
 .week-end {
 	color: #77A;
 }
@@ -82,7 +80,7 @@
 }
 .week-no {
 	color: #999;
-	padding-right: 5px;
+	padding-right: 6px;
 }
 
 /* --- the UI for the picker (next, prev, month, year and time) --- */
