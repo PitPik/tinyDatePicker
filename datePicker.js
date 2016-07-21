@@ -117,6 +117,7 @@
 			}
 
 			addEvent(window, 'resize', function(e) {
+				_this.toggled = undefined;
 				_this.isOpen && renderCallback(_this);
 			}, false, _this);
 			addEvent(document.body, 'focus', _toggle, true, _this);

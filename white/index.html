@@ -4,6 +4,24 @@
 	<link rel="stylesheet" type="text/css" href="index.css">
 	<link rel="stylesheet" type="text/css" href="boilerplate.css">
 	<link rel="stylesheet" type="text/css" href="datePicker.css">
+	<style type="text/css">
+		/* ---- only used if beow experiment with double picker is enabled ---- */
+		.double-cal {
+			float: left;
+		}
+		.double-cal .cal-month {
+			border-right: 1px solid #ccc;
+		}
+		.double-cal.right .cal-month {
+			border-left: 1px solid #ccc;
+			border-right: none;
+			margin-left: -3px;
+		}
+		.double-cal.right td:first-child {
+			width: 0;
+			padding: 0;
+		}
+	</style>
 	<title>tiny date picker (white version)</title>
 </head>
 <body>
@@ -25,13 +43,62 @@
 		datePickerClass: 'date-picker has-week-no',
 		sundayBased: false,
 		renderWeekNo: true,
-		// initCallback: function(elements) {
-		// 	if (this.options.renderWeekNo) {
-		// 		this.options.datePickerClass += ' has-week-no';
-		// 	}
-		// },
 		events: events // see ../demo/events.js
 	});
+
+/*
+	window.myDatePicker = new DatePicker('.date', {
+		sundayBased: false,
+		renderWeekNo: true,
+		events: events, // see ../demo/events.js
+
+		// --- example for auto class name on renderWeekNo
+		initCallback: function(elements) {
+			if (this.options.renderWeekNo) {
+				this.options.datePickerClass += ' has-week-no';
+			}
+		},
+
+		// --- example for double picker; experimental
+		renderCallback: function(container, element, toggled) {
+			var options = this.options,
+				calOptions = this.calendar.options;
+
+			if (this.isOpen && toggled !== undefined) {
+				if (!this._tempHTML) {
+					this._tempHTML = container.innerHTML;
+					this._date = (function(date, clone) { // clone for later reset
+						for (var n in date) clone[n] = date[n];
+
+						return clone;
+					})(this.date, {});
+					container.querySelector('.' + options.nextButtonClass).click();
+				} else {
+					container.innerHTML =
+						'<div class="double-cal">' + this._tempHTML + '</div>' +
+						'<div class="double-cal right">' + container.innerHTML + '</div>';
+					container.querySelector('.' + options.nextButtonClass).disabled = true;
+					container.querySelector('.right .' + options.prevButtonClass).disabled = true;
+					if (options.renderWeekNo) {
+						[].map.call(container.querySelectorAll('.right .' + calOptions.weekNoClass),
+							function(elm) {
+								elm.innerHTML = '';
+							});
+					}
+					this.date = this._date; // reset so picker thinks we're in prev month
+					this._tempHTML = this._date = undefined;
+				}
+			}
+
+			// following is copy of default renderCallback
+			var bounds = element.getBoundingClientRect();
+
+			container.style.cssText = !this.isOpen ? 'display: none' :
+				'left:' + (window.pageXOffset + bounds.left) + 'px;' +
+				'top:' + (window.pageYOffset + element.offsetHeight + bounds.top) + 'px;';
+		}
+	});
+*/
 </script>
 
 </body>

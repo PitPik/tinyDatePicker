@@ -236,7 +236,7 @@ All callbacks deliver ```this``` as a reference to the instance of **DatePicker(
 
 ```initCallback: function(elements) {}``` Is called right after DatePicker() is initialized. Calendar() is not available yet. elements is the list of all elements (for example ```$('.date')```) that are listening to the click or focus events.
 
-```renderCallback: function(container, element, toggled) {}``` Is called every time the picker gets visible, hidden or redrawn. ```toggled``` is true if the picker was just toggled on or off. To determine if it was turned on or off you can read the attribute ```this.isOpen```.
+```renderCallback: function(container, element, toggled) {}``` Is called every time the picker gets visible, hidden or redrawn. ```toggled``` is true if the picker was just toggled on or off. To determine if it was turned on or off you can read the attribute ```this.isOpen```. ```toggled``` is ```undefined``` when callback gets called on resize
 
 ```renderValue: function(container, element, value) {}``` Is a method that gets called when the user clicked on a date on the picker. It gives you access to the ```container```, the picker UI, ```element```, the current input field and ```value```, the choosen value in the format ```YYYY-MM-DD HH:MM:SS AM``` where as -DD, :SS and AM are optional.
 
