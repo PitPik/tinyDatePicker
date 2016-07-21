@@ -11,7 +11,7 @@
 	border-radius: 3px;
 	box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1);
 }
-.hasWeekNo {
+.has-week-no {
 	box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1),
 		inset 30px 61px 0px -1px rgba(255, 255, 255, 1),
 		inset 30px 61px 0px 0px rgba(204, 204, 204, 1);
@@ -34,7 +34,7 @@
 .cal-month {
 	margin: 3px;
 }
-.hasWeekNo .cal-month {
+.has-week-no .cal-month {
 	margin: -2px 2px 2px;
 }
 

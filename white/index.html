@@ -22,9 +22,14 @@
 	'use strict';
 
 	window.myDatePicker = new DatePicker('.date', {
-		datePickerClass: 'date-picker hasWeekNo',
+		datePickerClass: 'date-picker has-week-no',
 		sundayBased: false,
 		renderWeekNo: true,
+		// initCallback: function(elements) {
+		// 	if (this.options.renderWeekNo) {
+		// 		this.options.datePickerClass += ' has-week-no';
+		// 	}
+		// },
 		events: events // see ../demo/events.js
 	});
 </script>
