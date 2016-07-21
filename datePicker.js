@@ -148,6 +148,7 @@
 			if (_this.isOpen && e.type !== 'focus') return;
 			if (!_this.datePicker) {
 				_this.calendar = new Calendar(options);
+				_this.calendar.picker = _this;
 				_this.datePicker = installPicker(_this, options, _this.calendar);
 			}
 			_this.calendar.removeEvent(id);

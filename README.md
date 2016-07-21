@@ -141,6 +141,7 @@ $('.date').datePicker({
     rangeEndAttribute: 'data-to' // attribute holding the name of the other input in a range collective
 
     // the Calendar options
+    picker: {}, // reference to instance of datePicker
     sundayBased: true, // renders weeks starting with Monday or Sunday
     renderWeekNo: false, // enables / disables rendering of week numbers
     equalHight: false, // renders extra days in next month to keep heights (row count) of all months the same

@@ -11,6 +11,11 @@
 	border-radius: 3px;
 	box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1);
 }
+.hasWeekNo {
+	box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1),
+		inset 30px 0px rgba(255, 255, 255, 1),
+		inset 30px 1px 0px 1px rgba(204, 204, 204, 1);
+}
 
 .date-picker:before, .date-picker:after {
 	content: "";
@@ -27,7 +32,7 @@
     border-color: transparent transparent #eee;
 }
 .cal-month {
-	margin: 3px;
+	margin: 2px;
 }
 
 /* --- months --- */
@@ -49,7 +54,7 @@
 .week-end.next-month, .week-end.prev-month {
 	color: #ddd;
 }
-.cal-month tbody td:not(.disabled):hover {
+.cal-month tbody td:not(.disabled):not(.week-no):hover {
 	background-color: #eee;
 	color: #000;
 	cursor: pointer;
@@ -69,6 +74,10 @@
 	height: 0;
 	border: 3px solid #ccc;
 	border-color: #ccc transparent transparent #ccc;
+}
+.week-no {
+	color: #999;
+	padding-right: 5px;
 }
 
 /* --- the UI for the picker (next, prev, month, year and time) --- */
