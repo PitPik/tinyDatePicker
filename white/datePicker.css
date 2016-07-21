@@ -32,6 +32,9 @@
     border-color: transparent transparent #eee;
 }
 .cal-month {
+	margin: 3px;
+}
+.hasWeekNo .cal-month {
 	margin: -2px 2px 2px;
 }
 
