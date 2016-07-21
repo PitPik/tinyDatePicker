@@ -21,63 +21,11 @@
 <script type="text/javascript">
 	'use strict';
 
-	/**
-	 * General function to render days of week based on a table, inside a <thead>.
-	 * Can be used in several callback functions to inject HTML.
-	 * 
-	 * @param  {Object}  options   The options of calendar
-	 * @param  {Element} container The datePicker (only to set class name)
-	 * @return {String}            returns the HTML of the <thead> with days of week
-	 */
-	var renderDaysOfWeek = function(options, container) {
-			var weekDayRow = '<th class="day-of-week">{{day}}</th>',
-				row = [];
-
-			if (options.renderWeekNo) { // week number head; extra <th>
-				row.push(weekDayRow.replace(/{{day}}/g, options.weekDayRowHead));
-				container && container.classList.add('hasWeekNo');
-			}
-
-			for (var n = 0, dayOfWeek = 0; n < 7; n++) { // week days
-				dayOfWeek = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
-				row.push(weekDayRow.replace(/class="(.*?)"/, function($1, $2) {
-					return 'class="' + $2 + ' ' + (options.weekDayClass || '') + ' ' +
-						(options.workingDays.indexOf(dayOfWeek) === -1 ?
-						options.weekEndClass : '') + '"';
-				}).replace(/{{day}}/g, options.weekDays[dayOfWeek]));
-			}
-			return '<thead><tr>' + row.join('') + '</tr></thead>';
-		};
-
-
-
 	window.myDatePicker = new DatePicker('.date', {
+		datePickerClass: 'date-picker hasWeekNo',
 		sundayBased: false,
-		events: events, // see ../demo/events.js
 		renderWeekNo: true,
-		// the following options are only needed if you want the days of the week
-		weekDayRowHead: '', // used in renderDaysOfWeek()
-		template: {
-			start: function(month, year) { // rendering week days in table header
-				return '<table class="cal-month">' +
-					renderDaysOfWeek(this.options, this.picker.datePicker) +
-					'<tbody><tr>';
-			}
-		},
-		// You can also use renderCallback to inject the daysOfWeek
-		// renderCallback is a copy of the standard option extended with renderDaysOfWeek.
-
-		// renderCallback: function(container, element, toggled) {
-		// 	var bounds = element.getBoundingClientRect(),
-		// 		tableBody = this.isOpen && container.querySelector('tbody');
-
-		// 	tableBody && tableBody.insertAdjacentHTML('beforebegin',
-		// 		renderDaysOfWeek(this.calendar.options, container));
-
-		// 	container.style.cssText = !this.isOpen ? 'display: none' :
-		// 		'left:' + (window.pageXOffset + bounds.left) + 'px;' +
-		// 		'top:' + (window.pageYOffset + element.offsetHeight + bounds.top) + 'px;';
-		// }
+		events: events // see ../demo/events.js
 	});
 </script>
 

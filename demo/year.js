@@ -14,31 +14,8 @@
 			sundayBased: false,
 			renderWeekNo: true,
 			equalHight: true,
-			weekDayClass: 'week-day', // not standard: used in template.start
-			weekDayRowHead: '',
 			template: {
 				row: '<td class=""><span class=""{{event}} data-day=\'{"day":"{{day}}", "month":"{{month}}", "year":"{{year}}"}\'>{{day-event}}{{today}}</span></td>',
-				start: function(month, year) { // rendering week days in table header
-					var options = this.options,
-						weekDayRow = '<th class="">{{day}}</th>',
-						row = [];
-
-					if (options.renderWeekNo) { // week number head
-						row.push(weekDayRow.replace(/{{day}}/g, options.weekDayRowHead));
-					}
-
-					for (var n = 0, week = 0; n < 7; n++) { // week days
-						week = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
-						row.push(weekDayRow.replace(/class="(.*?)"/, function($1, $2) {
-							return 'class="' + options.weekDayClass + ' ' +
-								(options.workingDays.indexOf(week) === -1 ?
-								options.weekEndClass : '') + '"';
-						}).replace(/{{day}}/g, options.weekDays[week]));
-					}
-					return '<table class="cal-month"><thead><tr>' +
-							row.join('') +
-							'</tr></thead><tbody><tr>';
-				},
 				event: function(day, date, event) { // rendering events
 					var text = [],
 						// container = [],

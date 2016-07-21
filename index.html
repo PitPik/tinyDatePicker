@@ -21,7 +21,7 @@
 <div id="content-wrapper">
 	<h1>Tiny date/time picker</h1>
 	<p>Looking for tiny foot print, fast, scaleable, flexible and pluggable...<br>
-	This <strong>4.91KB</strong> (gZip; 11.79KB minified) small date/time picker provides a lot of hooks for developers to write calendars, agendas, booking systems, plugins, etc. (See demos below in <a href="#demo">Demo</a>).</p>
+	This <strong>5KB</strong> (gZip; 12.5KB minified) small date/time picker provides a lot of hooks for developers to write calendars, agendas, booking systems, plugins, etc. (See demos below in <a href="#demo">Demo</a>).</p>
 	<a name="demo" id="demo" class="a-inline"></a>
 	<h2>Demo</h2>
 	<p>On all elements with className 'date':</p>
@@ -123,31 +123,8 @@
 			sundayBased: false,
 			renderWeekNo: true,
 			equalHight: true,
-			weekDayClass: 'week-day', // not standard: used in template.start
-			weekDayRowHead: '',
 			template: {
 				row: '<td class=""><span class=""{{event}} data-day=\'{"day":"{{day}}", "month":"{{month}}", "year":"{{year}}"}\'>{{day-event}}{{today}}</span></td>',
-				start: function(month, year) { // rendering week days in table header
-					var options = this.options,
-						weekDayRow = '<th class="">{{day}}</th>',
-						row = [];
-
-					if (options.renderWeekNo) { // week number head
-						row.push(weekDayRow.replace(/{{day}}/g, options.weekDayRowHead));
-					}
-
-					for (var n = 0, dayOfWeek = 0; n < 7; n++) { // week days
-						dayOfWeek = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
-						row.push(weekDayRow.replace(/class="(.*?)"/, function($1, $2) {
-							return 'class="' + $2 + ' ' + options.weekDayClass + ' ' +
-								(options.workingDays.indexOf(dayOfWeek) === -1 ?
-								options.weekEndClass : '') + '"';
-						}).replace(/{{day}}/g, options.weekDays[dayOfWeek]));
-					}
-					return '<table class="cal-month"><thead><tr>' +
-							row.join('') +
-							'</tr></thead><tbody><tr>';
-				},
 				event: function(day, date, event) { // rendering events
 					var text = [],
 						uuids = [],
@@ -308,24 +285,9 @@
 		datePickerClass: 'date-picker div-based',
 		template: {
 			start: function(month, year) { // rendering week days
-				var options = this.options,
-					weekDayRow = '<div class="item">{{day}}</div>',
-					row = [];
-
-				if (options.renderWeekNo) { // week number head
-					row.push(weekDayRow.replace(/{{day}}/g, options.weekDayRowHead));
-				}
-
-				for (var n = 0, dayOfWeek = 0; n < 7; n++) { // week days
-					dayOfWeek = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
-					row.push(weekDayRow.replace(/class="(.*?)"/, function($1, $2) {
-						return 'class="' + $2 + ' ' + options.weekDayClass + ' ' +
-							(options.workingDays.indexOf(dayOfWeek) === -1 ?
-							options.weekEndClass : '') + '"';
-					}).replace(/{{day}}/g, options.weekDays[dayOfWeek]));
-				}
-				return row.join('');
+				return '{{days}}'
 			},
+			daysOfWeek: '<div class="item">{{day}}</div>',
 			colGlue: '',
 			row: '<div class="item{{day-event}}">{{day}}</div>',
 			end: function() {return ''},

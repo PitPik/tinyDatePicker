@@ -1,4 +1,4 @@
-(function (root, factory) { // 7.67 KB, 3.57 KB, 1.70 KB
+(function (root, factory) { // 8.65 KB, 4.09 KB, 1.85 KB
 	if (typeof exports === 'object') {
 		module.exports = factory(root);
 	} else if (typeof define === 'function' && define.amd) {
@@ -16,6 +16,7 @@
 			this.options = {
 				sundayBased: true,
 				renderWeekNo: false,
+				renderDaysOfWeek: true,
 				equalHight: false,
 				useCache: true,
 
@@ -26,7 +27,11 @@
 				events: [], // [{start: '2016-12-28 00:00', end: '', at: '', className: '', ...}, ...],
 
 				template: {
-					start: function() {return '<table class="cal-month"><tbody><tr>'},
+					start: function() {return '<table class="cal-month">{{days}}<tbody><tr>'},
+					daysOfWeekStart: '<thead><tr>',
+					daysOfWeek: '<th class="">{{day}}</th>',
+					daysOfWeekEnd: '</tr></thead>',
+					daysOfWeekHead: '',
 					colGlue: '</tr><tr>',
 					weekNo: '<td class="">{{day}}</td>',
 					row: '<td class="">{{day}}</td>',
@@ -38,6 +43,7 @@
 
 				todayClass: 'today',
 				weekEndClass: 'week-end',
+				weekDayClass: 'week-day',
 				prevMonthClass: 'previous-month',
 				nextMonthClass: 'next-month',
 				currentMonthClass: 'current-month',
@@ -140,7 +146,25 @@
 		}
 
 		return 1 + Math.ceil((firstThursday - day) / 604800000);
-	};
+	}
+
+	function _renderDaysOfWeek(options) {
+		var template = options.template,
+			dayOfWeek = 0,
+			col = [];
+
+		for (var n = options.renderWeekNo ? -1 : 0; n < 7; n++) { // week days
+			dayOfWeek = n + (options.sundayBased ? 0 : (n === 6 ? -6 : 1));
+			col.push(template.daysOfWeek.replace(/class="(.*?)"/, function($1, $2) {
+				return 'class="' + _removeWhitespace($2 + ' ' +
+					(n < 0 ? '' : options.weekDayClass || '') + ' ' +
+					(n < 0 ? '' : (options.workingDays.indexOf(dayOfWeek) === -1 ?
+					options.weekEndClass : ''))) + '"';
+			}).replace(/{{day}}/g, n < 0 ? template.daysOfWeekHead :
+				options.weekDays[dayOfWeek]));
+		}
+		return template.daysOfWeekStart + col.join('') + template.daysOfWeekEnd;
+	}
 
 	function _assembleMonth(date, weekNo, _this) { // use day for week display
 		var delta = (delta = date.getDay() - // data.date = 1st of month
@@ -230,7 +254,8 @@
 			col.push(row.join(''));
 		}
 
-		return template.start.call(_this, currentMonth + 1, currentYear, weekNo) +
+		return template.start.call(_this, currentMonth + 1, currentYear, weekNo).
+				replace('{{days}}', options.renderDaysOfWeek ? _renderDaysOfWeek(options) : '') +
 			col.join(template.colGlue) +
 			template.end.call(_this, currentMonth + 1, currentYear, weekNo);
 	}

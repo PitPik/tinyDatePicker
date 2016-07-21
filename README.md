@@ -1,7 +1,7 @@
 
 # tinyDatePicker and calendar
 
-This 4.91KB (gZip; 11.79KB minified) small date/time picker provides a lot of hooks for developers to write calendars, agendas, booking systems, plugins, etc. This is not only a picker but a set of modules that can be used to build a date/agenda based app.
+This 5KB (gZip; 12.5KB minified) small date/time picker provides a lot of hooks for developers to write calendars, agendas, booking systems, plugins, etc. This is not only a picker but a set of modules that can be used to build a date/agenda based app.
 
 ##Demo
 See **demos** at:
@@ -144,6 +144,7 @@ $('.date').datePicker({
     picker: {}, // reference to instance of datePicker
     sundayBased: true, // renders weeks starting with Monday or Sunday
     renderWeekNo: false, // enables / disables rendering of week numbers
+    renderDaysOfWeek: true, // depends also on template.start. {{days}} has to be returned as well
     equalHight: false, // renders extra days in next month to keep heights (row count) of all months the same
     useCache: true, // month that has been rendered will be cached on never be calculated again (also events)
     months: ['Jan', ...], // array of strings of all months in a year
@@ -151,7 +152,11 @@ $('.date').datePicker({
     workingDays: [1, 2, 3, 4, 5], // Date() based; 0 = Sun; others will be signed as week-end
     events: [], // see below for more information,
     template: { // holds all template based elements:
-        start: function() {return '<table class="cal-month"><tbody><tr>'}, // callback that returns the HTML needed for the beginning of a month
+        start: function() {return '<table class="cal-month">{{days}}<tbody><tr>'}, // callback that returns the HTML needed for the beginning of a month. {{days}} will be replaced by days of week HTML (if enabled)
+        daysOfWeekStart: '<thead><tr>',
+        daysOfWeek: '<th class="day-of-week">{{day}}</th>',
+        daysOfWeekEnd: '</tr></thead>',
+        daysOfWeekHead: '',
         colGlue: '</tr><tr>', // HTML for connecting every week (row)
         weekNo: '<td class="">{{day}}</td>', // HTML used to render a week number
         row: '<td class="">{{day}}</td>', // HTML used to render a regular day
