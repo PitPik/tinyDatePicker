@@ -146,3 +146,23 @@
 .partner {
 	border: 1px solid red;
 }
+
+/* --------- only for demo today, clear and close button ---------- */
+.action {
+    outline: none;
+    font-size: 13px;
+
+    padding: 4px 8px;
+    background-color: transparent;
+    border: 1px solid #555;
+    border-radius: 3px;
+    color: #aaa;
+}
+.action.clear {
+    float: left;
+}
+.action.close {
+    float: right;
+}
+
+

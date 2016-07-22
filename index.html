@@ -66,6 +66,10 @@
 			<input class="date date-5" value="" data-date="date-2" />
 			<input class="date date-5" value="" data-date="date-3" />
 		</div>
+		<p>Today, clear and close button. Stays open on select:</p>
+		<div>
+			<input class="date date-6" value="2016-06-23" />
+		</div>
 	</div>
 	<p>Find a clean demos here: <a href="white/">./white/index.html</a> or <a href="naked/">./naked/index.html</a></p>
 
@@ -299,6 +303,49 @@
 			}
 		}
 	}, options_4));
+
+	// Example with today, clear and close button (stays open).
+	window.myDatePicker_6 = new DatePicker('.date-6', extend({
+		renderWeekNo: true,
+		closeOnSelect: false,
+		renderCallback: function(container, element, toggled) {
+			var _this = this,
+				_today = new Date(), // with attr data-picker="" button works like day in calender
+				today = _today.getFullYear() + '-' + (_today.getMonth() + 1) + '-' + _today.getDate();
+
+			this.isOpen && container.insertAdjacentHTML('beforeend', // render buttons...
+				'<div class="dp-footer">' +
+					'<button class="action clear" type="button">clear</button>' +
+					'<button class="action today" data-picker="' + today + '" type="button">today</button>' +
+					'<button class="action close" type="button">close</button>' +
+				'</div>');
+
+			this._hasListeners = this._hasListeners || (function() { // ...and add event listeners (once)
+				container.addEventListener('click', function(e) {
+					var target = e.target,
+						className = target.className;
+
+					if (/action/.test(className)) {
+						if (/close/.test(className)) {
+							_this.toggle(true);
+						} else if (/clear/.test(className)) {
+							_this.currentInput.value = '';
+							_this.toggle();
+						} 
+					}
+				});
+
+				return true;
+			})();
+
+			// copyed from original options
+			var bounds = element.getBoundingClientRect();
+
+			container.style.cssText = !this.isOpen ? 'display: none' :
+				'left:' + (window.pageXOffset + bounds.left) + 'px;' +
+				'top:' + (window.pageYOffset + element.offsetHeight + bounds.top) + 'px;';
+		}
+	}, options));
 </script>
 
 </body>
