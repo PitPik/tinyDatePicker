@@ -14,6 +14,7 @@
 	var DatePicker = function(elements, options) {
 			this.options = {
 				useCache: false,
+				closeOnSelect: true,
 				elements: [],
 				body: document.body,
 
@@ -317,7 +318,10 @@
 			date.month = selectedDate.month;
 			date.day = selectedDate.day;
 			renderValue(_this);
-			toggle(_this, {});
+			toggle(_this, options.closeOnSelect ? {} : {
+				target: _this.currentInput,
+				type: 'focus'
+			});
 		} else if (prev || next) { // UI buttons in header
 			e.stopPropagation();
 

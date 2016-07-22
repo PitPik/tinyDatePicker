@@ -99,6 +99,7 @@ requirejs.config({
 $('.date').datePicker({
     // the datePicker options
     useCache: false, // disables calendar's cash for use with ranges
+    closeOnSelect: true // weather the picker auto closes after picking a date or not
     elements: '.date', // the selector for the input fields using datePicker
     body: document.body, // element the picker should be depended on
     pickerAttribute: 'data-picker', // attribute used for internal date transfer
