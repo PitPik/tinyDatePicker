@@ -313,7 +313,7 @@
 				_today = new Date(), // with attr data-picker="" button works like day in calender
 				today = _today.getFullYear() + '-' + (_today.getMonth() + 1) + '-' + _today.getDate();
 
-			this.isOpen && container.insertAdjacentHTML('beforeend', // render buttons...
+			this.isOpen && toggled !== undefined && container.insertAdjacentHTML('beforeend', // render buttons...
 				'<div class="dp-footer">' +
 					'<button class="action clear" type="button">clear</button>' +
 					'<button class="action today" data-picker="' + today + '" type="button">today</button>' +
