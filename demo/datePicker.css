@@ -149,14 +149,23 @@
 
 /* --------- only for demo today, clear and close button ---------- */
 .action {
+    display: inline-block;
     outline: none;
     font-size: 13px;
 
     padding: 4px 8px;
     background-color: transparent;
-    border: 1px solid #555;
+    border: 1px solid transparent;
     border-radius: 3px;
-    color: #aaa;
+    color: #ccc;
+    opacity: .5;
+}
+.action:hover {
+    border: 1px solid #666;
+    opacity: 1;
+}
+.action[disabled] {
+    visibility: hidden;
 }
 .action.clear {
     float: left;
