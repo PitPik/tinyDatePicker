@@ -216,6 +216,8 @@ The rendering in ```datePicker()``` works with the same idea: ```options.header`
 
 ```destroy()```: removes all event listeners, detaches the markup from the document and removes some variables.
 
+```toggle(off[, element])```: toggles the datePicker on its last trigger or on element
+
 #### calendar.js
 
 ```addEvent(event, id)```: Adds an event to the list of events and automatically converts the dates to the internal format. See format of events below (**Some tips**). ```id``` marks the events for easy removal later on. Doesn't necessarily be unique.

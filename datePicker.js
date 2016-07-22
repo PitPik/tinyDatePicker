@@ -135,6 +135,13 @@
 		}
 	}
 
+	DatePicker.prototype.toggle = function(off, element) {
+		toggle(this, off ? {} : {
+			target: element || this.currentInput,
+			type: 'focus'
+		});
+	}
+
 	function toggle(_this, e) {
 		var path = e.path || [],
 			node = e.target,
@@ -318,10 +325,7 @@
 			date.month = selectedDate.month;
 			date.day = selectedDate.day;
 			renderValue(_this);
-			toggle(_this, options.closeOnSelect ? {} : {
-				target: _this.currentInput,
-				type: 'focus'
-			});
+			_this.toggle(options.closeOnSelect);
 		} else if (prev || next) { // UI buttons in header
 			e.stopPropagation();
 
