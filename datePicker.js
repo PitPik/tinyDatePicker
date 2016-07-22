@@ -102,7 +102,7 @@
 				rangeEndAttribute: 'data-to'
 			}
 
-			initDatePicker(this, elements || [], options || {});
+			initDatePicker(this, elements || [], options || {});
 		},
 		initDatePicker = function(_this, elements, options) {
 			var _toggle = function(e) { // toggle.bind(_this)
@@ -350,7 +350,7 @@
 
 		if (/^(?:ho|mi|se|AM)/.test(item) || !date.day) {
 			_this.currentDate[item] = date[item];
-			renderValue(_this, assembleDate(_this.currentDate));
+			renderValue(_this, assembleDate(!date.day ? _this.date : _this.currentDate));
 		}
 		renderDatePicker(_this, _this.currentInput, date);
 	}

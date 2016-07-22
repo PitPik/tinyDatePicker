@@ -50,7 +50,7 @@
 				weekNoClass: 'week-no'
 			};
 
-			initCalendar(this, options || {});
+			initCalendar(this, options || {});
 		},
 		initCalendar = function(_this, options) {
 			for (var option in options) {
