@@ -41,6 +41,9 @@
 		<br><span>Range (name based): </span>
 		<input class="date date-1" value="" name="flight-from" data-from="flight-to" placeholder="YYYY-MM-DD" />
 		<input class="date date-1" value="" name="flight-to" data-to="flight-from" placeholder="YYYY-MM-DD" />
+		<br><span>Range with marked range: </span>
+		<input class="date date-11" value="" name="flight-from-1" data-from="flight-to-1" placeholder="YYYY-MM-DD" />
+		<input class="date date-11" value="" name="flight-to-1" data-to="flight-from-1" placeholder="YYYY-MM-DD" />
 
 		<div>Remote button and hidden input:
 			<input class="date" value="" placeholder="YYYY-MM-DD" readonly="" />
@@ -172,6 +175,32 @@
 	window.myDatePicker = new DatePicker('.date-1', options);
 		
 
+	// Example with marked range days.
+	window.myDatePicker_11 = new DatePicker('.date-11', extend({
+		renderCallback: function(container, element, toggled) {
+			var value_1 = +this.currentInput.value.replace(/-/g, ''),
+				value_2 = +this.currentPartner.value.replace(/-/g, ''),
+				dates = container.querySelectorAll('td'),
+				data = '';
+
+			if (this.isOpen && toggled !== undefined)  {
+				for (var n = dates.length; n--; ) {
+					if (data = dates[n].getAttribute(this.options.pickerAttribute)) {
+						data = +data.replace(/-(\d)(?=(?:-|$))/g, '0$1').replace(/-/g, '');
+						if (value_1 && value_2 && (
+								(value_1 <= data && value_2 >= data) ||
+								(value_1 >= data && value_2 <= data))) {
+							dates[n].className += ' range';
+						}
+					}
+				}
+			};
+
+			return true; // triggers default behaviour
+		}
+	}, options));
+
+
 	// prepare a second instance with some different options
 	// Example for hidden input field triggered by a button and
 	// rendering a formatted value to a disabled input field.
@@ -182,16 +211,11 @@
 				}
 			},
 			renderCallback: function(container, element, toggled) {
-				var _element = getInput(element),
-					bounds = _element.getBoundingClientRect();
-
-				container.style.cssText = !this.isOpen ? 'display: none' :
-					'left:' + (window.pageXOffset + bounds.left) + 'px;' +
-					'top:' + (window.pageYOffset + _element.offsetHeight + bounds.top) + 'px;';
+				return getInput(element); // triggers default behaviour on certain element
 			},
 			renderValue: function(container, element, value) {
 				getInput(element).value = changeValueFormat(value);
-				getInput(element, true).value = value;
+				return getInput(element, true); // triggers default behaviour on certain element
 			},
 			readValue: function(element) {
 				var value = getInput(element, true).value;
@@ -216,12 +240,7 @@
 	// rendered in seperate fields.
 	var options_3 = {
 			renderCallback: function(container, element, toggled) {
-				var _element = getInputs(element)[0],
-					bounds = _element.getBoundingClientRect();
-
-				container.style.cssText = !this.isOpen ? 'display: none' :
-					'left:' + (window.pageXOffset + bounds.left) + 'px;' +
-					'top:' + (window.pageYOffset + _element.offsetHeight + bounds.top) + 'px;';
+				return getInputs(element)[0];
 			},
 			renderValue: function(container, element, value) {
 				var inputs = getInputs(element),
@@ -341,12 +360,7 @@
 				return true;
 			})();
 
-			// copyed from original options
-			var bounds = element.getBoundingClientRect();
-
-			container.style.cssText = !this.isOpen ? 'display: none' :
-				'left:' + (window.pageXOffset + bounds.left) + 'px;' +
-				'top:' + (window.pageYOffset + element.offsetHeight + bounds.top) + 'px;';
+			return true; // triggers default behaviour
 		}
 	}, options));
 </script>
