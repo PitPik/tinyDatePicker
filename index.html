@@ -122,6 +122,20 @@
 		return a;
 	}
 
+	/**
+	 * returns a string used in <input> fields to mark the min date
+	 * for one of the range demos...
+	 * 
+	 * @return {String} String of date in format 'YYYY-MM-DD'
+	 */
+	var disableBeforeToday = function() {
+		var today = new Date();
+
+		return today.getFullYear() + '-' +
+			((today.getMonth() + 1) + '').replace(/^(\d)$/, '0$1') + '-' +
+			(today.getDate() + '').replace(/^(\d)$/, '0$1');
+	}
+
 		/**
 		 * The following options are for demos from datePicker
 		 * these options render events, today icon and icons for
@@ -281,6 +295,13 @@
 	// ------------------- DEMO for input.date-11 ----------------- //
 	// Example with marked range days.
 	// ------------------------------------------------------------ //
+	// first set input fields to a minimum date
+	var minDate = disableBeforeToday();
+
+	[].map.call(document.querySelectorAll('.date-11'), function(elm, a) {
+		elm.setAttribute('data-mindate', minDate);
+	});
+
 	window.myDatePicker_11 = new DatePicker('.date-11', extend({
 		renderCallback: function(container, element, toggled) {
 			markRangeDays.call(this, container, element, toggled);
