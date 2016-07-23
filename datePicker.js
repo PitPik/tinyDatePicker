@@ -24,16 +24,8 @@
 				selectedDayClass: 'selected-day',
 				disabledClass: 'disabled',
 				initCallback: function(elements) {},
-				renderCallback: function(container, element, toggled) {
-					var bounds = element.getBoundingClientRect();
-
-					container.style.cssText = !this.isOpen ? 'display: none' :
-						'left:' + (window.pageXOffset + bounds.left) + 'px;' +
-						'top:' + (window.pageYOffset + element.offsetHeight + bounds.top) + 'px;';
-				},
-				renderValue: function(container, element, value) {
-					element.value = value;
-				},
+				renderCallback: function(container, element, toggled) {return true},
+				renderValue: function(container, element, value) {return true},
 				readValue: function(element) {
 					return element.value;
 				},
@@ -382,13 +374,29 @@
 	/* ---------- some datePicker based helper functions ---------- */
 
 	function renderValue(_this, value) {
-		_this.options.renderValue.call(_this, _this.datePicker,
-				_this.currentInput, value || assembleDate(_this.date));
+		var _value = value || assembleDate(_this.date),
+			element = _this.options.renderValue.call(_this, _this.datePicker,
+				_this.currentInput, _value),
+			_element = element && element.nodeType === 1 ? element : _this.currentInput;
+
+		if (element) {
+			_element.value = _value;
+		}
 	}
 
 	function renderCallback(_this) {
-		_this.options.renderCallback.call(_this, _this.datePicker,
-			_this.currentInput, _this.toggled);
+		var element = _this.options.renderCallback.call(_this, _this.datePicker,
+				_this.currentInput, _this.toggled),
+			_element = element && element.nodeType === 1 ? element : _this.currentInput,
+			bounds = {};
+
+		if (element) {
+			bounds = _element.getBoundingClientRect();
+
+			_this.datePicker.style.cssText = !_this.isOpen ? 'display: none' :
+				'left:' + (window.pageXOffset + bounds.left) + 'px;' +
+				'top:' + (window.pageYOffset + _element.offsetHeight + bounds.top) + 'px;';
+			};
 	}
 
 	function addDateLimiter(_this, start, end, element) {

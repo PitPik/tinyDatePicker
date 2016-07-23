@@ -239,11 +239,13 @@ All callbacks deliver ```this``` as a reference to the instance of **DatePicker(
 
 ```initCallback: function(elements) {}``` Is called right after DatePicker() is initialized. Calendar() is not available yet. elements is the list of all elements (for example ```$('.date')```) that are listening to the click or focus events.
 
-```renderCallback: function(container, element, toggled) {}``` Is called every time the picker gets visible, hidden or redrawn. ```toggled``` is true if the picker was just toggled on or off. To determine if it was turned on or off you can read the attribute ```this.isOpen```. ```toggled``` is ```undefined``` when callback gets called on resize
+```renderCallback: function(container, element, toggled) {}``` Is called every time the picker gets visible, hidden or redrawn. ```toggled``` is true if the picker was just toggled on or off. To determine if it was turned on or off you can read the attribute ```this.isOpen```. ```toggled``` is ```undefined``` when callback gets called on resize.
+If you define your own function and still want the default action to happen (positioning, hideing), return a ```true``` or the ```element``` the picker should be positioned to, or return falsy value if you do your own stuff and want to prevent default behaviour (maybe you need to position above, aside, ...).
 
 ```renderValue: function(container, element, value) {}``` Is a method that gets called when the user clicked on a date on the picker. It gives you access to the ```container```, the picker UI, ```element```, the current input field and ```value```, the choosen value in the format ```YYYY-MM-DD HH:MM:SS AM``` where as -DD, :SS and AM are optional.
+If you define your own function and still want the default action to happen, return a ```true``` or the ```element``` the value should be passed to. Otherwhise nothing will happen unless you wrote it in your own code.
 
-```readValue: function(element) {}``` Method called when the picker opens and picks up the value where as ```element``` is the input field that was focused.
+```readValue: function(element) {}``` Method called when the picker opens and picks up the value where as ```element``` is the input field that was focused. Return your own value if not from default input field.
 
 Other **Callbacks** from **calendar.js**
 
