@@ -129,12 +129,12 @@
 	 * @return {String} String of date in format 'YYYY-MM-DD'
 	 */
 	var disableBeforeToday = function() {
-		var today = new Date();
+			var today = new Date();
 
-		return today.getFullYear() + '-' +
-			((today.getMonth() + 1) + '').replace(/^(\d)$/, '0$1') + '-' +
-			(today.getDate() + '').replace(/^(\d)$/, '0$1');
-	}
+			return today.getFullYear() + '-' +
+				((today.getMonth() + 1) + '').replace(/^(\d)$/, '0$1') + '-' +
+				(today.getDate() + '').replace(/^(\d)$/, '0$1');
+		};
 
 		/**
 		 * The following options are for demos from datePicker

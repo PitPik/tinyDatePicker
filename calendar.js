@@ -59,7 +59,7 @@
 
 				if (option === 'events') {
 					for (var n = opt.length; n--; ) {
-						convertEvent(opt[n], n);
+						convertEvent(opt[n], opt[n]._id || n);
 					}
 				}
 				if (option === 'template') {
