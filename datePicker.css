@@ -39,9 +39,13 @@
 }
 
 /* ------ months, rendering from calendar.js ------ */
+/* ------ I'm shure you can do better ;o)    ------ */
 .cal-month {
     border-collapse: collapse;
     margin: 0 12px 12px 0;
+}
+.cal-month td {
+    z-index: 0;
 }
 .week-day {
     font-weight: normal;
@@ -50,30 +54,15 @@
 }
 .previous-month, .next-month, .current-month, .week-no, .week-day {
     position: relative;
-    text-align: center;
     padding: 5px 7px;
     cursor: default;
-    font-size-adjust:0.455;
 }
-.previous-month:hover:before,
-.next-month:hover:before,
-.current-month:hover:before,
-.current-month.today:after,
-.event:before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -14px;
-    width: 28px;
-    height: 28px;
-    box-sizing: border-box;
 
-    background-color: #333;
-    border-radius: 50%;
-    z-index: -1;
-}
+.previous-month:not(.disabled):hover:before,
+.next-month:not(.disabled):hover:before,
+.current-month:not(.disabled):hover:before,
+.current-month.today:after,
+.event:before,
 .selected-day:before,
 .previous-month:active:before,
 .next-month:active:before,
@@ -88,14 +77,24 @@
     height: 28px;
     box-sizing: border-box;
 
-    border: 1px solid #C44;
+    background-color: #555;
     border-radius: 50%;
     z-index: -1;
 }
-
-.cal-month td {
-    z-index: 0;
+.event:before,
+.selected-day:before,
+.previous-month:active:before,
+.next-month:active:before,
+.current-month:active:before {
+    background-color: #333;
 }
+.selected-day:before,
+.previous-month:active:before,
+.next-month:active:before,
+.current-month:active:before {
+    border: 1px solid #C44;
+}
+
 .previous-month, .next-month {
     color: #444;
 }
