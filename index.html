@@ -218,16 +218,19 @@
 					'.' + calOptions.prevMonthClass + ', ' +
 					'.' + calOptions.nextMonthClass + ', ' +
 					'.' + calOptions.currentMonthClass),
-				data = '';
+				data = '',
+				beginEnd = 'begin';
 
 			if (this.isOpen && toggled !== undefined && value_2)  {
-				for (var n = dates.length; n--; ) {
+				for (var n = 0, m = dates.length; n < m; n++) {
 					if (data = dates[n].getAttribute(this.options.pickerAttribute)) {
 						data = +data.replace(/-(\d)(?=(?:-|$))/g, '0$1').replace(/-/g, '');
-						if (value_1 && value_2 && (
+						if (value_1 && value_2 && value_1 !== value_2 && (
 								(value_1 <= data && value_2 >= data) ||
 								(value_1 >= data && value_2 <= data))) {
-							dates[n].className += ' ' + (this.options.rangeClass || 'range');
+							dates[n].className += ' ' + (this.options.rangeClass || 'range') +
+							(value_1 === data || value_2 === data ? ' range-' + beginEnd : '');
+							beginEnd = 'end';
 						}
 					}
 				}
