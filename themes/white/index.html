@@ -95,12 +95,7 @@
 				}
 			}
 
-			// following is copy of default renderCallback
-			var bounds = element.getBoundingClientRect();
-
-			container.style.cssText = !this.isOpen ? 'display: none' :
-				'left:' + (window.pageXOffset + bounds.left) + 'px;' +
-				'top:' + (window.pageYOffset + element.offsetHeight + bounds.top) + 'px;';
+			return true; // triggers default behaviour
 		}
 	});
 */
