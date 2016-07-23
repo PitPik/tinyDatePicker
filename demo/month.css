@@ -29,6 +29,9 @@
 	width: 855px;
 	font-size: 13px;
 }
+.previous-month, .next-month, .current-month, .week-no, .week-day {
+	text-align: center;
+}
 .month-cal .current-month, .month-cal .previous-month, .month-cal .next-month {
 	height: 100px;
 	text-align: left;
@@ -38,13 +41,16 @@
 	border-bottom: 1px solid #444;
 }
 
-.month-cal .current-month:before, .month-cal .previous-month:before, .month-cal .next-month:before {
+.month-cal .current-month:not(.disabled):before,
+.month-cal .previous-month:not(.disabled):before,
+.month-cal .next-month:not(.disabled):before {
 	width: 98%;
 	height: 98%;
 	top: 1%;
 	left: 1%;
 	border-radius: 0;
 	margin: 0;
+	/*background-color: rgba(255, 255, 255, .1);*/
 }
 
 .month-cal .week-no {
