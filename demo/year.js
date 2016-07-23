@@ -4,7 +4,8 @@
 	// console.time('Calendar incl. init');
 
 	/* ------------------------------------------------------ */
-	/* -------- initial options for yearly calendar  -------- */
+	/* -------  initial options for yearly calendar  -------- */
+	/* ------- same options as defined in index.html -------- */
 	/* ------------------------------------------------------ */
 	var options = {
 			weekDays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],

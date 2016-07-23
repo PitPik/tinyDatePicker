@@ -1,4 +1,5 @@
 
+/* ----- year.js ------ */
 .cal-wrapper {
 	width: 855px;
 	margin: 0 auto;
@@ -18,129 +19,9 @@
 	margin: 17px 37px 10px;
 	font-size: 20px;
 }
-.cal-month {
-	border-collapse: collapse;
-	margin: 0 12px 12px 0;
-}
-.week-day {
-	font-weight: normal;
-	border-bottom: 1px solid #666;
-	color: #777;
-}
-.previous-month, .next-month, .current-month, .week-no, .week-day {
-	position: relative;
-	text-align: center;
-	padding: 5px 7px;
-	cursor: default;
-	font-size-adjust:0.455;
-}
-.previous-month:hover:before,
-.next-month:hover:before,
-.current-month:hover:before,
-.current-month.today:after,
-.event:before {
-	content: '';
-	display: block;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin: -14px;
-	width: 28px;
-	height: 28px;
-	box-sizing: border-box;
-
-	background-color: #333;
-	border-radius: 50%;
-	z-index: -1;
-}
-.selected-day:before,
-.previous-month:active:before,
-.next-month:active:before,
-.current-month:active:before {
-	content: '';
-	display: block;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin: -14px;
-	width: 28px;
-	height: 28px;
-	box-sizing: border-box;
-
-	border: 1px solid #C44;
-	border-radius: 50%;
-	z-index: -1;
-}
-
-.cal-month td {
-	z-index: 0;
-}
-
-.previous-month, .next-month {
-	color: #444;
-}
-.week-no {
-	color: #C44;
-	border-right: 1px solid #666;
-	width: 30px;
-	padding: 4px 0;
-}
-
-.current-month.today:after {
-	border: 1px solid rgba(255, 255, 255, 0.4);
-	background-color: transparent;
-}
-
-.previous-month.week-end, .next-month.week-end {
-	color: #422;
-}
-
-.week-end, .week-day.week-end {
-	color: #633;
-}
-.event {
-	color: #C44!important;
-}
-.previous-month.event:before, .next-month.event:before {
-	background-color: #322;
-}
-.disabled  {
-	color: #111!important;
-}
-.brown  {
-	color: #7d3008;
-}
-.green  {
-	/*color: #1a1!important;*/
-}
-.disabled-2, .disabled-3  {
-	/*color: #C00!important;*/
-}
-.current-month .today-icon, .current-month .count-icon {
-	display: block;
-	position: absolute;
-	right: 0;
-	top: 0;
-	margin: -3px;
-    border: 1px solid gray;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    font-size: 10px;
-    line-height: 11px;
-    background-color: #666;
-    color: #111;
-}
-.count-icon {
- 	display: none;
- }
-.today-icon {
-	display: none;
-	right: auto;
-	left: 0;
-}
 
 /* ----- month.js ------ */
+
 .month-cal {
 	margin: 54px auto;
 }
@@ -201,21 +82,3 @@
 	border: 1px solid transparent;
 }
 
-/* ------ DIV based ------ */
-.div-based {
-	display: inline-block;
-}
-.div-based:after {
-	content: "";
-	display: table;
-	clear: both;
-}
-.div-based .item {
-	position: relative;
-	float: left;
-	width: 19px;
-	z-index: 1;
-}
-.cleared-day {
-	clear: both;
-}

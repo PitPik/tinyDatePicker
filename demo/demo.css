@@ -1,0 +1,89 @@
+/* --------- only for demo with special options ---------- */
+
+.brown  {
+    color: #7d3008;
+}
+.green  {
+    /*color: #1a1!important;*/
+}
+.disabled-2, .disabled-3  {
+    /*color: #C00!important;*/
+}
+.current-month .today-icon, .current-month .count-icon {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: -3px;
+    border: 1px solid gray;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 10px;
+    line-height: 11px;
+    background-color: #666;
+    color: #111;
+}
+.count-icon {
+    display: none;
+ }
+.today-icon {
+    display: none;
+    right: auto;
+    left: 0;
+}
+
+/* --------- only for demo today, clear and close button ---------- */
+.action {
+    display: inline-block;
+    outline: none;
+    font-size: 13px;
+
+    padding: 4px 8px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: #ccc;
+    opacity: .5;
+}
+.action:hover {
+    border: 1px solid #666;
+    opacity: 1;
+}
+.action[disabled] {
+    visibility: hidden;
+}
+.action.clear {
+    float: left;
+}
+.action.close {
+    float: right;
+}
+
+
+/* --------- only for demo marked range select ---------- */
+.partner {
+    border: 1px solid red;
+}
+.range {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ------ only for demo DIV based ------ */
+.div-based {
+    display: inline-block;
+}
+.div-based:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.div-based .item {
+    position: relative;
+    float: left;
+    width: 19px;
+    z-index: 1;
+}
+.cleared-day {
+    clear: both;
+}

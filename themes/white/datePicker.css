@@ -1,3 +1,4 @@
+/* --------- date picker --------- */
 .date-picker {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-size: 13px;
@@ -31,11 +32,11 @@
     top: -8px;
     border-color: transparent transparent #eee;
 }
-
-/* ------ months ------ */
-.cal-month {
+.date-picker .cal-month {
 	margin: 2px;
 }
+
+/* ------ months ------ */
 .date-picker .cal-month td {
 	position: relative;
 	box-sizing: border-box;
@@ -140,7 +141,7 @@
 	margin: -6px 0px;
 }
 .dp-prev[disabled]:after, .dp-next[disabled]:after {
-	border-color: transparent;
+	visibility: hidden;
 }
 .dp-prev:hover, .dp-next:hover {
 	opacity: 1;

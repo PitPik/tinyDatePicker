@@ -7,8 +7,8 @@ This 5KB (gZip; 12.5KB minified) small date/time picker provides a lot of hooks 
 See **demos** at:
 
  - [dematte.at/tinyDatePicker](http://dematte.at/tinyDatePicker)
- - or a clean version at [dematte.at/tinyDatePicker/naked](http://dematte.at/tinyDatePicker/naked)
- - extended clean version in white [dematte.at/tinyDatePicker/white](http://dematte.at/tinyDatePicker/white)
+ - or a clean version at [dematte.at/tinyDatePicker/themes/naked](http://dematte.at/tinyDatePicker/themes/naked)
+ - extended clean version in white [dematte.at/tinyDatePicker/themes/white](http://dematte.at/tinyDatePicker/themes/white)
 
 ## Usage
 
@@ -56,7 +56,7 @@ The CSS in the demo is not very useful (quick and dirty), so you might want to m
 
 So, feel free to participate and create some nice themes and let me know where they are: I'll publish the links to your work right here.
 
- - See "white" simple demo at ./white/index.html or [dematte.at/tinyDatePicker/white/](http://dematte.at/tinyDatePicker/white/)
+ - See "white" simple demo at ./themes/white/index.html or [dematte.at/tinyDatePicker/themes/white/](http://dematte.at/tinyDatePicker/themes/white/)
 
 ## AMD / CommonJS wrapper
 tinyDatePicker supports AMD and CommonJS import in all, the minified versions and the single files (```calendar.js```, ```datePicker.js``` and ```jqDatePicker.js```).

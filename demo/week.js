@@ -92,116 +92,116 @@
 
 	// ------ options for weekly calendar
 	var options = {
-		weekDays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-		months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-			'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-		sundayBased: false,
-		template: {
-			colGlue: '</tr><tr>',
-			weekNo: '<td class="">{{day}}</td>',
-			row: '<td class=""><span class=""{{event}}>{{day-event}}{{today}}</span></td>',
-			day: function(day, date, event) {
-				return this.options.weekDays[date.getDay()] + '., ' + day + '.';
-			},
-			event: function(day, date, event) {
-				// collect all events for later rendering (end()); no rendering here
-				this._events = this._events || {};
-				this._events[day] = this._events[day] || {
-					"day": [],
-					"time": []
-				};
+			weekDays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+			months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+				'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+			sundayBased: false,
+			template: {
+				colGlue: '</tr><tr>',
+				weekNo: '<td class="">{{day}}</td>',
+				row: '<td class=""><span class=""{{event}}>{{day-event}}{{today}}</span></td>',
+				day: function(day, date, event) {
+					return this.options.weekDays[date.getDay()] + '., ' + day + '.';
+				},
+				event: function(day, date, event) {
+					// collect all events for later rendering (end()); no rendering here
+					this._events = this._events || {};
+					this._events[day] = this._events[day] || {
+						"day": [],
+						"time": []
+					};
 
-				for (var n = 0, m = event.length; n < m; n++) {
-					processEvent(this, day, date, event[n], this.options.dayStartTime);
-				}
-				checkForCollissions(this._events[day].time);
-			},
-			start: function(month, year, week) {
-				return '<table class="cal-month"><tbody><tr><td></td>'; // extra col on beginning
-			},
-			end: function(month, year, week) { // renders the time raster incl. events and time
-				var html = ['</tr><tr><td class="day-expl">' + this.options.dayEventText + '</td>']; // extra col on beginning
-				var elm = {};
-				var day = 0;
-				var date = new Date(year, month - 1, (week - 1) * 7);
+					for (var n = 0, m = event.length; n < m; n++) {
+						processEvent(this, day, date, event[n], this.options.dayStartTime);
+					}
+					checkForCollissions(this._events[day].time);
+				},
+				start: function(month, year, week) {
+					return '<table class="cal-month"><tbody><tr><td></td>'; // extra col on beginning
+				},
+				end: function(month, year, week) { // renders the time raster incl. events and time
+					var html = ['</tr><tr><td class="day-expl">' + this.options.dayEventText + '</td>']; // extra col on beginning
+					var elm = {};
+					var day = 0;
+					var date = new Date(year, month - 1, (week - 1) * 7);
 
-				date.setDate(date.getDate() - date.getDay() + +!this.options.sundayBased); // first day in this week
-				for (var n = 7; n--; ) { // whole day events
-					html.push('<td class="whole-day">');
-					day = date.getDate();
-					if (this._events && this._events[day]) {
-						for (var o = 0, p = this._events[day].day.length; o < p; o++) {
-							elm = this._events[day].day[o];
-							elm.text && html.push(
-								'<div class="day-event ' + elm.className +
-								'" data-uuid="' + elm._id + '">' +
-								elm.text + '</div>'
-							);
+					date.setDate(date.getDate() - date.getDay() + +!this.options.sundayBased); // first day in this week
+					for (var n = 7; n--; ) { // whole day events
+						html.push('<td class="whole-day">');
+						day = date.getDate();
+						if (this._events && this._events[day]) {
+							for (var o = 0, p = this._events[day].day.length; o < p; o++) {
+								elm = this._events[day].day[o];
+								elm.text && html.push(
+									'<div class="day-event ' + elm.className +
+									'" data-uuid="' + elm._id + '">' +
+									elm.text + '</div>'
+								);
+							}
+						}
+						date.setDate(date.getDate() + 1);
+						html.push('</td>');
+					}
+
+					var times = []; // draw hours in first column; simple version
+					var time = this.options.dayStartTime;
+					var endTime = (this.options.dayEndTime - time) * 2;
+					var sign = this.options.display24h ? '' : this.options.timeAM;
+					for (var n = 0; n < endTime; n++) {
+						if (n % 2) {
+							time++;
+							if (time > 12 && !this.options.display24h) { // start over with 1
+								time = 1;
+								sign = this.options.timePM;
+							}
+							times.push('<div class="slot">' + time + ':00 <span>' + sign + '</span></div>');
+						} else {
+							times.push('<div class="slot"><span>' + time + ':30</span></div>');
 						}
 					}
-					date.setDate(date.getDate() + 1);
-					html.push('</td>');
-				}
 
-				var times = []; // draw hours in first column; simple version
-				var time = this.options.dayStartTime;
-				var endTime = (this.options.dayEndTime - time) * 2;
-				var sign = this.options.display24h ? '' : this.options.timeAM;
-				for (var n = 0; n < endTime; n++) {
-					if (n % 2) {
-						time++;
-						if (time > 12 && !this.options.display24h) { // start over with 1
-							time = 1;
-							sign = this.options.timePM;
+					html.push('</tr><tr><td class="day-times">' + times.join('') + '</td>'); // extra col on beginning
+
+					date.setDate(date.getDate() - 7); // set back
+					for (var n = 7; n--; ) { // time based events
+						html.push('<td class="day-hours"><div class="day-hours-wrapper">');
+						day = date.getDate();
+						if (this._events && this._events[day]) {
+							for (var o = 0, p = this._events[day].time.length; o < p; o++) {
+								elm = this._events[day].time[o];
+								html.push(
+									'<div class="time-event ' + elm.className + '" style="' +
+									'top: ' + elm.top + 'px;' +
+									'height: ' + (elm.bottom - elm.top) + 'px;' +
+									'width: calc(' + (Math.round(elm.width * 100) / 100) + '% - 4px);' +
+									'left: calc(' + (Math.round(elm.left * 100) / 100) + '% + 4px);"' +
+									' data-uuid="' + elm._id + '">' +
+									elm.text + '</div>'
+								);
+							}
 						}
-						times.push('<div class="slot">' + time + ':00 <span>' + sign + '</span></div>');
-					} else {
-						times.push('<div class="slot"><span>' + time + ':30</span></div>');
+						date.setDate(date.getDate() + 1);
+						html.push('</div></td>');
 					}
+
+					return html.join('') + '</tr></tbody></table>';
 				}
+			},
+			events: events,
 
-				html.push('</tr><tr><td class="day-times">' + times.join('') + '</td>'); // extra col on beginning
-
-				date.setDate(date.getDate() - 7); // set back
-				for (var n = 7; n--; ) { // time based events
-					html.push('<td class="day-hours"><div class="day-hours-wrapper">');
-					day = date.getDate();
-					if (this._events && this._events[day]) {
-						for (var o = 0, p = this._events[day].time.length; o < p; o++) {
-							elm = this._events[day].time[o];
-							html.push(
-								'<div class="time-event ' + elm.className + '" style="' +
-								'top: ' + elm.top + 'px;' +
-								'height: ' + (elm.bottom - elm.top) + 'px;' +
-								'width: calc(' + (Math.round(elm.width * 100) / 100) + '% - 4px);' +
-								'left: calc(' + (Math.round(elm.left * 100) / 100) + '% + 4px);"' +
-								' data-uuid="' + elm._id + '">' +
-								elm.text + '</div>'
-							);
-						}
-					}
-					date.setDate(date.getDate() + 1);
-					html.push('</div></td>');
-				}
-
-				return html.join('') + '</tr></tbody></table>';
-			}
-		},
-		events: events,
-
-		todayClass: 'w-today',
-		weekEndClass: 'w-week-end',
-		prevMonthClass: 'w-previous-month',
-		nextMonthClass: 'w-next-month',
-		currentMonthClass: 'w-current-month',
-		// optional options
-		dayStartTime: 8, // only full steps
-		dayEndTime: 18, // only full steps
-		timeAM: 'am',
-		timePM: 'pm',
-		display24h: false,
-		dayEventText: 'Ganztägig'
-	};
+			todayClass: 'w-today',
+			weekEndClass: 'w-week-end',
+			prevMonthClass: 'w-previous-month',
+			nextMonthClass: 'w-next-month',
+			currentMonthClass: 'w-current-month',
+			// optional options
+			dayStartTime: 8, // only full steps
+			dayEndTime: 18, // only full steps
+			timeAM: 'am',
+			timePM: 'pm',
+			display24h: false,
+			dayEventText: 'Ganztägig'
+		};
 
 
 	// ------ set up week calendar and draw

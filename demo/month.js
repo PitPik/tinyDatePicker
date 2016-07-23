@@ -53,27 +53,4 @@
 		}
 	});
 
-	
-	// a simple div based version (less markup)
-	// var myMonthCalendar_2 = window.myMonthCalendar_2 = new Calendar({
-	// 	sundayBased: false,
-	// 	template: {
-	// 		start: function() {return ''},
-	// 		colGlue: '',
-	// 		row: '<div class="item {{day-event}}">{{day}}</div>',
-	// 		end: function() {return ''},
-	// 		day: function(days, date) {
-	// 			if (date.getDay() === (!this.options.sundayBased ? 1 : 0)) {
-	// 				return ' cleared-day';
-	// 			}
-	// 			return ' ';
-	// 		}
-	// 	},
-	// 	events: events
-	// });
-	// var div = document.createElement('div');
-	// div.className = 'div-based';
-	// div.innerHTML = myMonthCalendar_2.getMonth(2016, 6).html;
-	// document.body.appendChild(div);
-
 })(window, window.events);

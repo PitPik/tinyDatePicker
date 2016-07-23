@@ -1,0 +1,207 @@
+
+/* --------- date picker --------- */
+.date-picker {
+	position: absolute;
+
+    font-size: 1em;
+    color: #CCC;
+    text-align: center;
+    cursor: default;
+
+	border: 1px solid #444;
+    border-radius: 2px;
+	margin: 6px 0;
+	background: #222;
+	box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.2);
+}
+.date-picker:before {
+	content: "";
+    display: block;
+    position: absolute;
+    top: -9px;
+    left: 8px;
+    border: 8px solid #444;
+    border-width: 0px 8px 8px;
+    border-color: transparent transparent #444;
+}
+.date-picker:after {
+	content: "";
+    display: block;
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    border: 8px solid #222;
+    border-width: 0px 8px 8px;
+    border-color: transparent transparent #333;
+}
+.date-picker .cal-month {
+	margin: 0;
+}
+
+/* ------ months, rendering from calendar.js ------ */
+.cal-month {
+    border-collapse: collapse;
+    margin: 0 12px 12px 0;
+}
+.week-day {
+    font-weight: normal;
+    border-bottom: 1px solid #666;
+    color: #777;
+}
+.previous-month, .next-month, .current-month, .week-no, .week-day {
+    position: relative;
+    text-align: center;
+    padding: 5px 7px;
+    cursor: default;
+    font-size-adjust:0.455;
+}
+.previous-month:hover:before,
+.next-month:hover:before,
+.current-month:hover:before,
+.current-month.today:after,
+.event:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -14px;
+    width: 28px;
+    height: 28px;
+    box-sizing: border-box;
+
+    background-color: #333;
+    border-radius: 50%;
+    z-index: -1;
+}
+.selected-day:before,
+.previous-month:active:before,
+.next-month:active:before,
+.current-month:active:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -14px;
+    width: 28px;
+    height: 28px;
+    box-sizing: border-box;
+
+    border: 1px solid #C44;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.cal-month td {
+    z-index: 0;
+}
+.previous-month, .next-month {
+    color: #444;
+}
+.week-no {
+    color: #C44;
+    border-right: 1px solid #666;
+    width: 30px;
+    padding: 4px 0;
+}
+.current-month.today:after {
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background-color: transparent;
+}
+
+.previous-month.week-end, .next-month.week-end {
+    color: #422;
+}
+
+.week-end, .week-day.week-end {
+    color: #633;
+}
+.event {
+    color: #C44!important;
+}
+.previous-month.event:before, .next-month.event:before {
+    background-color: #322;
+}
+.disabled  {
+    color: #111!important;
+}
+
+/* ------ the UI for the picker (next, prev, month, year and time) ------ */
+.dp-title, .dp-footer {
+    padding: 5px;
+
+    background: #333;
+    border-radius: 0 0 2px 2px;
+}
+.dp-title {
+	min-width: 180px;
+    border-radius: 2px 2px 0 0;
+}
+.dp-label {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+	margin: 0 2px -5px;
+}
+.dp-label-month {
+    /*font-weight: bold;*/
+}
+.dp-label-year {
+    color: #999;
+}
+.dp-label:hover {
+    color: #FFF;
+}
+.dp-title select, .dp-footer select {
+    display: inline-block;
+    position: absolute;
+    left: 0; /* cover text but... */
+    top: 0;
+    opacity: 0; /* ...make other text visible */
+}
+.dp-prev, .dp-next {
+	display: block;
+    position: relative;
+    outline: none;
+
+    width: 20px;
+    height: 22px;
+    margin: 0 -3px;
+    text-indent: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: transparent;
+    border: none;
+
+    opacity: .5;
+	float: left;
+}
+.dp-next {
+    float: right;
+}
+.dp-prev:after, .dp-next:after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0px;
+	height: 0px;
+	margin: -6px;
+
+	border: 6px solid #fff;
+}
+.dp-prev[disabled]:after, .dp-next[disabled]:after {
+	visibility: hidden;
+}
+
+.dp-prev:after {
+	border-color: transparent #fff transparent transparent;
+}
+.dp-next:after {
+	border-color: transparent transparent transparent #fff;
+}
+.dp-prev:hover, .dp-next:hover {
+	opacity: 1;
+}
+
