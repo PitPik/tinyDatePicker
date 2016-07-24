@@ -128,7 +128,7 @@
 	 * 
 	 * @return {String} String of date in format 'YYYY-MM-DD'
 	 */
-	var disableBeforeToday = function() {
+	var getTodayString = function() {
 			var today = new Date();
 
 			return today.getFullYear() + '-' +
@@ -299,10 +299,8 @@
 	// Example with marked range days.
 	// ------------------------------------------------------------ //
 	// first set input fields to a minimum date
-	var minDate = disableBeforeToday();
-
 	[].map.call(document.querySelectorAll('.date-11'), function(elm, a) {
-		elm.setAttribute('data-mindate', minDate);
+		elm.setAttribute('data-mindate', getTodayString());
 	});
 
 	window.myDatePicker_11 = new DatePicker('.date-11', extend({
