@@ -244,7 +244,7 @@
 		 * Adds 'disabled' attribute in case they can't be used (hide in CSS).
 		 * Uses options.clearText, options.todayText and options.closeText (optional).
 		 * Today button has an attribute data-picker="", so it works like day in calender
-		 * where click event is picked up internally.
+		 * where click event is picked up internaly.
 		 * 
 		 * @param  {[type]} container [description]
 		 * @param  {[type]} element   [description]
@@ -254,13 +254,21 @@
 		addButtons = function(container, element, toggled) {
 			var _today = new Date(),
 				today = _today.getFullYear() + '-' + (_today.getMonth() + 1) + '-' + _today.getDate(),
-				date = this.date.year + '-' + +this.date.month + '-' + +this.date.day;
+				date = this.date.year + '-' + +this.date.month + '-' + +this.date.day,
+				isFrom = element.hasAttribute(this.options.rangeStartAttribute),
+				isRange = this.currentPartner,
+				value_2 = isRange && +this.currentPartner.value.split(' ')[0].replace(/-/g, ''),
+				minDate = +(element.getAttribute(this.options.minDateAttribute) || this.options.minDate).replace(/-/g, ''),
+				maxDate = +(element.getAttribute(this.options.maxDateAttribute) || this.options.maxDate).replace(/-/g, ''),
+				_today = +today.replace(/-(\d)(?=(?:-|$))/g, '0$1').replace(/-/g, ''),
+				todayPossible = (today !== date || !element.value) && minDate <= _today && _today <= maxDate && (
+					isRange ? (isFrom ? !value_2 || value_2 >= _today : !value_2 || value_2 <= _today) : true);
 
 			this.isOpen && toggled !== undefined && container.insertAdjacentHTML('beforeend', // render buttons...
 				'<div class="dp-footer">' +
 					'<button class="action clear"' + (this.currentInput.value ? '' : ' disabled') +
 						' type="button">' + (this.options.clearText || 'clear') + '</button>' +
-					'<button class="action today"' + (today !== date || !this.currentInput.value ? '' : ' disabled') +
+					'<button class="action today"' + (todayPossible ? '' : ' disabled') +
 						' data-picker="' + today + '" type="button">' + (this.options.todayText || 'today') + '</button>' +
 					'<button class="action close" type="button">' + (this.options.closeText || 'close') + '</button>' +
 				'</div>');
