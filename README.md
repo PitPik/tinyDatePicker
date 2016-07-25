@@ -1,7 +1,7 @@
 
 # tinyDatePicker and calendar
 
-This 5KB (gZip; 12.5KB minified) small date/time picker provides a lot of hooks for developers to write calendars, agendas, booking systems, plugins, etc. This is not only a picker but a set of modules that can be used to build a date/agenda based app.
+This 5KB (gZip; 12.5KB minified) small date/time picker provides a lot of hooks for developers to write calendars, agendas, booking systems, plugins, etc. This is not only a picker but a set of modules that can be used to build a date/agenda based app. The flexibility of this tool makes integration of bootstrap or other frameworks easy.
 
 ##Demo
 See **demos** at:
