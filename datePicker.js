@@ -127,15 +127,15 @@
 		}
 	}
 
-	DatePicker.prototype.toggle = function(off, element) {
-		toggle(this, off ? {} : {
+	DatePicker.prototype.toggle = function(on, element) {
+		toggle(this, on ? {
 			target: element || this.currentInput,
 			type: 'focus'
-		});
+		} : {});
 	}
 
 	function toggle(_this, e) {
-		var path = e.path || [],
+		var path = e.path || [{}],
 			node = e.target,
 			options = _this.options,
 			id = 'datePicker';
@@ -162,9 +162,10 @@
 			_this.currentDate = getDateObject(assembleDate(_this.date)); // is new object
 
 			addLimiters(_this, options, e.target, _this.currentPartner, id);
-			setTimeout(function() {renderDatePicker(_this, e.target, _this.date)}, 0);
+			renderDatePicker(_this, e.target, _this.date);
 			_this.toggled = false;
-		} else if (_this.isOpen && _this.datePicker && path.indexOf(_this.datePicker) === -1) {
+		} else if (_this.isOpen && _this.datePicker && path.indexOf(_this.datePicker) === -1 &&
+				path[path.length - 1].nodeType !== 1) { // FF
 			_this.isOpen = false;
 			_this.toggled = true;
 			renderCallback(_this);
@@ -317,7 +318,7 @@
 			date.month = selectedDate.month;
 			date.day = selectedDate.day;
 			renderValue(_this);
-			_this.toggle(options.closeOnSelect);
+			_this.toggle(!options.closeOnSelect);
 		} else if (prev || next) { // UI buttons in header
 			e.stopPropagation();
 

@@ -280,10 +280,10 @@
 
 					if (/action/.test(className)) {
 						if (/close/.test(className)) {
-							_this.toggle(true);
+							_this.toggle();
 						} else if (/clear/.test(className)) {
 							_this.currentInput.value = '';
-							_this.toggle();
+							_this.toggle(true);
 						} 
 					}
 				});
