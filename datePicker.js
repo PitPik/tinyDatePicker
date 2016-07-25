@@ -162,7 +162,7 @@
 			_this.currentDate = getDateObject(assembleDate(_this.date)); // is new object
 
 			addLimiters(_this, options, e.target, _this.currentPartner, id);
-			renderDatePicker(_this, e.target, _this.date);
+			setTimeout(function() {renderDatePicker(_this, e.target, _this.date)}, 0);
 			_this.toggled = false;
 		} else if (_this.isOpen && _this.datePicker && path.indexOf(_this.datePicker) === -1) {
 			_this.isOpen = false;

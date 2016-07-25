@@ -86,7 +86,7 @@
 .previous-month:active:before,
 .next-month:active:before,
 .current-month:active:before {
-    background-color: #333;
+    background-color: #2e2e2e;
 }
 .selected-day:before,
 .previous-month:active:before,

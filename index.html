@@ -304,8 +304,10 @@
 	});
 
 	window.myDatePicker_11 = new DatePicker('.date-11', extend({
+		closeOnSelect: false,
 		renderCallback: function(container, element, toggled) {
 			markRangeDays.call(this, container, element, toggled);
+			addButtons.call(this, container, element, toggled);
 
 			return true; // triggers default behaviour
 		}
