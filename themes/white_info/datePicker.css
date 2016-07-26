@@ -1,0 +1,148 @@
+/* --------- date picker --------- */
+.date-picker {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 13px;
+	color: #444;
+	text-align: center;
+	cursor: default;
+
+	border: 1px solid #ccc;
+	margin: 6px 0;
+	background: #fff;
+	border-radius: 3px;
+	box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1);
+}
+.date-picker.has-week-no {
+	box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1),
+		inset 30px 61px 0px -1px rgba(255, 255, 255, 1),
+		inset 30px 61px 0px 0px rgba(204, 204, 204, 1);
+}
+
+.date-picker:before, .date-picker:after {
+	content: "";
+    display: block;
+    position: absolute;
+    top: -9px;
+    left: 8px;
+    border: 8px solid #ccc;
+    border-width: 0px 8px 8px;
+    border-color: transparent transparent #ccc;
+}
+.date-picker:after {
+    top: -8px;
+    border-color: transparent transparent #eee;
+}
+.date-picker .cal-month {
+	margin: 2px;
+}
+
+/* ------ months ------ */
+.date-picker .cal-month td {
+	position: relative;
+	box-sizing: border-box;
+	width: 27px;
+	height: 27px;
+	border-radius: 2px;
+}
+.date-picker .cal-month th {
+	padding-bottom: 4px;
+}
+
+.week-end {
+	color: #77A;
+}
+.disabled {
+	color: #aaa;
+}
+.week-end.next-month, .week-end.prev-month {
+	color: #ddd;
+}
+.cal-month tbody td:not(.disabled):not(.week-no):hover {
+	background-color: #eee;
+	color: #000;
+	cursor: pointer;
+}
+.selected-day {
+	background-color: #ddd;
+}
+.today {
+	border: 1px solid #bbb;
+}
+.event:after {
+	content: "";
+	position: absolute;
+	left: 1px;
+	top: 1px;
+	width: 0;
+	height: 0;
+	border: 3px solid #ccc;
+	border-color: #ccc transparent transparent #ccc;
+}
+.week-no {
+	color: #999;
+	padding-right: 6px;
+}
+
+/* ------ the UI for the picker (next, prev, month, year and time) ------ */
+.dp-title, .dp-footer {
+	text-align: center;
+	min-width: 140px;
+	font-size: 15px;
+    padding: 5px;
+    
+    background: #f0f0f0;
+	border-radius: 0 0 3px 3px;
+}
+.dp-title {
+    border-radius: 3px 3px 0 0;
+}
+.dp-label {
+	margin: 0 2px -4px;
+}
+.dp-label-month {
+	font-weight: bold;
+}
+.dp-label:hover {
+    color: #000;
+}
+/* bigger buttons */
+.dp-prev, .dp-next {
+	display: block;
+    position: relative;
+    outline: none;
+
+    width: 30px;
+    height: 30px;
+    text-indent: 30px;
+    white-space: nowrap;
+    border: none;
+
+    margin: -4px -1px;
+
+    opacity: .5;
+}
+.dp-prev:after, .dp-next:after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0px;
+	height: 0px;
+	margin: -6px -12px;
+
+	border: 6px solid #000;
+}
+.dp-prev:after {
+	border-color: transparent #000 transparent transparent;
+}
+
+.dp-next:after {
+	border-color: transparent transparent transparent #000;
+	margin: -6px 0px;
+}
+.dp-prev[disabled]:after, .dp-next[disabled]:after {
+	visibility: hidden;
+}
+.dp-prev:hover, .dp-next:hover {
+	opacity: 1;
+}
