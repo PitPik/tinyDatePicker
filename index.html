@@ -218,8 +218,7 @@
 					'.' + calOptions.prevMonthClass + ', ' +
 					'.' + calOptions.nextMonthClass + ', ' +
 					'.' + calOptions.currentMonthClass),
-				data = '',
-				beginEnd = 'begin';
+				data = '';
 
 			if (this.isOpen && toggled !== undefined && value_2)  {
 				for (var n = 0, m = dates.length; n < m; n++) {
@@ -229,8 +228,8 @@
 								(value_1 <= data && value_2 >= data) ||
 								(value_1 >= data && value_2 <= data))) {
 							dates[n].className += ' ' + (this.options.rangeClass || 'range') +
-							(value_1 === data || value_2 === data ? ' range-' + beginEnd : '');
-							beginEnd = 'end';
+							(value_1 === data || value_2 === data ? ' range-' +
+								(value_1 >= data && value_2 >= data? 'begin' : 'end') : '');
 						}
 					}
 				}
