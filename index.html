@@ -63,6 +63,9 @@
 			<input class="date" type="hidden" value="2016-06-23" />
 			<button class="date-3 button">datePicker</button>
 		</div>
+		<div>Empty time only picker:
+			<input class="date date-1" value="" data-type="time" placeholder="HH:MM:SS" />
+		</div>
 		<p>TIP: The values don't have to be stored in hidden variables, they can also be received and stored in local storage or javascript variables (inspect window.dates), or let an MVC framework do the job:</p>
 		<div>
 			<input class="date date-4" value="" data-date="date-1" />
@@ -198,6 +201,18 @@
 						return day + '<span class="count-icon">' + length + '</span>';
 					}
 				}
+			},
+			/**
+			 * Some testings for input with no value but it should be time only picker...
+			 * @param  {[type]} element [description]
+			 * @return {String}         The value of the input field
+			 */
+			readValue: function(element) {
+				if (!element.value && element.getAttribute('data-type') === 'time') { // initial time if empty
+					return new Date().toTimeString().split(' ')[0]; // triggers default behavior
+				}
+
+				return element.value; // triggers default behavior
 			}
 		},
 		/**
