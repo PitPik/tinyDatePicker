@@ -112,7 +112,8 @@
 
 		event._start = start ? _convertDateString(start).valueOf() : -1e15;
 		event._end = event.at ? _convertDateString(start, true).valueOf() :
-			event.end ? _convertDateString(event.end).valueOf() : 1e15;
+			event.end ? _convertDateString(event.end,
+				event.end.split(' ')[1] ? false : true).valueOf() : 1e15;
 		event._id = id;
 		return event;
 	}
