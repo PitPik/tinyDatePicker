@@ -108,11 +108,11 @@
 	/* ---------------------- */
 
 	function convertEvent(event, id) {
-		var start =  event.at || event.start;
+		var start = event.at || event.start;
 
 		event._start = start ? _convertDateString(start).valueOf() : -1e15;
-		event._end = event.at ? event._start :
-			event.end ? _convertDateString(event.end, true).valueOf() : 1e15;
+		event._end = event.at ? _convertDateString(start, true).valueOf() :
+			event.end ? _convertDateString(event.end).valueOf() : 1e15;
 		event._id = id;
 		return event;
 	}
