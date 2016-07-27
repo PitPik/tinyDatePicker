@@ -124,14 +124,9 @@
 
 	function _convertDateString(string, end) {
 		var parts = string.split(' '),
-			dayParts = parts[0].split('-'),
-			timeParts = (parts[1] || '').split(':');
+			time = parts[1] || (end ? '23:59:59.999' : '00:00:00');
 
-		end = end ? 59 : 0;
-
-		return new Date(
-			dayParts[0], dayParts[1] - 1, dayParts[2] || 1,
-			timeParts[0] || (end ? 23 : 0), timeParts[1] || end, timeParts[2] || end);
+		return new Date(Date.parse(parts[0] + ' ' + time));
 	}
 
 	function _getWeekNumber(date) { // ISO 8601
