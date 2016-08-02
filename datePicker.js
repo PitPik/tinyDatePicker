@@ -128,10 +128,14 @@
 	}
 
 	DatePicker.prototype.toggle = function(on, element) {
-		toggle(this, on ? {
-			target: element || this.currentInput,
-			type: 'focus'
-		} : {});
+		if (on.year !== undefined) {
+			renderDatePicker(this, element || this.currentInput, on);
+		} else {
+			toggle(this, on ? {
+				target: element || this.currentInput,
+				type: 'focus'
+			} : {});
+		}
 	}
 
 	function toggle(_this, e) {

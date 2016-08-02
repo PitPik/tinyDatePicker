@@ -46,7 +46,7 @@
 <body>
 <h2>White, clean demo with event info and UI buttons</h2>
 <p style="width: 50%">This example is an extension from the 'white' demo. Additionally it has the UI buttons from the other demos (clear, today and close) but also renders registered events if day is picked that has events (little triangle in left top corner. See .demo/events.js for details).</p>
-<input class="date" value="2016-05-08" />
+<input class="date" value="2016-06-07" />
 
 <div class="info-box"></div>
 
@@ -143,8 +143,9 @@
 				event = events[uuids[n]];
 
 				html.push('<h2>' + event.text + '</h2>' + // draw events
-					'<div>Start: ' + new Date(event._start) + '</div>' +
-					'<div>End: ' + new Date(event._end) + '</div>');
+					'<div>Start: ' + new Date(event._start).toLocaleString() + '</div>' +
+					'<div>End: ' + new Date(event._end).toLocaleString() + '</div>' +
+					'<div>Type: ' + event.type + '</div>');
 			}
 
 			this.options.infoBox.innerHTML = html.join('');

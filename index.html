@@ -3,10 +3,10 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="Description" content="tinyCalendar is a small (10.0KB, 4.5KB gZip) but very advanced jQuery date picker" />
-    <meta name="Keywords" content="date, date picker, calendar" />
-    <meta name="author" content="Peter Dematté" />
-    <meta http-equiv="language" content="en" />
+	<meta name="Description" content="tinyCalendar is a small (10.0KB, 4.5KB gZip) but very advanced jQuery date picker" />
+	<meta name="Keywords" content="date, date picker, calendar" />
+	<meta name="author" content="Peter Dematté" />
+	<meta http-equiv="language" content="en" />
 	<link rel="shortcut icon" type="image/x-icon" href="development/favicon.ico">
 	<link rel="icon" type="image/x-icon" href="development/favicon.ico">
 
@@ -51,6 +51,9 @@
 		<input class="date date-11" value="" name="flight-from-1" data-from="flight-to-1" placeholder="YYYY-MM-DD" />
 		<input class="date date-11" value="" name="flight-to-1" data-to="flight-from-1" placeholder="YYYY-MM-DD" />
 
+		<div>Different month/year selector:
+			<input class="date date-111" value="" placeholder="YYYY-MM-DD" readonly="" data-mindate="2015-05-10" data-maxdate="2037-11-31" />
+		</div>
 		<div>Remote button and hidden input:
 			<input class="date" value="" placeholder="YYYY-MM-DD" readonly="" />
 			<input class="date" type="hidden" value="2016-06-23" />
@@ -89,13 +92,13 @@
 	<pre style="display: block; overflow: auto;">
 &lt;script type="text/javascript" src="datePicker.min.js">
 &lt;script type="text/javascript">
-    var myDP = new DatePicker('.date', options); // first arg. can also be ElementCollection/Array or $()
+	var myDP = new DatePicker('.date', options); // first arg. can also be ElementCollection/Array or $()
 &lt;/script></pre>
 	<p>...or for the jQuery version:</p>
 	<pre style="display: block; overflow: auto;">
 &lt;script type="text/javascript" src="jqDatePicker.min.js">
 &lt;script type="text/javascript">
-    $('.color').datePicker(options); // that's it
+	$('.color').datePicker(options); // that's it
 &lt;/script></pre>
 
 	<p>For more information on API, callbacks, etc. see: <a class="a-inline" href="https://github.com/PitPik/tinyDatePicker">github.com/PitPik/tinyDatePicker</a></p>
@@ -330,6 +333,141 @@
 		renderCallback: function(container, element, toggled) {
 			markRangeDays.call(this, container, element, toggled);
 			addButtons.call(this, container, element, toggled);
+
+			return true; // triggers default behaviour
+		}
+	}, options));
+
+
+	// ------------------- DEMO for input.date-111 ----------------- //
+	// Example with different month / year selector (tables).
+	// This is a bit more complex as we need to render years, months,
+	// to install event listeners and to deal with min/max values...
+	// ------------------------------------------------------------ //
+	var hasClass = function(element, className) {
+			return (' ' + element.className + ' ').indexOf(' ' + className + ' ') !== -1;
+		},
+		renderMonthsYears = function(monthYear, _this) {
+			var isMonth = monthYear === 'dp-label-month',
+				year = _this.tempYear - 4, // makes current the 5th in the table
+				month = 1,
+				getData = function(n, isMonth) {
+					var data = isMonth ? month++ : year++;
+
+					if (isMonth) {
+						data = +_this.date.year >= +_this.maxDate.year && data > +_this.maxDate.month ? '' :
+							+_this.date.year <= +_this.minDate.year && data < +_this.minDate.month ? '' : data;
+					} else {
+						if (!_this.hasMaxYear && data >= _this.maxDate.year) {
+							_this.hasMaxYear = true;
+						}
+						if (!_this.hasMinYear && data <= _this.minDate.year) {
+							_this.hasMinYear = true;
+						}
+						data = data <= _this.maxDate.year && data >= _this.minDate.year ? data : '';
+					}
+
+					return isMonth ? data === '' ? data : _this.options.months[data - 1] : data;
+				},
+				dataHTML = (function() {
+					var html = [];
+
+					_this.hasMinYear = _this.hasMaxYear = false;
+
+					for (var n = 0, m = 4; n < m; n++) {
+						for (var x = 0, y = 3; x < y; x++) {
+							html.push(_this.options.dataHTML.
+								replace(/class="(.*?)"/, function($1, $2) {
+									return 'class="' + $2 + (
+										isMonth && month === +_this.date.month ? ' current this-month' :
+										!isMonth && year === +_this.date.year ? ' current this-year' : '') + '"';
+								}).
+								replace('{{data}}', getData(n * y + x, isMonth)).
+								replace('{{day}}', +_this.date.day).
+								replace('{{month}}', isMonth ? month - 1 : +_this.date.month).
+								replace('{{year}}', isMonth ? _this.date.year : year - 1 ));
+						}
+						html.push(_this.options.glueHTML);
+					}
+					html.pop(); // remove last <tr>
+
+					return html.join('');
+				}());
+
+			return _this.options.header.
+				replace('{{month}}', _this.options.months[_this.date.month - 1]).
+				replace('{{year}}', _this.date.year) +
+				_this.options.yearsMonthsHTML.replace('{{data}}', dataHTML);
+		};
+
+	window.myDatePicker_111 = new DatePicker('.date-111', extend({
+		// closeOnSelect: false,
+		autoFallback: false, // shows months after clicking on year
+		header: // HTML without selects...
+			'<div class="dp-title">' +
+				'<button class="dp-prev" type="button"{{disable-prev}}>{{prev}}</button>' +
+				'<button class="dp-next" type="button"{{disable-next}}>{{next}}</button>' +
+				'<div class="dp-label dp-label-month">{{month}}</div>' +
+				'<div class="dp-label dp-label-year">{{year}}</div>' +
+			'</div>',
+		yearsMonthsHTML: '<table class="cal-month month-year-picker"><tbody><tr>{{data}}</tr></tbody></table>',
+		dataHTML: '<td class="selector" data-year="{{year}}" data-month="{{month}}">{{data}}</td>',
+		glueHTML: '</tr><tr>',
+		renderCallback: function(container, element, toggled) {
+			this.isInitialized = this.isInitialized || (function(_this) { // only once
+				container.addEventListener('click', function(e) {
+					var test = e.target.className.match(/dp-label-(?:month|year)/),
+						prev = hasClass(e.target, _this.options.prevButtonClass),
+						next = prev ? false : hasClass(e.target, _this.options.nextButtonClass),
+						month = 0;
+
+					if (test) { // clicked on month or year label
+						_this.showsYears = test[0] === 'dp-label-year';
+						_this.tempMonth = _this.date.month;
+						_this.tempYear = _this.date.year;
+						container.innerHTML = renderMonthsYears(test[0], _this);
+					} else if (_this.showsYears && (prev || next)) { // clicked on arrows (prev | next)
+						_this.tempYear = +_this.tempYear + 
+							(prev ? -Math.min(+_this.tempYear - +_this.minDate.year, 12) :
+								Math.min(+_this.maxDate.year - +_this.tempYear, 12)) + '';
+
+						month = +_this.tempMonth;
+						_this.date.month = ((
+							+_this.tempYear >= +_this.maxDate.year ? Math.min(+_this.maxDate.month, month) :
+							+_this.tempYear <= +_this.minDate.year ? Math.max(+_this.minDate.month, month) :
+							month) + '').replace(/^(\d)$/, '0$1');
+
+						container.innerHTML = renderMonthsYears('', _this);
+					} else { // something else was clicked
+						if (hasClass(e.target, 'selector') && e.target.innerHTML) {
+							if (_this.showsYears) {
+								_this.date.year = e.target.getAttribute('data-year') + '';
+								if (_this.options.autoFallback) {
+									container.innerHTML = renderMonthsYears('dp-label-month', _this);
+								} else {
+									_this.toggle(_this.date);
+								}
+							} else {
+								_this.date.month = (e.target.getAttribute('data-month') + '').replace(/^(\d)$/, '0$1');
+								_this.toggle(_this.date);
+							}
+						}
+						_this.showsYears = false; // revisit
+					}
+					// disable arrows
+					if ((_this.showsYears && _this.hasMaxYear) || (test && !_this.showsYears)) {
+						container.querySelector('.dp-next').disabled = true;
+					}
+					if (_this.showsYears && _this.hasMinYear || (test && !_this.showsYears)) {
+						container.querySelector('.dp-prev').disabled = true;
+					}
+				}, false);
+				return true;
+			})(this);
+
+			if (toggled && !this.isOpen) {
+				this.showsYears = false;
+			}
 
 			return true; // triggers default behaviour
 		}
