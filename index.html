@@ -462,10 +462,11 @@
 						container.querySelector('.dp-prev').disabled = true;
 					}
 				}, false);
+
 				return true;
 			})(this);
 
-			if (toggled && !this.isOpen) {
+			if (toggled && !this.isOpen) { // on close ... TODO: on input change
 				this.showsYears = false;
 			}
 

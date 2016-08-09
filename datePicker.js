@@ -128,7 +128,7 @@
 	}
 
 	DatePicker.prototype.toggle = function(on, element) {
-		if (on.year !== undefined) {
+		if (on && on.year !== undefined) {
 			renderDatePicker(this, element || this.currentInput, on);
 		} else {
 			toggle(this, on ? {
