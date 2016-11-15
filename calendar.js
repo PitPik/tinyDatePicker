@@ -52,6 +52,7 @@
 
 			initCalendar(this, options || {});
 		},
+		offset = '',
 		initCalendar = function(_this, options) {
 			for (var option in options) {
 				var opt = options[option],
@@ -70,6 +71,10 @@
 					_this.options[option] = opt;
 				}
 			}
+			offset = (-(new Date().getTimezoneOffset() / 60) + '')
+				.replace(/([-]*)(\d)(\d*)/, function($1, $2, $3, $4) {
+					return ($2 || '+') + ($4 ? $3 + $4 : '0' + $3);
+				}) + ':00';
 			_this.html = {};
 		};
 
@@ -126,7 +131,7 @@
 		var parts = string.split(' '),
 			time = parts[1] || (end ? '23:59:59.999' : '00:00:00');
 
-		return new Date(Date.parse(parts[0] + ' ' + time));
+		return new Date(Date.parse(parts[0] + 'T' + time + offset));
 	}
 
 	function _getWeekNumber(date) { // ISO 8601
