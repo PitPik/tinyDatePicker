@@ -284,7 +284,7 @@
 		(date.hour && options.footer ? options.footer. // render bottom (time selection)
 			replace('{{hour}}', date.hour).
 			replace('{{hours}}', getOptionsHTML(
-				0, options.doAMPM || date.AMPM ? 12 : 24, date.hour)).
+				0, options.doAMPM || date.AMPM ? 12 : 23, date.hour)).
 			replace('{{minute}}', ' : ' + date.minute).
 			replace('{{minutes}}', getOptionsHTML(
 				0, 59, date.minute, null, null, options.minuteSteps)).
