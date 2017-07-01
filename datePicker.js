@@ -113,8 +113,8 @@
 				_this.toggled = undefined;
 				_this.isOpen && renderCallback(_this);
 			}, false, _this);
-			addEvent(document.body, 'focus', _toggle, true, _this);
-			addEvent(document.body, 'click', _toggle, false, _this);
+			addEvent(_this.options.body, 'focus', _toggle, true, _this);
+			addEvent(_this.options.body, 'click', _toggle, false, _this);
 
 			_this.options.initCallback.call(_this, options.elements);
 		};
