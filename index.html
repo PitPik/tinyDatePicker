@@ -45,8 +45,8 @@
 		<input class="date date-1" value="" data-from="theFlight" placeholder="YYYY-MM-DD HH:MM APM" data-timeformat="HH:MM PM" />
 		<input class="date date-1" value="" data-to="theFlight" placeholder="YYYY-MM-DD HH:MM APM" data-timeformat="HH:MM PM" />
 		<br><span>Range (name based): </span>
-		<input class="date date-1" value="" name="flight-from" data-from="flight-to" placeholder="YYYY-MM-DD" />
-		<input class="date date-1" value="" name="flight-to" data-to="flight-from" placeholder="YYYY-MM-DD" />
+		<input class="date date-1" value="" name="flight-from" data-from="flight-to" placeholder="YYYY-MM-DD HH:MM" />
+		<input class="date date-1" value="" name="flight-to" data-to="flight-from" placeholder="YYYY-MM-DD HH:MM" />
 		<br><span>Range with marked range: </span>
 		<input class="date date-11" value="" name="flight-from-1" data-from="flight-to-1" placeholder="YYYY-MM-DD" />
 		<input class="date date-11" value="" name="flight-to-1" data-to="flight-from-1" placeholder="YYYY-MM-DD" />
@@ -211,11 +211,13 @@
 			 * @return {String}         The value of the input field
 			 */
 			readValue: function(element) {
-				if (!element.value && element.getAttribute('data-type') === 'time') { // initial time if empty
-					return new Date().toTimeString().split(' ')[0]; // triggers default behavior
-				}
-
-				return element.value; // triggers default behavior
+        if (!element.value /* && element.getAttribute('data-type') === 'time' */) { // initial time if empty
+          var d = new Date();
+          d.setHours(0, 0, 0);   // Set hours, minutes and seconds
+          return this.getDateString(d,true).replace(/:00$/,'');//today's date string, 00:00 time
+          // return new Date().toTimeString().split(' ')[0]; // triggers default behavior
+        }
+        return element.value; // triggers default behavior
 			}
 		},
 		/**

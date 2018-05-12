@@ -181,7 +181,7 @@
 
 	function getDateTime(_this, options, element) { // revisit
 		var value = options.readValue.call(_this, element),
-			date = getDateObject(value || getDateString(new Date(), true)),
+			date = getDateObject(value || _this.getDateString(new Date(), true)),
 			timeFormat = element.getAttribute(options.timeFormatAttribute),
 			hasAMPM = false,
 			isPM = false;
@@ -417,7 +417,7 @@
 	function addDays(_this, date, add, end) {
 		date = _this.calendar.convertDateString(date, end);
 		date.setDate(date.getDate() + add);
-		return getDateString(date);
+		return _this.getDateString(date);
 	}
 
 	function sortDates(date1, date2) {
@@ -450,7 +450,7 @@
 				(date.AMPM ? ' ' + date.AMPM : '')) : ''));
 	}
 
-	function getDateString(date, time) {
+	DatePicker.prototype.getDateString = function(date, time) {
 		return date.getFullYear() + '-' + lZ(date.getMonth() + 1) + '-' +
 			lZ(date.getDate()) + (time ? ' ' + date.toTimeString().split(' ')[0] : '');
 	}
